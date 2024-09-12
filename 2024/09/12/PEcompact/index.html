@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="PEcompact脱壳  3BP VirtualFreeF9到达取消断点返回到用户代码alt+f9查找PUSH 8000然后单步到达   4BP VirtualFree两次shift+f9到达返回到用户代码alt+f9然后单步跟踪到达oep    5bp 0045DE74运行,到达后取消断点在retn处会返回并执行程序我们现在下面下个断点，然后单步到OEP这一段汇编比较重要注意在retn后面加上断">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2024/09/12/PEcompact/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="PEcompact脱壳  3BP VirtualFreeF9到达取消断点返回到用户代码alt+f9查找PUSH 8000然后单步到达   4BP VirtualFree两次shift+f9到达返回到用户代码alt+f9然后单步跟踪到达oep    5bp 0045DE74运行,到达后取消断点在retn处会返回并执行程序我们现在下面下个断点，然后单步到OEP这一段汇编比较重要注意在retn后面加上断">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/.com//image-13.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122017434.png">
+<meta property="og:image" content="http://example.com/.com//image-14.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122017793.png">
+<meta property="og:image" content="http://example.com/.com//image-15.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122017787.png">
+<meta property="og:image" content="http://example.com/.com//image-16.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122017628.png">
+<meta property="og:image" content="http://example.com/.com//image-17.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122017209.png">
+<meta property="og:image" content="http://example.com/.com//image-18.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122017851.png">
+<meta property="og:image" content="http://example.com/.com//image-19.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122017705.png">
+<meta property="og:image" content="http://example.com/.com//image-20.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018701.png">
+<meta property="og:image" content="http://example.com/.com//image-21.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018935.png">
+<meta property="og:image" content="http://example.com/.com//image-22.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018816.png">
+<meta property="og:image" content="http://example.com/.com//image-23.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018918.png">
+<meta property="og:image" content="http://example.com/.com//image-24.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018029.png">
+<meta property="og:image" content="http://example.com/.com//image-25.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018091.png">
+<meta property="og:image" content="http://example.com/.com//image-26.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018128.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018041.png">
+<meta property="og:image" content="http://example.com/.com//image-30.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122019809.png">
+<meta property="og:image" content="http://example.com/.com//image-28.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122018041.png">
+<meta property="og:image" content="http://example.com/.com//image-29.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122019805.png">
+<meta property="og:image" content="http://example.com/.com//image-31.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409122019946.png">
+<meta property="article:published_time" content="2024-09-12T12:19:53.154Z">
+<meta property="article:modified_time" content="2024-09-12T12:20:17.530Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//image-13.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-PEcompact" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/09/12/PEcompact/" class="article-date">
+  <time class="dt-published" datetime="2024-09-12T12:19:53.154Z" itemprop="datePublished">2024-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="PEcompact脱壳"><a href="#PEcompact脱壳" class="headerlink" title="PEcompact脱壳"></a>PEcompact脱壳</h3><p><img src="/.com//image-13.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017434.png"></p>
+<blockquote>
+<p>3<br>BP VirtualFree<br>F9到达取消断点<br><img src="/.com//image-14.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017793.png"><br>返回到用户代码alt+f9<br>查找PUSH 8000<br><img src="/.com//image-15.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017787.png"><br>然后单步到达<br><img src="/.com//image-16.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017628.png"></p>
+</blockquote>
+<blockquote>
+<p>4<br>BP VirtualFree<br>两次shift+f9到达<br><img src="/.com//image-17.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017209.png"><br>返回到用户代码alt+f9<br><img src="/.com//image-18.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017851.png"><br>然后单步跟踪到达oep</p>
+</blockquote>
+<p><img src="/.com//image-19.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122017705.png"></p>
+<blockquote>
+<p>5<br>bp 0045DE74<br>运行,到达后取消断点<br><img src="/.com//image-20.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018701.png"><br>在retn处会返回并执行程序我们现在下面下个断点，然后单步到OEP<br><img src="/.com//image-21.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018935.png"><br>这一段汇编比较重要注意在retn后面加上断点</p>
+</blockquote>
+<p><img src="/.com//image-22.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018816.png"></p>
+<blockquote>
+<p>6<br>bp VirtualAlloc<br>shift+f9,取消断点,返回用户代码alt+f9<br><img src="/.com//image-23.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018918.png"><br>查找jump<br><img src="/.com//image-24.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018029.png"><br>单步到OEP</p>
+</blockquote>
+<p><img src="/.com//image-25.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018091.png"></p>
+<blockquote>
+<p>7  取消异常<br><img src="/.com//image-26.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018128.png"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018041.png"><br>利用shift+f9,两次过后发现跑飞，利用第二次的SE句柄地址，（如果发现单词就跑飞了那是应为吾爱破解od中的插件strongod的过在option中将skip some Exception取消就行）<br><img src="/.com//image-30.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122019809.png"><br>查找句柄<br><img src="/.com//image-28.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122018041.png"><br><img src="/.com//image-29.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122019805.png"></p>
+</blockquote>
+<p><img src="/.com//image-31.png" alt="alt text"><br><img src="https://gitee.com/fogpost/photo/raw/master/202409122019946.png"></p>
+<blockquote>
+<p>8  两次内存<br>注意对比跳跃代码<br>9  at Getversion<br>到达OEP的下方</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/09/12/PEcompact/" data-id="cm0z9sbtk0002n8v69t4mf89f" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/09/12/sql%E5%88%9D%E8%AF%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/09/12/learn/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/09/">September 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/09/12/%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/09/12/%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4%E7%9A%84%E6%94%B9%E5%8F%98/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/09/12/%E5%AF%B9idapro%E4%B8%ADc++%E5%8F%8D%E7%BC%96%E8%AF%91%E7%9A%84%E8%A7%A3%E6%9E%90/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/09/12/sql%E5%88%9D%E8%AF%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/09/12/PEcompact/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
