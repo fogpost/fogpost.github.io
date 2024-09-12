@@ -27,8 +27,9 @@
 <meta property="og:description" content="脚本命令和普通命令的区别 在我们将windows系统调成可以执行脚本命令之后我们的许多命令在cmd或ise中可能无法执行这可能是因为命名的原因     开启脚本执行之前 12C:\Users\agesh&gt; where calcC:\Windows\System32\calc.exe 开启之后 12PS C:\data\code&gt; where calcPS C:\data\code&amp;gt">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-12T06:59:07.000Z">
-<meta property="article:modified_time" content="2024-09-12T12:59:12.602Z">
+<meta property="article:modified_time" content="2024-09-12T13:17:51.975Z">
 <meta property="article:author" content="fogpost">
+<meta property="article:tag" content="tool">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -279,12 +280,12 @@
 <p>在我们将windows系统调成可以执行脚本命令之后我们的许多命令在cmd或ise中可能无法执行这可能是因为命名的原因   </p>
 </blockquote>
 <p>开启脚本执行之前</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\agesh&gt; where calc</span><br><span class="line">C:\Windows\System32\calc.exe</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">C:\Users\agesh&gt; where calc<br>C:\Windows\System32\calc.exe<br></code></pre></td></tr></table></figure>
 <p>开启之后</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PS C:\data\code&gt; where calc</span><br><span class="line">PS C:\data\code&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">PS C:\data\code&gt; where calc<br>PS C:\data\code&gt;<br></code></pre></td></tr></table></figure>
 <p>解决办法</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Bill&gt; where.exe calc</span><br><span class="line">C:\Windows\System32\calc.exe</span><br></pre></td></tr></table></figure>
-<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Bill&gt; where  [cc lang=&quot;powershell&quot;]</span><br><span class="line">cmdlet Where-Object at command pipeline position 1</span><br><span class="line">Supply values for the following parameters:</span><br><span class="line">Property:</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">PS C:\Users\Bill&gt; where.exe calc<br>C:\Windows\System32\calc.exe<br></code></pre></td></tr></table></figure>
+<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">PS C:\Users\Bill&gt; where  [cc lang=&quot;powershell&quot;]<br>cmdlet Where-Object at command pipeline position 1<br>Supply values for the following parameters:<br>Property:<br></code></pre></td></tr></table></figure>
 <blockquote>
 <p>所以在写入where calc时执行的其实是where-object cacl这是没有返回值的，不是执行where.exe calc<br>但是在非脚本名模式下不会识别位where-object于是可以正常执行</p>
 </blockquote>
@@ -297,6 +298,13 @@
             <div>
               <div class="post-metas my-3">
   
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/tool/" class="print-no-link">#tool</a>
+      
+    </div>
   
 </div>
 
@@ -361,8 +369,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/09/11/web1/" title="web1">
-                        <span class="hidden-mobile">web1</span>
+                      <a href="/2024/09/10/tea/" title="tea.dm">
+                        <span class="hidden-mobile">tea.dm</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
