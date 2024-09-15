@@ -36,10 +36,16 @@
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409141108814.png">
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409141109133.png">
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409141116043.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409151024364.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409151027465.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409151029748.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409151035853.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409151042742.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202409151053398.png">
 <meta property="article:published_time" content="2024-09-14T03:05:39.000Z">
-<meta property="article:modified_time" content="2024-09-14T05:22:27.000Z">
+<meta property="article:modified_time" content="2024-09-15T16:00:04.953Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="competition">
+<meta property="article:tag" content="reverse">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202409141119212.png">
   
@@ -234,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          399 字
+          1.1k 字
         
       </span>
     
@@ -245,7 +251,7 @@
         
         
         
-          4 分钟
+          10 分钟
         
       </span>
     
@@ -293,6 +299,9 @@
 <h3 id="BasePlus"><a href="#BasePlus" class="headerlink" title="BasePlus"></a>BasePlus</h3><p>以上来就搞个base64啊，我感觉像，但是没有确定，于是就看不懂函数里面的几个值为什么没有数了，这么奇怪，果然还是没有学过，不过这次好好分析了一番下次应该就可以瞬间秒杀了，看题<br><img src="https://gitee.com/fogpost/photo/raw/master/202409141107908.png" srcset="/img/loading.gif" lazyload><br>我们能了解重要函数为Encode，进入<br><img src="https://gitee.com/fogpost/photo/raw/master/202409141108814.png" srcset="/img/loading.gif" lazyload><br>了解了这个是base64后我们还要和源代码分析，发现存在不同<br><img src="https://gitee.com/fogpost/photo/raw/master/202409141109133.png" srcset="/img/loading.gif" lazyload><br>了解了这中间有个异或的操作，十分简单</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">do</span><br>&#123;<br>    *(_BYTE *)(a2 + v8) = v4[v8] ^ <span class="hljs-number">0xE</span>;<br>    ++v8;<br>&#125;<br><span class="hljs-keyword">while</span> ( v8 != v5 );<br></code></pre></td></tr></table></figure>
 <p>直接cyberChef换表加异或双重解密完成，<br>贴个无广告的<a target="_blank" rel="noopener" href="https://cyberchef.org/">cyberchef</a><br><img src="https://gitee.com/fogpost/photo/raw/master/202409141116043.png" srcset="/img/loading.gif" lazyload><br>得到flag<br>BaseCTF{BA5e_DEcoD1N6_sEcr3t}</p>
+<h3 id="Ezpy"><a href="#Ezpy" class="headerlink" title="Ezpy"></a>Ezpy</h3><p>首先就是按照惯例，文件属性查询，直接die，也可以用DEID或者peexam去查。不过die很全面，但是确实很卡<br><img src="https://gitee.com/fogpost/photo/raw/master/202409151024364.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202409151027465.png" srcset="/img/loading.gif" lazyload><br>看题目我们就知道是一个这是一个python题目，其实还有一个办法，pythonexe图标大多都是这个，看DIE竟然没有显示是什么软件打包的，那么我们便可以试试pyinstxtractor<br><img src="https://gitee.com/fogpost/photo/raw/master/202409151029748.png" srcset="/img/loading.gif" lazyload><br>这就是解包过程，和使用方法，在这个过程中pyinstxtractor会自动创建一个导出包，我们可以查看，同时我们也可以发现解包软件对python版本的需求，你有想法的可以用<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/36402791">pyenv</a>去除掉这个错误，其实我感觉没什么区别，主要在于后面pyc文件中的magic number<br>进入解包文件夹，会发现资源文件夹和大量的动态链接库，我们只取敌将首级，直接看到一个没有后缀的题目同名软件Ezpy<br><img src="https://gitee.com/fogpost/photo/raw/master/202409151035853.png" srcset="/img/loading.gif" lazyload><br>这个其实是pyc也就是python的字节码。我们需要的就是这个，python大部分就是利用pyc来进行反编译，我们所知的反编译工具有<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1854345-1-1.html">pycdc</a>(pycdc会有些麻烦，不过感觉强大些，因为是反编译难免会出现错误，而这个的错误出现会更加稀少)和<a target="_blank" rel="noopener" href="https://pypi.com.cn/project/uncompyle6/">uncompyle6</a>这个的安装非常的简单，有python就行(但是只支持3.8及一下的，作者大大不更3.9了)<br>好现在我们开始执行一下pycdc(记得改Ezpy后缀名，pycdc就没关系)，就会发现惊喜了，失败了<br><img src="https://gitee.com/fogpost/photo/raw/master/202409151042742.png" srcset="/img/loading.gif" lazyload><br>这个就是我说的magicnumber的问题解决办法也非常简单，一般解包后都会自带一个struct文件。用字节查看器打开推荐<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1863194-1-1.html">010</a>，不过大部分都是损坏的我在这贴一个<a target="_blank" rel="noopener" href="https://blog.csdn.net/OrientalGlass/article/details/134612786">magicnumber</a>。<br>注意大小端序，照着改就行。建议是十六个字节，留空留下栈区<br><img src="https://gitee.com/fogpost/photo/raw/master/202409151053398.png" srcset="/img/loading.gif" lazyload><br>然后直接反编译(也可以用网络版的)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs py"><span class="hljs-keyword">import</span> Key<br><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">init_Sbox</span>(<span class="hljs-params">seed</span>):<br>    k_b = (<span class="hljs-keyword">lambda</span> <span class="hljs-number">.0</span> = <span class="hljs-literal">None</span>: [ <span class="hljs-built_in">ord</span>(seed[i % <span class="hljs-built_in">len</span>(seed)]) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">.0</span> ])(<span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>))<br>    s = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>))<br>    j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>        j = (j + s[i] + k_b[i]) % <span class="hljs-number">256</span><br>        s[i] = s[j]<br>        s[j] = s[i]<br>    <span class="hljs-keyword">return</span> s<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">KeyStream</span>(<span class="hljs-params">text, Sbox</span>):<br>    s = Sbox.copy()<br>    (i, j) = (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br>    k = [<br>        <span class="hljs-number">0</span>] * <span class="hljs-built_in">len</span>(text)<br>    <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(text)):<br>        i = (i + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span><br>        j = (j + s[i]) % <span class="hljs-number">256</span><br>        s[i] = s[j]<br>        s[j] = s[i]<br>        t = (s[i] + s[j]) % <span class="hljs-number">256</span><br>        k[r] = s[t] ^ Key.keykey[r % <span class="hljs-built_in">len</span>(Key.keykey)]<br>    <span class="hljs-keyword">return</span> k<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">Encrypt</span>(<span class="hljs-params">text, seed</span>):<br>    Sbox = init_Sbox(seed)<br>    key = KeyStream(text, Sbox)<br>    enc = (<span class="hljs-keyword">lambda</span> <span class="hljs-number">.0</span> = <span class="hljs-literal">None</span>: [ text[i] ^ key[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">.0</span> ])(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(text)))<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bytes</span>(enc)<br><br>enc = <span class="hljs-string">b&#x27;\xe6\xaeC~F\xf2\xe3\xbb\xac\x9a-\x02U\x85p\xeb\x19\xd1\xe4\xc93sG\xb0\xeb1\xb5\x05\x05\xc3\xd7\x00\x18+D\xbc\x0cO\x9em\xf1\xbd&#x27;</span><br>flag = <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;Please input Your flag:&#x27;</span>)<br>flag = (<span class="hljs-keyword">lambda</span> <span class="hljs-number">.0</span>: [ <span class="hljs-built_in">ord</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">.0</span> ])(flag)<br>flag = Encrypt(flag, Key.key)<br><span class="hljs-keyword">if</span> flag != enc:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;It&#x27;s not flag!&quot;</span>)<br>    <span class="hljs-keyword">continue</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;You are right!&#x27;</span>)<br>sys.exit(<span class="hljs-number">1</span>)<br><span class="hljs-keyword">continue</span><br></code></pre></td></tr></table></figure>
+<p>就是一个非常简单的rc4<br>直接给出exp</p>
 
                 
               </div>
@@ -301,11 +310,32 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ctf/" class="category-chain-item">ctf</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/competition/" class="print-no-link">#competition</a>
+        <a href="/tags/reverse/" class="print-no-link">#reverse</a>
       
     </div>
   
