@@ -22,7 +22,7 @@
     <meta name="description" content="之前不是写了一个爬数据的脚本么，今天发现一个问题，就是jsessonid在刷新之后变了，所以我现在想要找到一个不会变的方法，不过这个修改和学习时间应该会变得比较久，感觉挺高阶的 看了一些文章将的都是tomcat的的例子，先讲讲什么是session，浏览器第一次访问服务器会生成一个session保存相关信息，会有一个sessionid来对应这个session，那么我们就想可不可以利用这个id直接去查">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jsessionid是什么？">
-<meta property="og:url" content="http://example.com/2024/09/16/jsessionid%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/index.html">
+<meta property="og:url" content="https://fogpost.github.io/2024/09/16/jsessionid%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
 <meta property="og:description" content="之前不是写了一个爬数据的脚本么，今天发现一个问题，就是jsessonid在刷新之后变了，所以我现在想要找到一个不会变的方法，不过这个修改和学习时间应该会变得比较久，感觉挺高阶的 看了一些文章将的都是tomcat的的例子，先讲讲什么是session，浏览器第一次访问服务器会生成一个session保存相关信息，会有一个sessionid来对应这个session，那么我们就想可不可以利用这个id直接去查">
 <meta property="og:locale" content="zh_CN">
@@ -74,7 +74,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"fogpost.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -351,7 +351,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>jsessionid是什么？</div>
-      <div>http://example.com/2024/09/16/jsessionid是什么？/</div>
+      <div>https://fogpost.github.io/2024/09/16/jsessionid是什么？/</div>
     </div>
     <div class="license-meta">
       
