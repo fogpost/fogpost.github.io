@@ -19,22 +19,25 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="CVE">
+    <meta name="description" content="开始在最近的时候看csdn的垃圾文章老是弹出仅vip的情况，可喜可贺的是有大佬已经写了跳过脚本接下来我们将使用脚本来跳过这goshi的csdnvip检测 脚本源码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061&#x2F;&#x2F; &#x3D;&#x3D;U">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CVE-2020-9484-tomcat-session持久化">
-<meta property="og:url" content="http://example.com/2024/09/16/CVE-2020-9484-tomcat-session%E6%8C%81%E4%B9%85%E5%8C%96/index.html">
+<meta property="og:title" content="csdnvip">
+<meta property="og:url" content="http://example.com/2024/10/25/csdnvip/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="CVE">
+<meta property="og:description" content="开始在最近的时候看csdn的垃圾文章老是弹出仅vip的情况，可喜可贺的是有大佬已经写了跳过脚本接下来我们将使用脚本来跳过这goshi的csdnvip检测 脚本源码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061&#x2F;&#x2F; &#x3D;&#x3D;U">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-16T03:02:29.000Z">
-<meta property="article:modified_time" content="2024-09-16T03:03:01.000Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410250839321.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410250840351.png">
+<meta property="article:published_time" content="2024-10-25T00:22:20.000Z">
+<meta property="article:modified_time" content="2024-10-25T00:44:06.674Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="CVE">
+<meta property="article:tag" content="script">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202410250839321.png">
   
   
   
-  <title>CVE-2020-9484-tomcat-session持久化 - fogpost`s little blog</title>
+  <title>csdnvip - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="CVE-2020-9484-tomcat-session持久化"></span>
+            <span id="subtitle" data-typed-text="csdnvip"></span>
           
         </div>
 
@@ -211,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-16 11:02" pubdate>
-          2024年9月16日 上午
+        <time datetime="2024-10-25 08:22" pubdate>
+          2024年10月25日 早上
         </time>
       </span>
     
@@ -223,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1 字
+          561 字
         
       </span>
     
@@ -234,7 +237,7 @@
         
         
         
-          1 分钟
+          5 分钟
         
       </span>
     
@@ -271,12 +274,18 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">CVE-2020-9484-tomcat-session持久化</h1>
+            <h1 id="seo-header">csdnvip</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/163637.html">CVE</a></p>
+                <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>在最近的时候看csdn的垃圾文章老是弹出仅vip的情况，可喜可贺的是有大佬已经写了跳过脚本接下来我们将使用脚本来跳过这goshi的csdnvip检测</p>
+<h1 id="脚本源码"><a href="#脚本源码" class="headerlink" title="脚本源码"></a>脚本源码</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// ==UserScript==</span><br><span class="hljs-comment">// @name         100%解锁CSDN文库vip文章阅读限制</span><br><span class="hljs-comment">// @namespace    http://tampermonkey.net/</span><br><span class="hljs-comment">// @version      2.2</span><br><span class="hljs-comment">// @description  CSDN文库阅读全文，去除VIP文章遮罩</span><br><span class="hljs-comment">// @author       Mrlimuyu</span><br><span class="hljs-comment">// @match        *://*.csdn.net/*</span><br><span class="hljs-comment">// @grant        none</span><br><span class="hljs-comment">// @license      yagiza</span><br><span class="hljs-comment">// @downloadURL https://update.greasyfork.org/scripts/495150/100%25%E8%A7%A3%E9%94%81CSDN%E6%96%87%E5%BA%93vip%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%99%90%E5%88%B6.user.js</span><br><span class="hljs-comment">// @updateURL https://update.greasyfork.org/scripts/495150/100%25%E8%A7%A3%E9%94%81CSDN%E6%96%87%E5%BA%93vip%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%99%90%E5%88%B6.meta.js</span><br><span class="hljs-comment">// ==/UserScript==</span><br><br>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-string">&#x27;use strict&#x27;</span>;<br><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_">adjustArticle</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>        <span class="hljs-comment">// 移除遮罩层和限制高度的内容</span><br>        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;.hide-article-box, .login-mark, .mask, .vip-caise&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> el.<span class="hljs-title function_">remove</span>());<br><br>        <span class="hljs-comment">// 展开被限制高度的内容</span><br>        <span class="hljs-keyword">const</span> articleContainer = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;.article_content&#x27;</span>);<br>        <span class="hljs-keyword">if</span> (articleContainer) &#123;<br>            articleContainer.<span class="hljs-property">style</span>.<span class="hljs-property">maxHeight</span> = <span class="hljs-string">&#x27;none&#x27;</span>;<br>            articleContainer.<span class="hljs-property">style</span>.<span class="hljs-property">height</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>        &#125;<br>    &#125;;<br><br>    <span class="hljs-comment">// 启用复制功能</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_">enableCopy</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>        <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">oncopy</span> = <span class="hljs-literal">null</span>;<br>        <span class="hljs-variable language_">document</span>.<span class="hljs-property">oncopy</span> = <span class="hljs-literal">null</span>;<br>        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;*&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> &#123;<br>            el.<span class="hljs-property">style</span>.<span class="hljs-property">userSelect</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>            el.<span class="hljs-property">style</span>.<span class="hljs-property">webkitUserSelect</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>            el.<span class="hljs-property">style</span>.<span class="hljs-property">msUserSelect</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>            el.<span class="hljs-property">style</span>.<span class="hljs-property">mozUserSelect</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>        &#125;);<br>    &#125;;<br><br>    <span class="hljs-comment">// 使用MutationObserver来监视文档的变化</span><br>    <span class="hljs-keyword">const</span> observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MutationObserver</span>(<span class="hljs-function">(<span class="hljs-params">mutations</span>) =&gt;</span> &#123;<br>        mutations.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> &#123;<br>            <span class="hljs-keyword">if</span> (mutation.<span class="hljs-property">addedNodes</span>.<span class="hljs-property">length</span>) &#123;<br>                <span class="hljs-title function_">adjustArticle</span>();<br>                <span class="hljs-title function_">enableCopy</span>();<br>            &#125;<br>        &#125;);<br>    &#125;);<br><br>    observer.<span class="hljs-title function_">observe</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>, &#123;<br>        <span class="hljs-attr">childList</span>: <span class="hljs-literal">true</span>,<br>        <span class="hljs-attr">subtree</span>: <span class="hljs-literal">true</span><br>    &#125;);<br><br>    <span class="hljs-comment">// 页面加载时尝试执行一次</span><br>    <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-title function_">adjustArticle</span>();<br>        <span class="hljs-title function_">enableCopy</span>();<br>    &#125;);<br>&#125;)();<br></code></pre></td></tr></table></figure>
+
+<h1 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h1><p>在我们成功加载脚本后，csdn的vip文章，仅限于可以查看部分原文的便可以查看剩余部分</p>
+<h2 id="脚本前"><a href="#脚本前" class="headerlink" title="脚本前"></a>脚本前</h2><p><img src="https://gitee.com/fogpost/photo/raw/master/202410250839321.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="脚本后"><a href="#脚本后" class="headerlink" title="脚本后"></a>脚本后</h2><p><img src="https://gitee.com/fogpost/photo/raw/master/202410250840351.png" srcset="/img/loading.gif" lazyload><br>但是果然垃圾csdn就没什么有用的部分，大部分都是小段垃圾</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>我想的是作为一个博客，应该就是在于能否传递有价值的信息和思想，而不是待着别人的文章就去抄然后发到网上，有些那种垃圾人就在自己的博客上写一些垃圾文章，然后发到csdn上，然后别人看到就点进去，浪费时间又看不到东西，写的时候要好好想想自己的这篇博客有什么效果，没效果的不如不写</p>
 
                 
               </div>
@@ -295,7 +304,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/web/" class="category-chain-item">web</a>
+  <a href="/categories/tool/" class="category-chain-item">tool</a>
   
   
 
@@ -310,7 +319,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/CVE/" class="print-no-link">#CVE</a>
+        <a href="/tags/script/" class="print-no-link">#script</a>
       
     </div>
   
@@ -322,8 +331,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>CVE-2020-9484-tomcat-session持久化</div>
-      <div>http://example.com/2024/09/16/CVE-2020-9484-tomcat-session持久化/</div>
+      <div>csdnvip</div>
+      <div>http://example.com/2024/10/25/csdnvip/</div>
     </div>
     <div class="license-meta">
       
@@ -335,7 +344,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月16日</div>
+          <div>2024年10月25日</div>
         </div>
       
       
@@ -367,9 +376,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/16/Nmap%E5%88%9D%E8%AF%86/" title="Nmap初识">
+                      <a href="/2024/10/25/solidity/" title="solidity">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Nmap初识</span>
+                        <span class="hidden-mobile">solidity</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -377,8 +386,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/09/16/jsessionid%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" title="jsessionid是什么？">
-                        <span class="hidden-mobile">jsessionid是什么？</span>
+                      <a href="/2024/10/19/NSSCTFweb2/" title="NSSCTFweb2">
+                        <span class="hidden-mobile">NSSCTFweb2</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
