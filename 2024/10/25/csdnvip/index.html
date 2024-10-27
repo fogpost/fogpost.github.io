@@ -407,7 +407,7 @@
     Fluid.utils.loadComments('#valine', function() {
       Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
         var options = Object.assign(
-          {"appId":"kbO6chWK2duQGkd1HKIUxBkw-gzGzoHsz","appKey":"SqbgIdLerc0z5X5FoYLqGCtE","path":"window.location.pathname","placeholder":"从这里开始","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {"appId":"kbO6chWK2duQGkd1HKIUxBkw-gzGzoHsz","appKey":"SqbgIdLerc0z5X5FoYLqGCtE","path":"window.location.pathname","placeholder":"评论请尽量一次提交，多次提交后端反应不过来","avatar":"identicon","meta":["nick","mail","link"],"requiredFields":["nick","mail"],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
           {
             el: "#valine",
             path: window.location.pathname
