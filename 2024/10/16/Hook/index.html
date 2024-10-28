@@ -19,42 +19,22 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="PEcompact脱壳  3BP VirtualFreeF9到达取消断点返回到用户代码alt+f9查找PUSH 8000然后单步到达   4BP VirtualFree两次shift+f9到达返回到用户代码alt+f9然后单步跟踪到达oep    5bp 0045DE74运行,到达后取消断点在retn处会返回并执行程序我们现在下面下个断点，然后单步到OEP这一段汇编比较重要注意在retn后面加上断">
+    <meta name="description" content="Hook原理Hook是一种技术，它允许一个程序监视和修改另一个程序的运行。Hook技术通常用于调试、修改程序行为、保护程序等目的。 在Windows操作系统中，Hook技术主要分为以下几种：键盘Hook、鼠标Hook、消息Hook、API Hook等。 介绍SetWindowsHookExA函数是Windows API中用于设置Hook的函数。它可以用于监视和修改其他程序的键盘、鼠标、消息等事件。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PEcompact脱壳">
-<meta property="og:url" content="https://fogpost.top/2024/09/12/PEcompact/index.html">
+<meta property="og:title" content="Hook">
+<meta property="og:url" content="https://fogpost.top/2024/10/16/Hook/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="PEcompact脱壳  3BP VirtualFreeF9到达取消断点返回到用户代码alt+f9查找PUSH 8000然后单步到达   4BP VirtualFree两次shift+f9到达返回到用户代码alt+f9然后单步跟踪到达oep    5bp 0045DE74运行,到达后取消断点在retn处会返回并执行程序我们现在下面下个断点，然后单步到OEP这一段汇编比较重要注意在retn后面加上断">
+<meta property="og:description" content="Hook原理Hook是一种技术，它允许一个程序监视和修改另一个程序的运行。Hook技术通常用于调试、修改程序行为、保护程序等目的。 在Windows操作系统中，Hook技术主要分为以下几种：键盘Hook、鼠标Hook、消息Hook、API Hook等。 介绍SetWindowsHookExA函数是Windows API中用于设置Hook的函数。它可以用于监视和修改其他程序的键盘、鼠标、消息等事件。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122017434.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122017793.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122017787.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122017628.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122017209.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122017851.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122017705.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018701.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018935.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018816.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018918.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018029.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018091.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018128.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018041.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122019809.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122018041.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122019805.png">
-<meta property="og:image" content="http://gitee.com/fogpost/photo/raw/master/202409122019946.png">
-<meta property="article:published_time" content="2024-09-12T06:59:07.000Z">
-<meta property="article:modified_time" content="2024-10-28T13:29:02.226Z">
+<meta property="article:published_time" content="2024-10-16T02:19:04.000Z">
+<meta property="article:modified_time" content="2024-10-28T13:28:00.342Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="reverse">
+<meta property="article:tag" content="DLL">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://gitee.com/fogpost/photo/raw/master/202409122017434.png">
   
   
   
-  <title>PEcompact脱壳 - fogpost`s little blog</title>
+  <title>Hook - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -220,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="PEcompact脱壳"></span>
+            <span id="subtitle" data-typed-text="Hook"></span>
           
         </div>
 
@@ -231,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-12 14:59" pubdate>
-          2024年9月12日 下午
+        <time datetime="2024-10-16 10:19" pubdate>
+          2024年10月16日 上午
         </time>
       </span>
     
@@ -243,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          198 字
+          138 字
         
       </span>
     
@@ -291,35 +271,18 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">PEcompact脱壳</h1>
+            <h1 id="seo-header">Hook</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="PEcompact脱壳"><a href="#PEcompact脱壳" class="headerlink" title="PEcompact脱壳"></a>PEcompact脱壳</h3><p><img src="http://gitee.com/fogpost/photo/raw/master/202409122017434.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>3<br>BP VirtualFree<br>F9到达取消断点<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122017793.png" srcset="/img/loading.gif" lazyload><br>返回到用户代码alt+f9<br>查找PUSH 8000<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122017787.png" srcset="/img/loading.gif" lazyload><br>然后单步到达<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122017628.png" srcset="/img/loading.gif" lazyload></p>
-</blockquote>
-<blockquote>
-<p>4<br>BP VirtualFree<br>两次shift+f9到达<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122017209.png" srcset="/img/loading.gif" lazyload><br>返回到用户代码alt+f9<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122017851.png" srcset="/img/loading.gif" lazyload><br>然后单步跟踪到达oep</p>
-</blockquote>
-<p><img src="http://gitee.com/fogpost/photo/raw/master/202409122017705.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>5<br>bp 0045DE74<br>运行,到达后取消断点<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122018701.png" srcset="/img/loading.gif" lazyload><br>在retn处会返回并执行程序我们现在下面下个断点，然后单步到OEP<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122018935.png" srcset="/img/loading.gif" lazyload><br>这一段汇编比较重要注意在retn后面加上断点</p>
-</blockquote>
-<p><img src="http://gitee.com/fogpost/photo/raw/master/202409122018816.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>6<br>bp VirtualAlloc<br>shift+f9,取消断点,返回用户代码alt+f9<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122018918.png" srcset="/img/loading.gif" lazyload><br>查找jump<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122018029.png" srcset="/img/loading.gif" lazyload><br>单步到OEP</p>
-</blockquote>
-<p><img src="http://gitee.com/fogpost/photo/raw/master/202409122018091.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>7  取消异常<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122018128.png" srcset="/img/loading.gif" lazyload><br><img src="http://gitee.com/fogpost/photo/raw/master/202409122018041.png" srcset="/img/loading.gif" lazyload><br>利用shift+f9,两次过后发现跑飞，利用第二次的SE句柄地址，（如果发现单词就跑飞了那是应为吾爱破解od中的插件strongod的过在option中将skip some Exception取消就行）<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122019809.png" srcset="/img/loading.gif" lazyload><br>查找句柄<br><img src="http://gitee.com/fogpost/photo/raw/master/202409122018041.png" srcset="/img/loading.gif" lazyload><br><img src="http://gitee.com/fogpost/photo/raw/master/202409122019805.png" srcset="/img/loading.gif" lazyload></p>
-</blockquote>
-<p><img src="http://gitee.com/fogpost/photo/raw/master/202409122019946.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>8  两次内存<br>注意对比跳跃代码<br>9  at Getversion<br>到达OEP的下方</p>
-</blockquote>
+                <h1 id="Hook"><a href="#Hook" class="headerlink" title="Hook"></a>Hook</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Hook是一种技术，它允许一个程序监视和修改另一个程序的运行。Hook技术通常用于调试、修改程序行为、保护程序等目的。</p>
+<p>在Windows操作系统中，Hook技术主要分为以下几种：键盘Hook、鼠标Hook、消息Hook、API Hook等。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>SetWindowsHookExA函数是Windows API中用于设置Hook的函数。它可以用于监视和修改其他程序的键盘、鼠标、消息等事件。</p>
+<p>SetWindowsHookExA函数的原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c">HHOOK <span class="hljs-title function_">SetWindowsHookExA</span><span class="hljs-params">(</span><br><span class="hljs-params">  <span class="hljs-type">int</span>       idHook,</span><br><span class="hljs-params">  HOOKPROC  lpfn,</span><br><span class="hljs-params">  HINSTANCE hmod,</span><br><span class="hljs-params">  DWORD     dwThreadId</span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure>
 
+<h3 id="键盘消息钩取练习"><a href="#键盘消息钩取练习" class="headerlink" title="键盘消息钩取练习"></a>键盘消息钩取练习</h3>
                 
               </div>
             
@@ -352,7 +315,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/reverse/" class="print-no-link">#reverse</a>
+        <a href="/tags/DLL/" class="print-no-link">#DLL</a>
       
     </div>
   
@@ -364,8 +327,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>PEcompact脱壳</div>
-      <div>https://fogpost.top/2024/09/12/PEcompact/</div>
+      <div>Hook</div>
+      <div>https://fogpost.top/2024/10/16/Hook/</div>
     </div>
     <div class="license-meta">
       
@@ -377,7 +340,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月12日</div>
+          <div>2024年10月16日</div>
         </div>
       
       
@@ -409,9 +372,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/12/asp%E8%84%B1%E5%A3%B3/" title="asp脱壳">
+                      <a href="/2024/10/18/%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6/" title="按钮事件">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">asp脱壳</span>
+                        <span class="hidden-mobile">按钮事件</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -419,8 +382,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/09/12/%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" title="工具使用说明书">
-                        <span class="hidden-mobile">工具使用说明书</span>
+                      <a href="/2024/10/15/wuai%E7%AC%AC%E5%85%AB%E8%AF%BE/" title="wuai第八课">
+                        <span class="hidden-mobile">wuai第八课</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
