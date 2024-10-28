@@ -19,24 +19,27 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="电子榨菜2024-10-26写写干了什么，现在好想玩星际啊，不想写东西了，直接开完，这个geekcode还会接我话好玩的，星际推荐玩星际酒馆，不过在写这个东西的时候突然发现，一个功能，就是vscode的自动换行功能直接搜就行好用的，会根据现在的页面大小自动换行，星际战役好贵啊250，早十年玩就好了，还会送的，要不要写写明天干什么呢。，加个评论，看看这些好玩吧">
+    <meta name="description" content="用bindiff来显示二进制文件的区别你是否在面对收到攻击的二进制文件无法比对，看着两个文件而陷入迷茫，不知如何分析，沉沦在函数之海无法自拔，找不到patcher前后的区别，那么bindiff可以帮助你。 1. 自行安装2.使用首先我们打开一个我们所需要分析的软件，在ida完成分析之后我们退出将对应的.ida64包文件保存，然后加载patcher后的文件，在ida中键入crtl+6，使用bindi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="电子榨菜">
-<meta property="og:url" content="https://fogpost.top/2024/10/26/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/index.html">
+<meta property="og:title" content="bindiff">
+<meta property="og:url" content="https://fogpost.top/2024/10/28/bindiff/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="电子榨菜2024-10-26写写干了什么，现在好想玩星际啊，不想写东西了，直接开完，这个geekcode还会接我话好玩的，星际推荐玩星际酒馆，不过在写这个东西的时候突然发现，一个功能，就是vscode的自动换行功能直接搜就行好用的，会根据现在的页面大小自动换行，星际战役好贵啊250，早十年玩就好了，还会送的，要不要写写明天干什么呢。，加个评论，看看这些好玩吧">
+<meta property="og:description" content="用bindiff来显示二进制文件的区别你是否在面对收到攻击的二进制文件无法比对，看着两个文件而陷入迷茫，不知如何分析，沉沦在函数之海无法自拔，找不到patcher前后的区别，那么bindiff可以帮助你。 1. 自行安装2.使用首先我们打开一个我们所需要分析的软件，在ida完成分析之后我们退出将对应的.ida64包文件保存，然后加载patcher后的文件，在ida中键入crtl+6，使用bindi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410262318542.png">
-<meta property="article:published_time" content="2024-10-26T15:06:28.000Z">
-<meta property="article:modified_time" content="2024-10-26T15:18:24.771Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410281503232.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410281504805.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410281506283.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410281511684.png">
+<meta property="article:published_time" content="2024-10-28T06:58:37.000Z">
+<meta property="article:modified_time" content="2024-10-28T07:17:08.368Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="电子榨菜">
+<meta property="article:tag" content="tool">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202410262318542.png">
+<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202410281503232.png">
   
   
   
-  <title>电子榨菜 - fogpost`s little blog</title>
+  <title>bindiff - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +205,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="电子榨菜"></span>
+            <span id="subtitle" data-typed-text="bindiff"></span>
           
         </div>
 
@@ -213,8 +216,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-26 23:06" pubdate>
-          2024年10月26日 晚上
+        <time datetime="2024-10-28 14:58" pubdate>
+          2024年10月28日 下午
         </time>
       </span>
     
@@ -225,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          143 字
+          348 字
         
       </span>
     
@@ -236,7 +239,7 @@
         
         
         
-          2 分钟
+          3 分钟
         
       </span>
     
@@ -273,12 +276,15 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">电子榨菜</h1>
+            <h1 id="seo-header">bindiff</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="电子榨菜"><a href="#电子榨菜" class="headerlink" title="电子榨菜"></a>电子榨菜</h1><h2 id="2024-10-26"><a href="#2024-10-26" class="headerlink" title="2024-10-26"></a>2024-10-26</h2><p>写写干了什么，现在好想玩星际啊，不想写东西了，直接开完，这个geekcode还会接我话好玩的，星际推荐玩星际酒馆，不过在写这个东西的时候突然发现，一个功能，就是vscode的自动换行功能直接搜就行好用的，会根据现在的页面大小自动换行，星际战役好贵啊250，早十年玩就好了，还会送的，要不要写写明天干什么呢。，加个评论，看看这些好玩吧<br><img src="https://gitee.com/fogpost/photo/raw/master/202410262318542.png" srcset="/img/loading.gif" lazyload></p>
+                <h1 id="用bindiff来显示二进制文件的区别"><a href="#用bindiff来显示二进制文件的区别" class="headerlink" title="用bindiff来显示二进制文件的区别"></a>用bindiff来显示二进制文件的区别</h1><p>你是否在面对收到攻击的二进制文件无法比对，看着两个文件而陷入迷茫，不知如何分析，沉沦在函数之海无法自拔，找不到patcher前后的区别，那么bindiff可以帮助你。</p>
+<h3 id="1-自行安装"><a href="#1-自行安装" class="headerlink" title="1. 自行安装"></a>1. 自行安装</h3><h3 id="2-使用"><a href="#2-使用" class="headerlink" title="2.使用"></a>2.使用</h3><p>首先我们打开一个我们所需要分析的软件，在ida完成分析之后我们退出将对应的.ida64包文件保存，然后加载patcher后的文件，在ida中键入crtl+6，使用bindiff插件<br><img src="https://gitee.com/fogpost/photo/raw/master/202410281503232.png" srcset="/img/loading.gif" lazyload><br>选择Diff DAtabase，选择刚刚保存的.ida64文件,出现对应的对比框<br><img src="https://gitee.com/fogpost/photo/raw/master/202410281504805.png" srcset="/img/loading.gif" lazyload><br>在这个绿色框口下我们发现，在最下方的函数extract_dirs_from_files，与原来的文件对比，有仅0.84的相似度，我们便可以知道两个二进制文件在这个函数发生了区别<br><img src="https://gitee.com/fogpost/photo/raw/master/202410281506283.png" srcset="/img/loading.gif" lazyload><br>查看函数,在patcher中发现多了如下一个分支</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++">LABEL_7:<br>        <span class="hljs-keyword">if</span> ( v9 &amp;&amp; !v9[<span class="hljs-number">1</span>] )<br>        &#123;<br>          *(_QWORD *)&amp;lmao[<span class="hljs-number">8</span>] = <span class="hljs-number">0x3F7D132A2A252822LL</span>;<br>          *(_QWORD *)lmao = <span class="hljs-number">0x7D2E370A180F1604LL</span>;<br>          *(_QWORD *)&amp;lmao[<span class="hljs-number">24</span>] = <span class="hljs-number">0x31207C7C381320LL</span>;<br>          *(_QWORD *)&amp;lmao[<span class="hljs-number">16</span>] = <span class="hljs-number">0x392A7F3F39132D13LL</span>;<br>          v18 = lmao;<br>          <span class="hljs-keyword">do</span><br>            *v18++ ^= **(_BYTE **)v7;<br>          <span class="hljs-keyword">while</span> ( &amp;lmao[<span class="hljs-number">31</span>] != v18 );<br>          <span class="hljs-built_in">puts</span>(lmao);<br>        &#125;<br>        <span class="hljs-keyword">goto</span> LABEL_9;<br>      &#125;<br>      <span class="hljs-keyword">if</span> ( !dirname )<br>        <span class="hljs-keyword">goto</span> LABEL_21;<br>      component = <span class="hljs-built_in">last_component</span>(*(<span class="hljs-type">const</span> <span class="hljs-type">char</span> **)v7);<br>      <span class="hljs-keyword">if</span> ( *component == <span class="hljs-number">46</span> )<br>      &#123;<br>        v17 = component[(component[<span class="hljs-number">1</span>] == <span class="hljs-number">46</span>) + <span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">if</span> ( !v17 || v17 == <span class="hljs-number">47</span> )<br>          <span class="hljs-keyword">goto</span> LABEL_7;<br>      &#125;<br>      <span class="hljs-keyword">if</span> ( *v9 == <span class="hljs-number">47</span> )<br>      &#123;<br></code></pre></td></tr></table></figure>
+<p>我们经过cyberchef的函数爆破，来获得最终的数据，注意在数组中存在大小端序的问题<br><img src="https://gitee.com/fogpost/photo/raw/master/202410281511684.png" srcset="/img/loading.gif" lazyload><br><a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/3687">题目来源</a></p>
 
                 
               </div>
@@ -297,7 +303,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/" class="category-chain-item">电子榨菜</a>
+  <a href="/categories/ctf/" class="category-chain-item">ctf</a>
   
   
 
@@ -312,7 +318,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/" class="print-no-link">#电子榨菜</a>
+        <a href="/tags/tool/" class="print-no-link">#tool</a>
       
     </div>
   
@@ -324,8 +330,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>电子榨菜</div>
-      <div>https://fogpost.top/2024/10/26/电子榨菜/</div>
+      <div>bindiff</div>
+      <div>https://fogpost.top/2024/10/28/bindiff/</div>
     </div>
     <div class="license-meta">
       
@@ -337,7 +343,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月26日</div>
+          <div>2024年10月28日</div>
         </div>
       
       
@@ -369,18 +375,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="反序列化例题">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">反序列化例题</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/25/solidity/" title="solidity">
-                        <span class="hidden-mobile">solidity</span>
+                      <a href="/2024/10/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="反序列化例题">
+                        <span class="hidden-mobile">反序列化例题</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
