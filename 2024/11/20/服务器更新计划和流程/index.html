@@ -5,7 +5,7 @@
 
 
 
-<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer"><!-- hexo injector head_begin end -->
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
   <meta charset="UTF-8">
 
   <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
@@ -19,26 +19,19 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="cve-2020-0492docker逃逸这个玩意主要是挺有意思的在网上也有较多的资料，于是拿过来试一试 漏洞简介漏洞编号: CVE-2022-0492漏洞产品: linux kernel - cgroup影响版本: ~linux kernel 5.17-rc3漏洞危害: 当容器没有开启额外安全措施时，获得容器内root 权限即可逃逸到宿主机 漏洞环境系统：wsl Ubuntu22.04内核：5.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="cve-2020-0492docker逃逸">
-<meta property="og:url" content="https://fogpost.top/2024/11/04/cve-2020-0492docker%E9%80%83%E9%80%B8/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="服务器更新计划和流程">
+<meta property="og:url" content="https://fogpost.top/2024/11/20/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9B%B4%E6%96%B0%E8%AE%A1%E5%88%92%E5%92%8C%E6%B5%81%E7%A8%8B/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="cve-2020-0492docker逃逸这个玩意主要是挺有意思的在网上也有较多的资料，于是拿过来试一试 漏洞简介漏洞编号: CVE-2022-0492漏洞产品: linux kernel - cgroup影响版本: ~linux kernel 5.17-rc3漏洞危害: 当容器没有开启额外安全措施时，获得容器内root 权限即可逃逸到宿主机 漏洞环境系统：wsl Ubuntu22.04内核：5.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411042046526.png">
-<meta property="article:published_time" content="2024-11-04T12:00:19.000Z">
-<meta property="article:modified_time" content="2024-11-04T12:46:52.388Z">
+<meta property="article:published_time" content="2024-11-20T09:26:30.000Z">
+<meta property="article:modified_time" content="2024-11-20T09:26:30.000Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="CVE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202411042046526.png">
   
   
-    <meta name="referrer" content="no-referrer-when-downgrade">
   
-  
-  <title>cve-2020-0492docker逃逸 - fogpost`s little blog</title>
+  <title>服务器更新计划和流程 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -76,7 +69,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"fogpost.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"fogpost.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -86,17 +79,6 @@
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
 
 
   
@@ -210,13 +192,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/miku.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="cve-2020-0492docker逃逸"></span>
+            <span id="subtitle" data-typed-text="服务器更新计划和流程"></span>
           
         </div>
 
@@ -227,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-04 20:00" pubdate>
-          2024年11月4日 晚上
+        <time datetime="2024-11-20 17:26" pubdate>
+          2024年11月20日 下午
         </time>
       </span>
     
@@ -239,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          173 字
+          0 字
         
       </span>
     
@@ -250,21 +232,12 @@
         
         
         
-          2 分钟
+          1 分钟
         
       </span>
     
 
     
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-
-      
     
   </div>
 
@@ -296,27 +269,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">cve-2020-0492docker逃逸</h1>
-            
-              <p id="updated-time" class="note note-info" style="display: none">
-                
-                  
-                    本文最后更新于 2024-11-04T20:46:52+08:00
-                  
-                  
-
-                
-              </p>
+            <h1 id="seo-header">服务器更新计划和流程</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="cve-2020-0492docker逃逸"><a href="#cve-2020-0492docker逃逸" class="headerlink" title="cve-2020-0492docker逃逸"></a>cve-2020-0492docker逃逸</h1><p>这个玩意主要是挺有意思的在网上也有较多的资料，于是拿过来试一试</p>
-<h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>漏洞编号: CVE-2022-0492<br>漏洞产品: linux kernel - cgroup<br>影响版本: ~linux kernel 5.17-rc3<br>漏洞危害: 当容器没有开启额外安全措施时，获得容器内root 权限即可逃逸到宿主机</p>
-<h2 id="漏洞环境"><a href="#漏洞环境" class="headerlink" title="漏洞环境"></a>漏洞环境</h2><p>系统：wsl Ubuntu22.04<br>内核：5.15.153.1-microsoft-standard-WSL2<br>docker20.10.22<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43469846/article/details/131211383">下载方式</a>  </p>
-<h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>下载Ubutu22.04的镜像，查看各个部件版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202411042046526.png" srcset="/img/loading.gif" lazyload></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#关闭所有安全防护启动docker</span><br>docker run --<span class="hljs-built_in">rm</span> -it -h cve --name cve --security-opt=<span class="hljs-string">&quot;seccomp=unconfined&quot;</span> --security-opt=<span class="hljs-string">&quot;apparmor=unconfined&quot;</span> ubuntu:20.04 /bin/bash <br></code></pre></td></tr></table></figure>
-
+                
                 
               </div>
             
@@ -324,34 +282,6 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="category-chain-item">渗透测试</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/CVE/" class="print-no-link">#CVE</a>
-      
-    </div>
   
 </div>
 
@@ -361,8 +291,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>cve-2020-0492docker逃逸</div>
-      <div>https://fogpost.top/2024/11/04/cve-2020-0492docker逃逸/</div>
+      <div>服务器更新计划和流程</div>
+      <div>https://fogpost.top/2024/11/20/服务器更新计划和流程/</div>
     </div>
     <div class="license-meta">
       
@@ -374,7 +304,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月4日</div>
+          <div>2024年11月20日</div>
         </div>
       
       
@@ -406,9 +336,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/05/%E9%80%86%E5%90%91%E5%87%BA%E9%A2%98%E8%AE%B0%E5%BD%95/" title="逆向出题记录">
+                      <a href="/2024/11/21/vulhub%E6%90%AD%E5%BB%BA/" title="vulhub搭建">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">逆向出题记录</span>
+                        <span class="hidden-mobile">vulhub搭建</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -416,8 +346,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/02/ctf-reverse-mips/" title="ctf_reverse_mips">
-                        <span class="hidden-mobile">ctf_reverse_mips</span>
+                      <a href="/2024/11/19/DC-%E6%8F%90%E6%9D%83%E9%9D%B6%E6%9C%BA/" title="DC-提权靶机">
+                        <span class="hidden-mobile">DC-提权靶机</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -428,37 +358,6 @@
             </div>
 
             
-  
-  
-    <article id="comments">
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"kbO6chWK2duQGkd1HKIUxBkw-gzGzoHsz","appKey":"SqbgIdLerc0z5X5FoYLqGCtE","path":"window.location.pathname","placeholder":"评论请尽量一次提交，多次提交后端反应不过来","avatar":"identicon","meta":["nick","mail","link"],"requiredFields":["nick","mail"],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
-          {
-            el: "#valine",
-            path: window.location.pathname
-          }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
           </article>
         </div>
       </div>
@@ -549,68 +448,11 @@
 
   <footer>
     <div class="footer-inner">
-  <div>
-    <span id="timeDate">正在载入天数...</span>
-    <span id="times">载入时分秒...</span>
-    <script>
-    var now = new Date();
-    function createtime(){
-        var grt= new Date("09/10/2024 00:00:00");
-        now.setTime(now.getTime()+250);
-        days = (now - grt ) / 1000 / 60 / 60 / 24;
-        dnum = Math.floor(days);
-        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
-        hnum = Math.floor(hours);
-        if(String(hnum).length ==1 ){
-            hnum = "0" + hnum;
-        }
-        minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
-        mnum = Math.floor(minutes);
-        if(String(mnum).length ==1 ){
-                  mnum = "0" + mnum;
-        }
-        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
-        snum = Math.round(seconds);
-        if(String(snum).length ==1 ){
-                  snum = "0" + snum;
-        }
-        document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";  
-        document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
-    }
-    setInterval("createtime()",250);
-    </script>
-  </div> 
   
     <div class="footer-content">
        <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
     </div>
   
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-
-  
-
-</div>
-
   
   
 </div>
@@ -662,33 +504,6 @@
   
 
 
-
-
-  
-<script>
-  var relativeDate = function() {
-    var updatedTime = document.getElementById('updated-time');
-    if (updatedTime) {
-      var text = updatedTime.textContent;
-      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
-      var matchs = text.match(reg);
-      if (matchs) {
-        var relativeTime = moment(matchs[0]).fromNow();
-        updatedTime.textContent = text.replace(reg, relativeTime);
-      }
-      updatedTime.style.display = '';
-    }
-  };
-  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
-    if (!'zh-cn'.startsWith('en')) {
-      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
-        relativeDate();
-      });
-    } else {
-      relativeDate();
-    }
-  });
-</script>
 
 
   
@@ -785,8 +600,6 @@
   <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 

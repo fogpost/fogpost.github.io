@@ -5,7 +5,7 @@
 
 
 
-<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer"><!-- hexo injector head_begin end -->
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
   <meta charset="UTF-8">
 
   <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
@@ -19,26 +19,24 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MIPS逆向强网杯虽然又是一个也没写出来，但是学到了很多东西，之前没接触过的体型在这里出现了便可以借此机会学习一下 [攻防世界 babymips] 查壳无事发生 IDA分析">
+    <meta name="description" content="简介涉及一些经典的漏洞和靶场环境，如果有现成的可以下载固然很好，但是当需要我们自己复现和搭建环境时便会出现许多的bug，这时便需要一个较好的工具来实现便捷的靶场环境构建，这个工具便是vulhub，它是一个基于docker的漏洞环境集合，方便我们快速搭建漏洞环境，作者是p牛也是人尽皆知的离别歌，可以去看看人家的博客网 安装vulhub是个基于docker的工具平台，自行下载docker和docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ctf_reverse_mips">
-<meta property="og:url" content="https://fogpost.top/2024/11/02/ctf-reverse-mips/index.html">
+<meta property="og:title" content="vulhub搭建">
+<meta property="og:url" content="https://fogpost.top/2024/11/21/vulhub%E6%90%AD%E5%BB%BA/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="MIPS逆向强网杯虽然又是一个也没写出来，但是学到了很多东西，之前没接触过的体型在这里出现了便可以借此机会学习一下 [攻防世界 babymips] 查壳无事发生 IDA分析">
+<meta property="og:description" content="简介涉及一些经典的漏洞和靶场环境，如果有现成的可以下载固然很好，但是当需要我们自己复现和搭建环境时便会出现许多的bug，这时便需要一个较好的工具来实现便捷的靶场环境构建，这个工具便是vulhub，它是一个基于docker的漏洞环境集合，方便我们快速搭建漏洞环境，作者是p牛也是人尽皆知的离别歌，可以去看看人家的博客网 安装vulhub是个基于docker的工具平台，自行下载docker和docker">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411021803000.png">
-<meta property="article:published_time" content="2024-11-02T10:00:00.000Z">
-<meta property="article:modified_time" content="2024-11-02T10:03:30.638Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411211945375.png">
+<meta property="article:published_time" content="2024-11-21T11:22:56.000Z">
+<meta property="article:modified_time" content="2024-11-21T12:09:19.570Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="ctf">
+<meta property="article:tag" content="tool">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202411021803000.png">
+<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202411211945375.png">
   
   
-    <meta name="referrer" content="no-referrer-when-downgrade">
   
-  
-  <title>ctf_reverse_mips - fogpost`s little blog</title>
+  <title>vulhub搭建 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -76,7 +74,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"fogpost.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"fogpost.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -86,17 +84,6 @@
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
 
 
   
@@ -210,13 +197,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/miku.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="ctf_reverse_mips"></span>
+            <span id="subtitle" data-typed-text="vulhub搭建"></span>
           
         </div>
 
@@ -227,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-02 18:00" pubdate>
-          2024年11月2日 晚上
+        <time datetime="2024-11-21 19:22" pubdate>
+          2024年11月21日 晚上
         </time>
       </span>
     
@@ -239,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          66 字
+          253 字
         
       </span>
     
@@ -250,21 +237,12 @@
         
         
         
-          1 分钟
+          3 分钟
         
       </span>
     
 
     
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-
-      
     
   </div>
 
@@ -296,26 +274,19 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">ctf_reverse_mips</h1>
-            
-              <p id="updated-time" class="note note-info" style="display: none">
-                
-                  
-                    本文最后更新于 2024-11-02T18:03:30+08:00
-                  
-                  
-
-                
-              </p>
+            <h1 id="seo-header">vulhub搭建</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="MIPS逆向"><a href="#MIPS逆向" class="headerlink" title="MIPS逆向"></a>MIPS逆向</h1><p>强网杯虽然又是一个也没写出来，但是学到了很多东西，之前没接触过的体型在这里出现了便可以借此机会学习一下</p>
-<h2 id="攻防世界-babymips"><a href="#攻防世界-babymips" class="headerlink" title="[攻防世界 babymips]"></a>[攻防世界 babymips]</h2><ul>
-<li>查壳<br><img src="https://gitee.com/fogpost/photo/raw/master/202411021803000.png" srcset="/img/loading.gif" lazyload><br>无事发生</li>
-<li>IDA分析</li>
-</ul>
+                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>涉及一些经典的漏洞和靶场环境，如果有现成的可以下载固然很好，但是当需要我们自己复现和搭建环境时便会出现许多的bug，这时便需要一个较好的工具来实现便捷的靶场环境构建，这个工具便是vulhub，它是一个基于docker的漏洞环境集合，方便我们快速搭建漏洞环境，作者是p牛也是人尽皆知的离别歌，可以去看看人家的博客网</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>vulhub是个基于docker的工具平台，自行下载docker和docker-compose</p>
+<h2 id="下载Vulhub"><a href="#下载Vulhub" class="headerlink" title="下载Vulhub"></a>下载Vulhub</h2><p>任意创建一个文件夹,从github获取对应的靶场环境,然后进入vulhub目录</p>
+<blockquote>
+<p>git clone <a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub.git">https://github.com/vulhub/vulhub.git</a><br>cd vulhub</p>
+</blockquote>
+<p>随便进入一个目录,比如shiro,ls+cd进入想要的cve文件中启动docker-compose<br>即可创建靶场，注意内存资源的分配，以及部分漏洞各个工具的版本问题<br><img src="https://gitee.com/fogpost/photo/raw/master/202411211945375.png" srcset="/img/loading.gif" lazyload></p>
+<p>搭建还是挺简单的</p>
 
                 
               </div>
@@ -334,7 +305,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
   
   
 
@@ -349,7 +320,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/ctf/" class="print-no-link">#ctf</a>
+        <a href="/tags/tool/" class="print-no-link">#tool</a>
       
     </div>
   
@@ -361,8 +332,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>ctf_reverse_mips</div>
-      <div>https://fogpost.top/2024/11/02/ctf-reverse-mips/</div>
+      <div>vulhub搭建</div>
+      <div>https://fogpost.top/2024/11/21/vulhub搭建/</div>
     </div>
     <div class="license-meta">
       
@@ -374,7 +345,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月2日</div>
+          <div>2024年11月21日</div>
         </div>
       
       
@@ -406,9 +377,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/04/cve-2020-0492docker%E9%80%83%E9%80%B8/" title="cve-2020-0492docker逃逸">
+                      <a href="/2024/11/23/dvwa%E5%85%A8%E8%A7%A3/" title="dvwa全解">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">cve-2020-0492docker逃逸</span>
+                        <span class="hidden-mobile">dvwa全解</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -416,8 +387,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/02/ctf-vm%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="ctf_vm虚拟机">
-                        <span class="hidden-mobile">ctf_vm虚拟机</span>
+                      <a href="/2024/11/20/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9B%B4%E6%96%B0%E8%AE%A1%E5%88%92%E5%92%8C%E6%B5%81%E7%A8%8B/" title="服务器更新计划和流程">
+                        <span class="hidden-mobile">服务器更新计划和流程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -428,37 +399,6 @@
             </div>
 
             
-  
-  
-    <article id="comments">
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"kbO6chWK2duQGkd1HKIUxBkw-gzGzoHsz","appKey":"SqbgIdLerc0z5X5FoYLqGCtE","path":"window.location.pathname","placeholder":"评论请尽量一次提交，多次提交后端反应不过来","avatar":"identicon","meta":["nick","mail","link"],"requiredFields":["nick","mail"],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
-          {
-            el: "#valine",
-            path: window.location.pathname
-          }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
           </article>
         </div>
       </div>
@@ -549,68 +489,11 @@
 
   <footer>
     <div class="footer-inner">
-  <div>
-    <span id="timeDate">正在载入天数...</span>
-    <span id="times">载入时分秒...</span>
-    <script>
-    var now = new Date();
-    function createtime(){
-        var grt= new Date("09/10/2024 00:00:00");
-        now.setTime(now.getTime()+250);
-        days = (now - grt ) / 1000 / 60 / 60 / 24;
-        dnum = Math.floor(days);
-        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
-        hnum = Math.floor(hours);
-        if(String(hnum).length ==1 ){
-            hnum = "0" + hnum;
-        }
-        minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
-        mnum = Math.floor(minutes);
-        if(String(mnum).length ==1 ){
-                  mnum = "0" + mnum;
-        }
-        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
-        snum = Math.round(seconds);
-        if(String(snum).length ==1 ){
-                  snum = "0" + snum;
-        }
-        document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";  
-        document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
-    }
-    setInterval("createtime()",250);
-    </script>
-  </div> 
   
     <div class="footer-content">
        <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
     </div>
   
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-
-  
-
-</div>
-
   
   
 </div>
@@ -662,33 +545,6 @@
   
 
 
-
-
-  
-<script>
-  var relativeDate = function() {
-    var updatedTime = document.getElementById('updated-time');
-    if (updatedTime) {
-      var text = updatedTime.textContent;
-      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
-      var matchs = text.match(reg);
-      if (matchs) {
-        var relativeTime = moment(matchs[0]).fromNow();
-        updatedTime.textContent = text.replace(reg, relativeTime);
-      }
-      updatedTime.style.display = '';
-    }
-  };
-  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
-    if (!'zh-cn'.startsWith('en')) {
-      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
-        relativeDate();
-      });
-    } else {
-      relativeDate();
-    }
-  });
-</script>
 
 
   
@@ -785,8 +641,6 @@
   <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 

