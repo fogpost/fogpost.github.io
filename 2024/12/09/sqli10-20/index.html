@@ -19,35 +19,25 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="简介说到靶机，那么经典的dvwa靶机肯定不能错过，它是一款非常适合新手入门的靶机，它集成了多种漏洞，并且可以自由选择难度，非常适合新手入门，想玩的话自己搭建就好，我这是在服务器上搭的，用来玩玩 LowBrute Force随便输入后便是这个返回值，说明密码错误我们用抓包软件抓包，然后发送到repeat，yakit的爆破采用的是文件标签，原理是和bp一样的对字典有要求,利用响应的大小来判断正误 co">
+    <meta name="description" content="sqli11-2011输入1’出现报错显示，存在注入构造1’ or 1&#x3D;1 #成功，1’union select 1,2#成功注入，同sqli1 12为字符注入带引号，payload如下  1”) or 1&#x3D;11”) union select 1,2#  13,14同上，引号和括号的区别 15同11bool盲注 16同12bool盲注 17重点 三种报错注入extractval">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dvwa全解">
-<meta property="og:url" content="https://fogpost.top/2024/11/23/dvwa%E5%85%A8%E8%A7%A3/index.html">
+<meta property="og:title" content="sqli10-20">
+<meta property="og:url" content="https://fogpost.top/2024/12/09/sqli10-20/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="简介说到靶机，那么经典的dvwa靶机肯定不能错过，它是一款非常适合新手入门的靶机，它集成了多种漏洞，并且可以自由选择难度，非常适合新手入门，想玩的话自己搭建就好，我这是在服务器上搭的，用来玩玩 LowBrute Force随便输入后便是这个返回值，说明密码错误我们用抓包软件抓包，然后发送到repeat，yakit的爆破采用的是文件标签，原理是和bp一样的对字典有要求,利用响应的大小来判断正误 co">
+<meta property="og:description" content="sqli11-2011输入1’出现报错显示，存在注入构造1’ or 1&#x3D;1 #成功，1’union select 1,2#成功注入，同sqli1 12为字符注入带引号，payload如下  1”) or 1&#x3D;11”) union select 1,2#  13,14同上，引号和括号的区别 15同11bool盲注 16同12bool盲注 17重点 三种报错注入extractval">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411231240412.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261753518.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261806101.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261810028.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261811659.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261817959.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261818130.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261824846.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261914977.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261906137.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261914096.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261911735.png">
-<meta property="article:published_time" content="2024-11-23T04:35:02.000Z">
-<meta property="article:modified_time" content="2024-11-26T11:14:52.795Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202412091947957.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202412091949999.png">
+<meta property="article:published_time" content="2024-12-09T11:45:38.000Z">
+<meta property="article:modified_time" content="2024-12-09T11:54:11.299Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="dvwa">
+<meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202411231240412.png">
+<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202412091947957.png">
   
   
   
-  <title>dvwa全解 - fogpost`s little blog</title>
+  <title>sqli10-20 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +204,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="dvwa全解"></span>
+            <span id="subtitle" data-typed-text="sqli10-20"></span>
           
         </div>
 
@@ -225,8 +215,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-23 12:35" pubdate>
-          2024年11月23日 下午
+        <time datetime="2024-12-09 19:45" pubdate>
+          2024年12月9日 晚上
         </time>
       </span>
     
@@ -237,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          388 字
+          91 字
         
       </span>
     
@@ -248,7 +238,7 @@
         
         
         
-          4 分钟
+          1 分钟
         
       </span>
     
@@ -285,31 +275,20 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">dvwa全解</h1>
+            <h1 id="seo-header">sqli10-20</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>说到靶机，那么经典的dvwa靶机肯定不能错过，它是一款非常适合新手入门的靶机，它集成了多种漏洞，并且可以自由选择难度，非常适合新手入门，想玩的话自己搭建就好，我这是在服务器上搭的，用来玩玩</p>
-<h2 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h2><h3 id="Brute-Force"><a href="#Brute-Force" class="headerlink" title="Brute Force"></a>Brute Force</h3><p>随便输入后便是这个返回值，说明密码错误<br><img src="https://gitee.com/fogpost/photo/raw/master/202411231240412.png" srcset="/img/loading.gif" lazyload><br>我们用抓包软件抓包，然后发送到repeat，yakit的爆破采用的是文件标签，原理是和bp一样的对字典有要求,利用响应的大小来判断正误<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261753518.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411261806101.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="command-injection"><a href="#command-injection" class="headerlink" title="command injection"></a>command injection</h3><p>直接在ip查询后面加入的命令执行，可怕可怕，cat也可以执行<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261810028.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411261811659.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h3><p>抓取原来修改密码的报文后在yakit中修改略微，重放便可以修改密码，也可以将网址修改一部分再重放，同样修改成功<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261817959.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411261818130.png" srcset="/img/loading.gif" lazyload><br>这个过程有个技巧就是长链变短链，利用站长工具即可实现，防止社工时让受击者发现<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261824846.png" srcset="/img/loading.gif" lazyload><br>还可以页面构造</p>
-<h3 id="XSS-DOM"><a href="#XSS-DOM" class="headerlink" title="XSS(DOM)"></a>XSS(DOM)</h3><p>查看页面源码，没有php代码，仅有js代码，我们可以利用js脚本<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261914977.png" srcset="/img/loading.gif" lazyload><br>点击英文发现，存在一个明文网址，我们可以利用这个English来做个文章</p>
+                <h1 id="sqli11-20"><a href="#sqli11-20" class="headerlink" title="sqli11-20"></a>sqli11-20</h1><h2 id="11"><a href="#11" class="headerlink" title="11"></a>11</h2><p>输入1’出现报错显示，存在注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202412091947957.png" srcset="/img/loading.gif" lazyload><br>构造1’ or 1&#x3D;1 #成功，1’union select 1,2#成功注入，同sqli1<br><img src="https://gitee.com/fogpost/photo/raw/master/202412091949999.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="12"><a href="#12" class="headerlink" title="12"></a>12</h2><p>为字符注入带引号，payload如下</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="http://110.41.22.24/vulnerabilities/xss_d/?default=English">http://110.41.22.24/vulnerabilities/xss_d/?default=English</a></p>
+<p>1”) or 1&#x3D;1<br>1”) union select 1,2#</p>
 </blockquote>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="http://110.41.22.24/vulnerabilities/xss_d/?default=%5C">http://110.41.22.24/vulnerabilities/xss_d/?default=\</a><script>alert('xss')&lt;/script></p>
-</blockquote>
-<p><img src="https://gitee.com/fogpost/photo/raw/master/202411261906137.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="XSS-Reflected"><a href="#XSS-Reflected" class="headerlink" title="XSS(Reflected)"></a>XSS(Reflected)</h3><p>反射式XSS，查看源码，同上只不过这次是在输入框中进行反射<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261914096.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>&lt;script>alert('xss')&lt;/script></p>
-</blockquote>
-<p>拿cookie</p>
-<blockquote>
-<p>&lt;script>alert(document.cookie)&lt;/script><br><img src="https://gitee.com/fogpost/photo/raw/master/202411261911735.png" srcset="/img/loading.gif" lazyload></p>
-</blockquote>
+<h2 id="13-14"><a href="#13-14" class="headerlink" title="13,14"></a>13,14</h2><p>同上，引号和括号的区别</p>
+<h2 id="15"><a href="#15" class="headerlink" title="15"></a>15</h2><p>同11bool盲注</p>
+<h2 id="16"><a href="#16" class="headerlink" title="16"></a>16</h2><p>同12bool盲注</p>
+<h2 id="17"><a href="#17" class="headerlink" title="17"></a>17</h2><p>重点 三种报错注入<br>extractvalue()报错注入，updatexml()报错注入和group by()报错注入<br>原理</p>
 
                 
               </div>
@@ -328,7 +307,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="category-chain-item">渗透测试</a>
+  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
   
   
 
@@ -343,7 +322,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/dvwa/" class="print-no-link">#dvwa</a>
+        <a href="/tags/sql/" class="print-no-link">#sql</a>
       
     </div>
   
@@ -355,8 +334,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>dvwa全解</div>
-      <div>https://fogpost.top/2024/11/23/dvwa全解/</div>
+      <div>sqli10-20</div>
+      <div>https://fogpost.top/2024/12/09/sqli10-20/</div>
     </div>
     <div class="license-meta">
       
@@ -368,7 +347,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月23日</div>
+          <div>2024年12月9日</div>
         </div>
       
       
@@ -400,9 +379,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/24/sqli%E7%BB%83%E4%B9%A0/" title="sqli1-10练习">
+                      <a href="/2024/12/11/DC-3/" title="DC-3">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">sqli1-10练习</span>
+                        <span class="hidden-mobile">DC-3</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -410,8 +389,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/21/vulhub%E6%90%AD%E5%BB%BA/" title="vulhub搭建">
-                        <span class="hidden-mobile">vulhub搭建</span>
+                      <a href="/2024/11/28/DC-2/" title="DC-2">
+                        <span class="hidden-mobile">DC-2</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

