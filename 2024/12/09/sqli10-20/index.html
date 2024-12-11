@@ -19,27 +19,28 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="cve-2020-0492docker逃逸这个玩意主要是挺有意思的在网上也有较多的资料，于是拿过来试一试 漏洞简介漏洞编号: CVE-2022-0492漏洞产品: linux kernel - cgroup影响版本: ~linux kernel 5.17-rc3漏洞危害: 当容器没有开启额外安全措施时，获得容器内root 权限即可逃逸到宿主机 漏洞环境系统：wsl Ubuntu22.04内核：5.">
+    <meta name="description" content="sqli11-2011输入1’出现报错显示，存在注入构造1’ or 1&#x3D;1 #成功，1’union select 1,2#成功注入，同sqli1 12为字符注入带引号，payload如下  1”) or 1&#x3D;11”) union select 1,2#  13,14同上，引号和括号的区别 15同11bool盲注 16同12bool盲注 17重点 三种报错注入extractval">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cve-2020-0492docker逃逸">
-<meta property="og:url" content="http://example.com/2024/11/04/cve-2020-0492docker%E9%80%83%E9%80%B8/index.html">
+<meta property="og:title" content="sqli10-20">
+<meta property="og:url" content="http://example.com/2024/12/09/sqli10-20/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="cve-2020-0492docker逃逸这个玩意主要是挺有意思的在网上也有较多的资料，于是拿过来试一试 漏洞简介漏洞编号: CVE-2022-0492漏洞产品: linux kernel - cgroup影响版本: ~linux kernel 5.17-rc3漏洞危害: 当容器没有开启额外安全措施时，获得容器内root 权限即可逃逸到宿主机 漏洞环境系统：wsl Ubuntu22.04内核：5.">
+<meta property="og:description" content="sqli11-2011输入1’出现报错显示，存在注入构造1’ or 1&#x3D;1 #成功，1’union select 1,2#成功注入，同sqli1 12为字符注入带引号，payload如下  1”) or 1&#x3D;11”) union select 1,2#  13,14同上，引号和括号的区别 15同11bool盲注 16同12bool盲注 17重点 三种报错注入extractval">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202411042046526.png">
-<meta property="article:published_time" content="2024-11-04T12:00:19.000Z">
-<meta property="article:modified_time" content="2024-11-04T12:46:52.000Z">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202412091947957.png">
+<meta property="og:image" content="https://gitee.com/fogpost/photo/raw/master/202412091949999.png">
+<meta property="article:published_time" content="2024-12-09T11:45:38.000Z">
+<meta property="article:modified_time" content="2024-12-09T11:54:11.000Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="CVE">
+<meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202411042046526.png">
+<meta name="twitter:image" content="https://gitee.com/fogpost/photo/raw/master/202412091947957.png">
   
   
     <!-- <meta name="referrer" content="no-referrer-when-downgrade"> -->
     <!-- <meta name="referrer" content="no-referrer" /> -->
   
   
-  <title>cve-2020-0492docker逃逸 - fogpost`s little blog</title>
+  <title>sqli10-20 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +217,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="cve-2020-0492docker逃逸"></span>
+            <span id="subtitle" data-typed-text="sqli10-20"></span>
           
         </div>
 
@@ -227,8 +228,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-04 20:00" pubdate>
-          2024年11月4日 晚上
+        <time datetime="2024-12-09 19:45" pubdate>
+          2024年12月9日 晚上
         </time>
       </span>
     
@@ -239,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          173 字
+          91 字
         
       </span>
     
@@ -250,7 +251,7 @@
         
         
         
-          2 分钟
+          1 分钟
         
       </span>
     
@@ -296,12 +297,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">cve-2020-0492docker逃逸</h1>
+            <h1 id="seo-header">sqli10-20</h1>
             
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2024-11-04T20:46:52+08:00
+                    本文最后更新于 2024-12-09T19:54:11+08:00
                   
                   
 
@@ -311,11 +312,15 @@
             
               <div class="markdown-body">
                 
-                <h1 id="cve-2020-0492docker逃逸"><a href="#cve-2020-0492docker逃逸" class="headerlink" title="cve-2020-0492docker逃逸"></a>cve-2020-0492docker逃逸</h1><p>这个玩意主要是挺有意思的在网上也有较多的资料，于是拿过来试一试</p>
-<h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>漏洞编号: CVE-2022-0492<br>漏洞产品: linux kernel - cgroup<br>影响版本: ~linux kernel 5.17-rc3<br>漏洞危害: 当容器没有开启额外安全措施时，获得容器内root 权限即可逃逸到宿主机</p>
-<h2 id="漏洞环境"><a href="#漏洞环境" class="headerlink" title="漏洞环境"></a>漏洞环境</h2><p>系统：wsl Ubuntu22.04<br>内核：5.15.153.1-microsoft-standard-WSL2<br>docker20.10.22<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43469846/article/details/131211383">下载方式</a>  </p>
-<h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>下载Ubutu22.04的镜像，查看各个部件版本信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202411042046526.png" srcset="/img/loading.gif" lazyload></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#关闭所有安全防护启动docker</span><br>docker run --<span class="hljs-built_in">rm</span> -it -h cve --name cve --security-opt=<span class="hljs-string">&quot;seccomp=unconfined&quot;</span> --security-opt=<span class="hljs-string">&quot;apparmor=unconfined&quot;</span> ubuntu:20.04 /bin/bash <br></code></pre></td></tr></table></figure>
+                <h1 id="sqli11-20"><a href="#sqli11-20" class="headerlink" title="sqli11-20"></a>sqli11-20</h1><h2 id="11"><a href="#11" class="headerlink" title="11"></a>11</h2><p>输入1’出现报错显示，存在注入<br><img src="https://gitee.com/fogpost/photo/raw/master/202412091947957.png" srcset="/img/loading.gif" lazyload><br>构造1’ or 1&#x3D;1 #成功，1’union select 1,2#成功注入，同sqli1<br><img src="https://gitee.com/fogpost/photo/raw/master/202412091949999.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="12"><a href="#12" class="headerlink" title="12"></a>12</h2><p>为字符注入带引号，payload如下</p>
+<blockquote>
+<p>1”) or 1&#x3D;1<br>1”) union select 1,2#</p>
+</blockquote>
+<h2 id="13-14"><a href="#13-14" class="headerlink" title="13,14"></a>13,14</h2><p>同上，引号和括号的区别</p>
+<h2 id="15"><a href="#15" class="headerlink" title="15"></a>15</h2><p>同11bool盲注</p>
+<h2 id="16"><a href="#16" class="headerlink" title="16"></a>16</h2><p>同12bool盲注</p>
+<h2 id="17"><a href="#17" class="headerlink" title="17"></a>17</h2><p>重点 三种报错注入<br>extractvalue()报错注入，updatexml()报错注入和group by()报错注入<br>原理</p>
 
                 
               </div>
@@ -334,7 +339,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="category-chain-item">渗透测试</a>
+  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
   
   
 
@@ -349,7 +354,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/CVE/" class="print-no-link">#CVE</a>
+        <a href="/tags/sql/" class="print-no-link">#sql</a>
       
     </div>
   
@@ -361,8 +366,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>cve-2020-0492docker逃逸</div>
-      <div>http://example.com/2024/11/04/cve-2020-0492docker逃逸/</div>
+      <div>sqli10-20</div>
+      <div>http://example.com/2024/12/09/sqli10-20/</div>
     </div>
     <div class="license-meta">
       
@@ -374,7 +379,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月4日</div>
+          <div>2024年12月9日</div>
         </div>
       
       
@@ -406,9 +411,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/05/%E9%80%86%E5%90%91%E5%87%BA%E9%A2%98%E8%AE%B0%E5%BD%95/" title="逆向出题记录">
+                      <a href="/2024/12/11/DC-3/" title="DC-3">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">逆向出题记录</span>
+                        <span class="hidden-mobile">DC-3</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -416,8 +421,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/02/ctf-reverse-mips/" title="ctf_reverse_mips">
-                        <span class="hidden-mobile">ctf_reverse_mips</span>
+                      <a href="/2024/11/28/DC-2/" title="DC-2">
+                        <span class="hidden-mobile">DC-2</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
